@@ -2,16 +2,16 @@
     <div class="title">tMat<sup>e</sup></div>
 
     <div class="tab-buttons">
-        <button class="btn btn-tab {{currentTab == TabName.START   ? 'btn-tab-active' : ''}}"
+        <button class="btn btn-tab {{currentTab === TabName.START   ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.START)">Start
         </button>
-        <button class="btn btn-tab {{currentTab == TabName.MEMBERS ? 'btn-tab-active' : ''}}"
+        <button class="btn btn-tab {{currentTab === TabName.MEMBERS ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.MEMBERS)">Mitglieder
         </button>
-        <button class="btn btn-tab {{currentTab == TabName.QUERIES ? 'btn-tab-active' : ''}}"
+        <button class="btn btn-tab {{currentTab === TabName.QUERIES ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.QUERIES)">Abfragen
         </button>
-        <button class="btn btn-tab {{currentTab == TabName.EXPORT  ? 'btn-tab-active' : ''}}"
+        <button class="btn btn-tab {{currentTab === TabName.EXPORT  ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.EXPORT)">Export
         </button>
     </div>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="tools" id="tools">
-    <ng-container *ngIf="currentTab == TabName.START">
+    <ng-container *ngIf="currentTab === TabName.START">
         <button class="btn btn-tool inactive" id="btn-tool-search">
             <mat-icon>search</mat-icon>
             Suchen
@@ -305,7 +305,7 @@
         </script>
     </ng-container>
 
-    <ng-container *ngIf="currentTab == TabName.MEMBERS">
+    <ng-container *ngIf="currentTab === TabName.MEMBERS">
         <button class="btn btn-tool" id="btn-tool-show">
             <mat-icon>person</mat-icon>
             Eintrag anzeigen
@@ -328,7 +328,7 @@
         </button>
     </ng-container>
 
-    <ng-container *ngIf="currentTab == TabName.QUERIES">
+    <ng-container *ngIf="currentTab === TabName.QUERIES">
         <button class="btn btn-tool">
             <mat-icon>add</mat-icon>
             Abfrage erstellen
@@ -347,7 +347,7 @@
         </button>
     </ng-container>
 
-    <ng-container *ngIf="currentTab == TabName.EXPORT">
+    <ng-container *ngIf="currentTab === TabName.EXPORT">
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->

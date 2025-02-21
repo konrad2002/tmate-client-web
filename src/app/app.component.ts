@@ -9,9 +9,9 @@ import {environment} from '../environments/environment';
 })
 export class AppComponent implements OnInit {
     title = 'tmate-web-client';
-    build: string = "loading build info ...";
-    version: string = "loading version ...";
-    showBuild: boolean = !environment.production;
+    build = "loading build info ...";
+    version = "loading version ...";
+    showBuild = !environment.production;
 
     ngOnInit() {
         this.fetchBuild().then(r => {
