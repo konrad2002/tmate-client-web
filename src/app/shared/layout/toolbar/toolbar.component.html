@@ -1,38 +1,45 @@
 <div class="tabs">
-    <span class="title">tMat<sup>e</sup></span>
+    <div class="title">tMat<sup>e</sup></div>
 
-    <button class="btn btn-tab {{currentTab == TabName.START   ? 'btn-tab-active' : ''}}"
-            (click)="switchTab(TabName.START)">Start
-    </button>
-    <button class="btn btn-tab {{currentTab == TabName.MEMBERS ? 'btn-tab-active' : ''}}"
-            (click)="switchTab(TabName.MEMBERS)">Mitglieder
-    </button>
-    <button class="btn btn-tab {{currentTab == TabName.QUERIES ? 'btn-tab-active' : ''}}"
-            (click)="switchTab(TabName.QUERIES)">Abfragen
-    </button>
-    <button class="btn btn-tab {{currentTab == TabName.EXPORT  ? 'btn-tab-active' : ''}}"
-            (click)="switchTab(TabName.EXPORT)">Export
-    </button>
+    <div class="tab-buttons">
+        <button class="btn btn-tab {{currentTab == TabName.START   ? 'btn-tab-active' : ''}}"
+                (click)="switchTab(TabName.START)">Start
+        </button>
+        <button class="btn btn-tab {{currentTab == TabName.MEMBERS ? 'btn-tab-active' : ''}}"
+                (click)="switchTab(TabName.MEMBERS)">Mitglieder
+        </button>
+        <button class="btn btn-tab {{currentTab == TabName.QUERIES ? 'btn-tab-active' : ''}}"
+                (click)="switchTab(TabName.QUERIES)">Abfragen
+        </button>
+        <button class="btn btn-tab {{currentTab == TabName.EXPORT  ? 'btn-tab-active' : ''}}"
+                (click)="switchTab(TabName.EXPORT)">Export
+        </button>
+    </div>
 
     <span class="tab-user-info">Angemeldet als: <b>konrad2002</b></span>
 </div>
 
 <div class="tools" id="tools">
     <ng-container *ngIf="currentTab == TabName.START">
-        <button class="btn btn-tool inactive" id="btn-tool-search"><i class="fas fa-search btn-tool-icon"
-                                                                      aria-hidden="true"></i>Suchen
+        <button class="btn btn-tool inactive" id="btn-tool-search">
+            <mat-icon>search</mat-icon>
+            Suchen
         </button>
-        <button class="btn btn-tool" id="btn-tool-reload"><i class="btn-tool-icon fas fa-sync" aria-hidden="true"></i>Neu
-            laden
+        <button class="btn btn-tool">
+            <mat-icon>refresh</mat-icon>
+            Neu laden
         </button>
-        <button class="btn btn-tool" id="btn-tool-show-default"><i class="btn-tool-icon fas fa-list"
-                                                                   aria-hidden="true"></i>Alle
+        <button class="btn btn-tool">
+            <mat-icon>format_list_bulleted</mat-icon>
+            Alle
         </button>
-        <button class="btn btn-tool" id="btn-tool-show-all"><i class="btn-tool-icon fas fa-list" aria-hidden="true"></i>Alles
-            anzeigen
+        <button class="btn btn-tool">
+            <mat-icon>format_list_bulleted</mat-icon>
+            Alles anzeigen
         </button>
-        <button class="btn btn-tool" id="btn-tool-query-dsv"><i class="btn-tool-icon fas fa-list"
-                                                                aria-hidden="true"></i>DSV
+        <button class="btn btn-tool">
+            <mat-icon>format_list_bulleted</mat-icon>
+            DSV
         </button>
         <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-dsv"
                 style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
@@ -299,36 +306,44 @@
     </ng-container>
 
     <ng-container *ngIf="currentTab == TabName.MEMBERS">
-        <button class="btn btn-tool" id="btn-tool-show"><i class="btn-tool-icon fas fa-user" aria-hidden="true"></i>Eintrag
-            anzeigen
+        <button class="btn btn-tool" id="btn-tool-show">
+            <mat-icon>person</mat-icon>
+            Eintrag anzeigen
         </button>
-        <button class="btn btn-tool" id="btn-tool-add"><i class="btn-tool-icon fas fa-plus" aria-hidden="true"></i>Hinzufügen
+        <button class="btn btn-tool" id="btn-tool-add">
+            <mat-icon>add</mat-icon>
+            Hinzufügen
         </button>
-        <button class="btn btn-tool" id="btn-tool-edit"><i class="btn-tool-icon fas fa-pencil-alt"
-                                                           aria-hidden="true"></i>Bearbeiten
+        <button class="btn btn-tool" id="btn-tool-edit">
+            <mat-icon>edit</mat-icon>
+            Bearbeiten
         </button>
-        <button class="btn btn-tool" id="btn-tool-remove"><i class="btn-tool-icon fas fa-trash-alt"
-                                                             aria-hidden="true"></i>Löschen
+        <button class="btn btn-tool" id="btn-tool-remove">
+            <mat-icon>delete</mat-icon>
+            Löschen
         </button>
-        <button class="btn btn-tool inactive" id="btn-tool-import-table"><i class="btn-tool-icon fas fa-file-excel"
-                                                                            aria-hidden="true"></i>Tabelle importieren
+        <button class="btn btn-tool inactive" id="btn-tool-import-table">
+            <mat-icon>table_chart</mat-icon>
+            Tabelle importieren
         </button>
     </ng-container>
 
     <ng-container *ngIf="currentTab == TabName.QUERIES">
-        <button class="btn btn-tool" id="btn-tool-query-add">
-            <i class="btn-tool-icon fas fa-plus" aria-hidden="true"></i>
+        <button class="btn btn-tool">
+            <mat-icon>add</mat-icon>
             Abfrage erstellen
         </button>
-        <button class="btn btn-tool" id="btn-tool-condition-add">
-            <i class="btn-tool-icon fas fa-exclamation" aria-hidden="true"></i>
+        <button class="btn btn-tool">
+            <mat-icon>assignment_late</mat-icon>
             Bedingung erstellen
         </button>
-        <button class="btn btn-tool" id="btn-tool-query-remove"><i class="btn-tool-icon fas fa-trash-alt"
-                                                                   aria-hidden="true"></i>Abfrage / Bedingung löschen
+        <button class="btn btn-tool">
+            <mat-icon>delete</mat-icon>
+            Abfrage / Bedingung löschen
         </button>
-        <button class="btn btn-tool inactive" id="btn-tool-group"><i class="btn-tool-icon fas fa-users"
-                                                                     aria-hidden="true"></i>Familien gruppieren
+        <button class="btn btn-tool">
+            <mat-icon>family_restroom</mat-icon>
+            Familien gruppieren
         </button>
     </ng-container>
 
@@ -336,8 +351,8 @@
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->
-        <button class="btn btn-tool" id="btn-tool-export-excel-this">
-            <i class="btn-tool-icon fas fa-file-excel" aria-hidden="true"></i>
+        <button class="btn btn-tool">
+            <mat-icon>file_download</mat-icon>
             Excel aktuelle Abfrage
         </button>
         <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-all"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @alle</button>-->

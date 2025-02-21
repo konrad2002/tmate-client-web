@@ -91,7 +91,7 @@ h3 {
 .loading-screen-progress {
   background-color: var(--main-color);
   transition: 2.4s;
-  width: 0%;
+  width: 0;
 }
 
 
@@ -149,3 +149,6 @@ button::-moz-focus-inner {
 .btn-confirm-green:focus {
   background-color: #4CAF50;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

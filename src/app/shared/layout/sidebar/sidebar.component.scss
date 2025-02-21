@@ -1,82 +1,74 @@
-.content {
-  width: calc(100% - 70px);
-  margin-left: 70px;
-  transition: 0.5s;
-}
+:host {
+    background-color: #333;
+    color: white;
+    position: fixed;
+    padding: 0;
+    height: auto;
+    left: 0;
+    top: 152px;
+    bottom: 0;
+    transition: 0.5s;
+    width: 70px;
+    z-index: 2;
 
-.nav:hover~.content {
-  width: calc(100% - 300px);
-  margin-left: 300px;
-}
+    .btn-nav {
+        background-color: #333;
+        color: white;
+        transition: 0.5s;
+        border-radius: 0;
+        width: 100%;
+        padding: 5px;
+        margin: 0;
+        box-shadow: none;
+        height: 60px;
 
-.nav {
-  background-color: #333;
-  color: white;
-  position: fixed;
-  padding: 0px;
-  height: auto;
-  left: 0;
-  top: 152px;
-  bottom: 0px;
-  transition: 0.5s;
-  width: 70px;
-  z-index: 2;
-}
+        &:hover,
+        &:focus {
+            color: var(--main-color);
+            background-color: #444;
+        }
 
-.nav:hover {
-  width: 300px;
-}
+        span {
+            width: 0;
+            overflow: hidden;
+            transition: 0.5s;
+            display: inline-block;
+            text-align: left;
+            font-size: 16px;
+            margin-left: 0;
+            margin-bottom: -4px;
+        }
 
-.nav .btn-nav {
-  background-color: #333;
-  color: white;
-  transition: 0.5s;
-  border-radius: 0px;
-  width: 100%;
-  padding: 5px;
-  padding-top: 15px;
-  margin: 0;
-  box-shadow: none;
-  height: 60px;
-}
+        mat-icon {
+            width: 30px;
+        }
 
-.nav .btn-nav:hover,
-.nav .btn-nav:focus {
-  color: var(--main-color);
-  background-color: #444;
-}
+        mat-icon,
+        span {
+            vertical-align: middle;
+            display: inline-block;
+        }
+    }
 
-.nav .btn-nav-bottom {
-  position: absolute;
-  left: 0px;
-}
+    .btn-nav-bottom {
+        position: absolute;
+        left: 0;
+    }
 
-.nav .btn-nav-bottom-1 {
-  bottom: 10px;
-}
+    .btn-nav-bottom-1 {
+        bottom: 10px;
+    }
 
-.nav .btn-nav-bottom-2 {
-  bottom: 70px;
-}
+    .btn-nav-bottom-2 {
+        bottom: 70px;
+    }
 
-.nav .icon-nav {
-  font-size: 18px;
-  width: 30px;
-  height: 30px;
-}
+    &:hover {
+        width: 300px;
 
-.nav .nav-label {
-  width: 0px;
-  overflow: hidden;
-  transition: 0.5s;
-  display: inline-block;
-  text-align: left;
-  font-size: 16px;
-  margin-left: 0px;
-  margin-bottom: -4px;
-}
-
-.nav:hover .nav-label {
-  width: 150px;
-  margin-left: 10px;
+        .btn-nav span {
+            width: 150px;
+            margin-left: 10px;
+        }
+    }
 }

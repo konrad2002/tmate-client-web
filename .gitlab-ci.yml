@@ -1,0 +1,118 @@
+stages:
+  - install
+  - test
+  - build
+  - publish
+
+default:
+  tags:
+    - docker
+
+variables:
+  CLI_VERSION: 14.2.1
+
+install_dependencies:
+  stage: install
+  image: node
+  script:
+    - npm install
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+  only:
+    #  refs:
+    #    - merge_requests
+    #    - master
+    changes:
+      - package-lock.json
+      - package.json
+
+lint:
+  image: node
+  stage: test
+  script:
+    - npm link @angular/cli@${CLI_VERSION}
+    - ng lint
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+test:
+  image: trion/ng-cli-karma:${CLI_VERSION}
+  stage: test
+  allow_failure: false
+  script:
+    - npm link @angular/cli@${CLI_VERSION}
+    - ng test --watch=false
+#    - npm test -- --browsers=ChromeHeadless --watch=false
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+.build:
+  image: node
+  stage: build
+  script:
+    - npm link @angular/cli@${CLI_VERSION}
+    - npm run build_develop
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/dist
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - node_modules
+    policy: pull
+
+build_env:
+  extends: .build
+  script:
+    - npm link @angular/cli@${CLI_VERSION}
+    - npm run build_$CI_COMMIT_BRANCH
+  only:
+    refs:
+      - master
+      - develop
+
+build_dev:
+  extends: .build
+  script:
+    - npm link @angular/cli@${CLI_VERSION}
+    - npm run build_develop
+  except:
+    refs:
+      - master
+      - develop
+      - tags
+
+build_tag:
+  extends: .build
+  script:
+    - npm link @angular/cli@${CLI_VERSION}
+    - npm run build_master
+  only:
+    refs:
+      - tags
+
+push-docker-registry:
+  image: docker:latest
+  stage: publish
+  services:
+    - docker:dind
+  script:
+    #- docker build -t $CI_REGISTRY/myplayplanet/projects/web_apps/dashboard:$CI_COMMIT_REF_SLUG --build-arg="VERSION=$CI_COMMIT_REF_NAME" .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    #- docker push $CI_REGISTRY/myplayplanet/projects/web_apps/dashboard:$CI_COMMIT_REF_SLUG

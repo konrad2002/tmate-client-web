@@ -1,3 +1,17 @@
-<app-sidebar></app-sidebar>
-<app-toolbar></app-toolbar>
+Test
 <router-outlet></router-outlet>
+
+<table class="build-info" *ngIf="showBuild" (click)="showBuild = false">
+    <tr>
+        <td><b>ENV: </b></td>
+        <td style="color: {{environment.color}}"><b>{{environment.title}}</b></td>
+    </tr>
+    <tr>
+        <td><b>BUILD: </b></td>
+        <td>{{build}}</td>
+    </tr>
+    <tr>
+        <td><b>VERSION: </b></td>
+        <td>{{version}}</td>
+    </tr>
+</table>

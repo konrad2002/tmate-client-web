@@ -1,0 +1,11 @@
+.content {
+    width: calc(100% - 70px);
+    margin-left: 70px;
+    transition: 0.5s;
+    margin-top: 152px;
+}
+
+app-sidebar:hover ~ .content {
+    width: calc(100% - 300px);
+    margin-left: 300px;
+}

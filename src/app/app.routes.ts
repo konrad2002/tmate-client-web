@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import {MainTableComponent} from './content/table/main-table/main-table.component';
+import {MainComponent} from './shared/layout/main/main.component';
 
 export const routes: Routes = [
-  { path: '', component: MainTableComponent }
+  { path: '', component: MainComponent }
 ];
