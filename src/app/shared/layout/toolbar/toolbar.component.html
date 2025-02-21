@@ -1,0 +1,348 @@
+<div class="tabs">
+    <span class="title">tMat<sup>e</sup></span>
+
+    <button class="btn btn-tab {{currentTab == TabName.START   ? 'btn-tab-active' : ''}}"
+            (click)="switchTab(TabName.START)">Start
+    </button>
+    <button class="btn btn-tab {{currentTab == TabName.MEMBERS ? 'btn-tab-active' : ''}}"
+            (click)="switchTab(TabName.MEMBERS)">Mitglieder
+    </button>
+    <button class="btn btn-tab {{currentTab == TabName.QUERIES ? 'btn-tab-active' : ''}}"
+            (click)="switchTab(TabName.QUERIES)">Abfragen
+    </button>
+    <button class="btn btn-tab {{currentTab == TabName.EXPORT  ? 'btn-tab-active' : ''}}"
+            (click)="switchTab(TabName.EXPORT)">Export
+    </button>
+
+    <span class="tab-user-info">Angemeldet als: <b>konrad2002</b></span>
+</div>
+
+<div class="tools" id="tools">
+    <ng-container *ngIf="currentTab == TabName.START">
+        <button class="btn btn-tool inactive" id="btn-tool-search"><i class="fas fa-search btn-tool-icon"
+                                                                      aria-hidden="true"></i>Suchen
+        </button>
+        <button class="btn btn-tool" id="btn-tool-reload"><i class="btn-tool-icon fas fa-sync" aria-hidden="true"></i>Neu
+            laden
+        </button>
+        <button class="btn btn-tool" id="btn-tool-show-default"><i class="btn-tool-icon fas fa-list"
+                                                                   aria-hidden="true"></i>Alle
+        </button>
+        <button class="btn btn-tool" id="btn-tool-show-all"><i class="btn-tool-icon fas fa-list" aria-hidden="true"></i>Alles
+            anzeigen
+        </button>
+        <button class="btn btn-tool" id="btn-tool-query-dsv"><i class="btn-tool-icon fas fa-list"
+                                                                aria-hidden="true"></i>DSV
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-dsv"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-dsv").click(function () {
+                loadTable(null, null, 'dsv');
+            });
+
+            $("#btn-tool-query-delete-dsv").hide();
+
+            $("#btn-tool-query-delete-dsv").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'dsv', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-kampfrichter"><i class="btn-tool-icon fas fa-list"
+                                                                         aria-hidden="true"></i>Kampfrichter
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-kampfrichter"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-kampfrichter").click(function () {
+                loadTable(null, null, 'kampfrichter');
+            });
+
+            $("#btn-tool-query-delete-kampfrichter").hide();
+
+            $("#btn-tool-query-delete-kampfrichter").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'kampfrichter', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-523082536"><i class="btn-tool-icon fas fa-list"
+                                                                      aria-hidden="true"></i>Kader (bed.)
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-523082536"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-523082536").click(function () {
+                loadTable(null, null, null, 1, null, null, '523082536');
+            });
+
+            $("#btn-tool-query-delete-523082536").hide();
+
+            $("#btn-tool-query-delete-523082536").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", '523082536', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-atteste-52353792"><i class="btn-tool-icon fas fa-list"
+                                                                             aria-hidden="true"></i>Atteste
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-atteste-52353792"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-atteste-52353792").click(function () {
+                loadTable(null, null, 'atteste-52353792');
+            });
+
+            $("#btn-tool-query-delete-atteste-52353792").hide();
+
+            $("#btn-tool-query-delete-atteste-52353792").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'atteste-52353792', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-nachwuchs-54667778"><i class="btn-tool-icon fas fa-list"
+                                                                               aria-hidden="true"></i>Nachwuchs
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-nachwuchs-54667778"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-nachwuchs-54667778").click(function () {
+                loadTable(null, null, 'nachwuchs-54667778');
+            });
+
+            $("#btn-tool-query-delete-nachwuchs-54667778").hide();
+
+            $("#btn-tool-query-delete-nachwuchs-54667778").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'nachwuchs-54667778', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-kampfrichter-61144747"><i class="btn-tool-icon fas fa-list"
+                                                                                  aria-hidden="true"></i>Kampfrichter
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete"
+                id="btn-tool-query-delete-kampfrichter-61144747" style="display: none;"><i class="fas fa-times"
+                                                                                           aria-hidden="true"></i>
+        </button>
+        <script>
+            $("#btn-tool-query-kampfrichter-61144747").click(function () {
+                loadTable(null, null, 'kampfrichter-61144747');
+            });
+
+            $("#btn-tool-query-delete-kampfrichter-61144747").hide();
+
+            $("#btn-tool-query-delete-kampfrichter-61144747").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'kampfrichter-61144747', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-nachwuchs_aktiv-11181728"><i class="btn-tool-icon fas fa-list"
+                                                                                     aria-hidden="true"></i>Nachwuchs
+            aktiv
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete"
+                id="btn-tool-query-delete-nachwuchs_aktiv-11181728" style="display: none;"><i class="fas fa-times"
+                                                                                              aria-hidden="true"></i>
+        </button>
+        <script>
+            $("#btn-tool-query-nachwuchs_aktiv-11181728").click(function () {
+                loadTable(null, null, 'nachwuchs_aktiv-11181728');
+            });
+
+            $("#btn-tool-query-delete-nachwuchs_aktiv-11181728").hide();
+
+            $("#btn-tool-query-delete-nachwuchs_aktiv-11181728").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'nachwuchs_aktiv-11181728', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-aktive-82947086"><i class="btn-tool-icon fas fa-list"
+                                                                            aria-hidden="true"></i>Aktive
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-aktive-82947086"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-aktive-82947086").click(function () {
+                loadTable(null, null, 'aktive-82947086');
+            });
+
+            $("#btn-tool-query-delete-aktive-82947086").hide();
+
+            $("#btn-tool-query-delete-aktive-82947086").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", 'aktive-82947086', json);
+            });
+
+
+        </script>
+
+        <button class="btn btn-tool" id="btn-tool-query-897473910"><i class="btn-tool-icon fas fa-list"
+                                                                      aria-hidden="true"></i>Nachwuchs (bed.)
+        </button>
+        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-897473910"
+                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
+        <script>
+            $("#btn-tool-query-897473910").click(function () {
+                loadTable(null, null, null, 1, null, null, '897473910');
+            });
+
+            $("#btn-tool-query-delete-897473910").hide();
+
+            $("#btn-tool-query-delete-897473910").click(function () {
+                var json = ({
+                    heading: "Abfrage löschen?",
+                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
+                    cancel: true,
+                    submitText: "Löschen",
+                    submit: "query/query_delete",
+                    color: "red",
+                    callback: true,
+                    callbackTitle: "Abfrage löschen"
+                });
+                createWindow("alert", "overlay/alert", '897473910', json);
+            });
+
+
+        </script>
+    </ng-container>
+
+    <ng-container *ngIf="currentTab == TabName.MEMBERS">
+        <button class="btn btn-tool" id="btn-tool-show"><i class="btn-tool-icon fas fa-user" aria-hidden="true"></i>Eintrag
+            anzeigen
+        </button>
+        <button class="btn btn-tool" id="btn-tool-add"><i class="btn-tool-icon fas fa-plus" aria-hidden="true"></i>Hinzufügen
+        </button>
+        <button class="btn btn-tool" id="btn-tool-edit"><i class="btn-tool-icon fas fa-pencil-alt"
+                                                           aria-hidden="true"></i>Bearbeiten
+        </button>
+        <button class="btn btn-tool" id="btn-tool-remove"><i class="btn-tool-icon fas fa-trash-alt"
+                                                             aria-hidden="true"></i>Löschen
+        </button>
+        <button class="btn btn-tool inactive" id="btn-tool-import-table"><i class="btn-tool-icon fas fa-file-excel"
+                                                                            aria-hidden="true"></i>Tabelle importieren
+        </button>
+    </ng-container>
+
+    <ng-container *ngIf="currentTab == TabName.QUERIES">
+        <button class="btn btn-tool" id="btn-tool-query-add">
+            <i class="btn-tool-icon fas fa-plus" aria-hidden="true"></i>
+            Abfrage erstellen
+        </button>
+        <button class="btn btn-tool" id="btn-tool-condition-add">
+            <i class="btn-tool-icon fas fa-exclamation" aria-hidden="true"></i>
+            Bedingung erstellen
+        </button>
+        <button class="btn btn-tool" id="btn-tool-query-remove"><i class="btn-tool-icon fas fa-trash-alt"
+                                                                   aria-hidden="true"></i>Abfrage / Bedingung löschen
+        </button>
+        <button class="btn btn-tool inactive" id="btn-tool-group"><i class="btn-tool-icon fas fa-users"
+                                                                     aria-hidden="true"></i>Familien gruppieren
+        </button>
+    </ng-container>
+
+    <ng-container *ngIf="currentTab == TabName.EXPORT">
+        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->
+        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
+        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->
+        <button class="btn btn-tool" id="btn-tool-export-excel-this">
+            <i class="btn-tool-icon fas fa-file-excel" aria-hidden="true"></i>
+            Excel aktuelle Abfrage
+        </button>
+        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-all"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @alle</button>-->
+        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-this"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @diese Abfrage</button>-->
+
+    </ng-container>
+
+</div>
