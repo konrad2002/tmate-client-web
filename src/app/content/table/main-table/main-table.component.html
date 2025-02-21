@@ -1,4 +1,31 @@
-<p>main-table works!</p>
-<ul>
-    <li *ngFor="let field of fields">{{field.display_name}}</li>
-</ul>
+
+<table class="main-table">
+    <tr>
+        <th>id</th>
+        <th *ngFor="let field of fields">{{field.display_name}}</th>
+    </tr>
+
+    <tr *ngFor="let member of members">
+        <td><input type="radio" [value]="member.id" name="row-select"></td>
+        <td *ngFor="let field of fields">
+            @switch (field.type) {
+                @case (FieldType.EMAIL) {
+                    <a href="mailto:{{member.data[field.name]}}">{{member.data[field.name]}}</a>
+                }
+                @case (FieldType.BOOLEAN) {
+                    @if (member.data[field.name] === true) {
+                        <mat-icon>check</mat-icon>
+                    } @else {
+                        <mat-icon>clear</mat-icon>
+                    }
+                }
+                @case (FieldType.DATE) {
+                    <span>{{member.data[field.name] | date:"d.M.Y"}}</span>
+                }
+                @default {
+                    <span>{{member.data[field.name]}}</span>
+                }
+            }
+        </td>
+    </tr>
+</table>

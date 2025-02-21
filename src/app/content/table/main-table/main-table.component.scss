@@ -1,0 +1,146 @@
+#table-info {
+    text-align: center;
+}
+
+.table-info-box {
+    position: absolute;
+    border-radius: 20px;
+    border-top-left-radius: 0px;
+    background-color: white;
+    box-shadow: 0px 0px 30px #333;
+    opacity: 1;
+    transition: 0.3s;
+    margin-top: 30px;
+    width: 40%;
+    margin-left: 30px;
+    padding: 10px;
+}
+
+.btn-close.table-info-close {
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
+    margin-top: -40px;
+    margin-right: -125px;
+    text-align: center;
+}
+
+.btn-close.table-info-close:hover {
+    width: 24px;
+    height: 24px;
+    margin-right: -124px;
+    margin-top: -39px;
+    font-size: 17px;
+}
+
+.main-table {
+    mat-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+    }
+
+    th {
+        cursor: pointer;
+    }
+}
+
+.table-info-row {
+    display: block;
+    padding: 5px;
+    border-bottom: solid 2px var(--main-color);
+    margin: 0;
+}
+
+.table-info-row:last-child {
+    border-bottom: none;
+}
+
+.table-info-box-hidden {
+    opacity: 0;
+}
+
+.table-order-col {
+    text-decoration: underline;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+th {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.main {
+    margin-top: 50px;
+}
+
+input[type=text],
+input[type=number],
+input[type=date],
+input[type=password],
+select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 0px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: var(--main-color);
+    filter: brightness(0.9);
+    font-size: 16px;
+    border-bottom: solid 2px var(--main-color);;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: var(--main-color);
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-add-row,
+.query-where-select-tile {
+    display: inline-block;
+    width: 45%;
+    margin-right: 5%;
+    margin-top: 10px;
+}
+
+.query-where-select-tile {
+    width: calc(35% - 26px);
+}
+
+.query-where-select-operations {
+    width: 100px;
+}
+
+.edit-add-row input[type=text],
+.edit-add-row input[type=number],
+.edit-add-row input[type=date],
+.edit-add-row input[type=password],
+.edit-add-row select {
+    border-bottom: solid 2px var(--main-color);;
+}
+
+input[type=submit]:hover {
+    background-color: var(--main-color);
+}

@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FieldModel} from '../../../core/model/field.model';
+import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {FieldService} from '../../../core/service/api/field.service';
+import {MemberModel} from '../../../core/model/member.model';
+import {MemberService} from '../../../core/service/api/member.service';
 
 @Component({
   selector: 'app-main-table',
@@ -10,9 +12,11 @@ import {FieldService} from '../../../core/service/api/field.service';
 })
 export class MainTableComponent implements OnInit {
     fields: FieldModel[] = [];
+    members: MemberModel[] = [];
 
     constructor(
-        private fieldService: FieldService
+        private fieldService: FieldService,
+        private memberService: MemberService
     ) {
     }
 
@@ -22,6 +26,13 @@ export class MainTableComponent implements OnInit {
                 this.fields = fields;
             }
         })
+
+        this.memberService.getMembers().subscribe({
+            next: members => {
+                this.members = members;
+            }
+        })
     }
 
+    protected readonly FieldType = FieldType;
 }
