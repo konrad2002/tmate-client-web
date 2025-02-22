@@ -6,11 +6,17 @@
     </tr>
 
     <tr *ngFor="let member of members">
-        <td><input type="radio" [value]="member.id" name="row-select"></td>
+        <td><input type="radio" [value]="member.id" name="row-select" (click)="selectMember(member)"></td>
         <td *ngFor="let field of fields">
             @switch (field.type) {
                 @case (FieldType.EMAIL) {
                     <a href="mailto:{{member.data[field.name]}}">{{member.data[field.name]}}</a>
+                }
+                @case (FieldType.SELECT) {
+                    <span>{{field.data.options[member.data[field.name]]}}</span>
+                }
+                @case (FieldType.MULTI_SELECT) {
+                    <span>{{getValuesAsList(field, member)}}</span>
                 }
                 @case (FieldType.BOOLEAN) {
                     @if (member.data[field.name] === true) {

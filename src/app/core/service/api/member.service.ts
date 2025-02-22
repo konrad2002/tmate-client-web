@@ -3,7 +3,6 @@ import {environment} from '../../../../environments/environment';
 import {BaseService} from './base.service';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs';
-import {FieldModel} from '../../model/field.model';
 import {MemberModel} from '../../model/member.model';
 
 @Injectable({

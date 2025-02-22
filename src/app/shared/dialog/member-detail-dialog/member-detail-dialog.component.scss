@@ -1,0 +1,10 @@
+.member-form {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 8px;
+
+    mat-form-field {
+        width: 100%;
+    }
+}

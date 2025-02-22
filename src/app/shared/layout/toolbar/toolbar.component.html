@@ -306,19 +306,11 @@
     </ng-container>
 
     <ng-container *ngIf="currentTab === TabName.MEMBERS">
-        <button class="btn btn-tool" id="btn-tool-show">
-            <mat-icon>person</mat-icon>
-            Eintrag anzeigen
-        </button>
-        <button class="btn btn-tool" id="btn-tool-add">
-            <mat-icon>add</mat-icon>
-            Hinzufügen
-        </button>
-        <button class="btn btn-tool" id="btn-tool-edit">
-            <mat-icon>edit</mat-icon>
-            Bearbeiten
-        </button>
-        <button class="btn btn-tool" id="btn-tool-remove">
+        <app-toolbar-button label="Hinzufügen" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
+        <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="!selectedMember"></app-toolbar-button>
+        <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="!selectedMember"></app-toolbar-button>
+
+        <button class="btn btn-tool" [disabled]="!selectedMember">
             <mat-icon>delete</mat-icon>
             Löschen
         </button>

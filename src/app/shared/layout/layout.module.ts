@@ -5,6 +5,7 @@ import {SidebarComponent} from './sidebar/sidebar.component';
 import {MainComponent} from './main/main.component';
 import {ContentModule} from '../../content/content.module';
 import {MatIcon} from "@angular/material/icon";
+import {ToolbarButtonComponent} from "./toolbar/toolbar-button/toolbar-button.component";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatIcon} from "@angular/material/icon";
   imports: [
     CommonModule,
     ContentModule,
-    MatIcon
+    MatIcon,
+    ToolbarButtonComponent
   ]
 })
 export class LayoutModule {

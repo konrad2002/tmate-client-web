@@ -3,6 +3,7 @@ import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {FieldService} from '../../../core/service/api/field.service';
 import {MemberModel} from '../../../core/model/member.model';
 import {MemberService} from '../../../core/service/api/member.service';
+import {TableService} from '../../../core/service/table.service';
 
 @Component({
   selector: 'app-main-table',
@@ -16,7 +17,8 @@ export class MainTableComponent implements OnInit {
 
     constructor(
         private fieldService: FieldService,
-        private memberService: MemberService
+        private memberService: MemberService,
+        private tableService: TableService
     ) {
     }
 
@@ -32,6 +34,18 @@ export class MainTableComponent implements OnInit {
                 this.members = members;
             }
         })
+    }
+
+    getValuesAsList(field: FieldModel, member: MemberModel): string {
+        const entries: string[] = []
+        for (const value of member.data[field.name]) {
+            entries.push(field.data.options[value]);
+        }
+        return entries.join(", ");
+    }
+
+    selectMember(member: MemberModel) {
+        this.tableService.setSelectedMember(member);
     }
 
     protected readonly FieldType = FieldType;

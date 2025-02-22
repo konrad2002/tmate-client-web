@@ -1,4 +1,4 @@
 export interface MemberModel {
     id: string;
-    data: { [key: string]: any };
+    data: Record<string, any>
 }

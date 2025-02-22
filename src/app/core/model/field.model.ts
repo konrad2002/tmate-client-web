@@ -9,7 +9,7 @@ export interface FieldModel {
 }
 
 export interface FieldData {
-    options: Map<string, string>;
+    options: Record<string, string>
     validator: string;
 }
 
@@ -18,8 +18,8 @@ export enum FieldType {
     NUMBER = "number",
     EMAIL = "email",
     SELECT = "select",
-    PHONE_NUMBER = "phone_number",
     MULTI_SELECT = "multi_select",
+    PHONE_NUMBER = "phone_number",
     BOOLEAN = "boolean",
     DATE = "date",
 }
