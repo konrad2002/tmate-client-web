@@ -1,5 +1,5 @@
 FROM nginx
-COPY dist/tmate-web-client /usr/share/nginx/html
+COPY dist/tmate-web-client/browser /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 
 COPY public/favicon /usr/share/nginx/html/
