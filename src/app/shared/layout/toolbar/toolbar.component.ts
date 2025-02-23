@@ -64,7 +64,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     onMemberViewClick() {
-        this.toolbarService.openMemberAddDialog();
+        if (this.selectedMember) {
+            this.toolbarService.openMemberDialog(this.selectedMember);
+        }
     }
 
     onMemberEditClick() {

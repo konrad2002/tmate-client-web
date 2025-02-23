@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Mitgliedsdatenblatt</h2>
+<mat-dialog-content>
+
+    @if (fetching > 0) {
+        <mat-spinner></mat-spinner>
+    } @else {
+        @if (fields && member && member.data) {
+            <div class="member-form">
+                @for (field of fields; track field.id) {
+                    <div class="member-field">
+                        <span class="field-name">{{field.display_name}}</span>
+                        @switch (field.type) {
+                            @case (FieldType.EMAIL) {
+                                <a href="mailto:{{member.data[field.name]}}">{{member.data[field.name]}}</a>
+                            }
+                            @case (FieldType.SELECT) {
+                                <span>{{field.data.options[member.data[field.name]]}}</span>
+                            }
+                            @case (FieldType.MULTI_SELECT) {
+                                <span>{{getValuesAsList(field, member)}}</span>
+                            }
+                            @case (FieldType.BOOLEAN) {
+                                @if (member.data[field.name] === true) {
+                                    <mat-icon>check</mat-icon>
+                                } @else {
+                                    <mat-icon>clear</mat-icon>
+                                }
+                            }
+                            @case (FieldType.DATE) {
+                                <span>{{member.data[field.name] | date:"d.M.Y"}}</span>
+                            }
+                            @default {
+                                <span>{{member.data[field.name]}}</span>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+    }
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+
+    <button mat-button (click)="startEditing()">Bearbeiten</button>
+</mat-dialog-actions>

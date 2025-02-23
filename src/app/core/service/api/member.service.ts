@@ -27,4 +27,16 @@ export class MemberService extends BaseService {
     getMembersUsingQuery(query: QueryModel): Observable<QueryResultDto> {
         return this.apiService.get(this.API_URL, "query/" + query.id);
     }
+
+    getMemberById(id: string): Observable<MemberModel> {
+        return this.apiService.get(this.API_URL, "id/" + id);
+    }
+
+    addMember(member: MemberModel): Observable<MemberModel> {
+        return this.apiService.post(this.API_URL, "", member);
+    }
+
+    updateMember(member: MemberModel): Observable<MemberModel> {
+        return this.apiService.put(this.API_URL, "", member);
+    }
 }

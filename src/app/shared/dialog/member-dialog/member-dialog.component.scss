@@ -1,0 +1,22 @@
+.member-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(auto-fill, 50px);
+    grid-column-gap: 12px;
+    background:
+        repeating-linear-gradient(#e5e5e5 0 50px,transparent 50px 100px);
+}
+
+.member-field {
+    height: 40px;
+    padding: 5px;
+}
+
+.field-name {
+    display: block;
+    font-weight: bold;
+
+    &::after {
+        content: ':'
+    }
+}

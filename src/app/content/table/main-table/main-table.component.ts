@@ -43,6 +43,8 @@ export class MainTableComponent implements OnInit, OnDestroy {
     }
 
     getValuesAsList(field: FieldModel, member: MemberModel): string {
+        if (!member.data[field.name]) return "";
+
         const entries: string[] = []
         for (const value of member.data[field.name]) {
             entries.push(field.data.options[value]);

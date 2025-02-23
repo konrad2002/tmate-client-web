@@ -15,6 +15,10 @@ import {FieldService} from '../../../core/service/api/field.service';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {KeyValuePipe} from '@angular/common';
+import {MemberService} from '../../../core/service/api/member.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {PartialObserver} from 'rxjs';
+import {MatProgressSpinner} from '@angular/material/progress-spinner';
 
 export interface MemberDetailDialogData {
     member: MemberModel;
@@ -38,29 +42,64 @@ export interface MemberDetailDialogData {
         MatSelect,
         MatOption,
         KeyValuePipe,
+        MatProgressSpinner,
     ],
     standalone: true
 })
 export class MemberDetailDialogComponent implements OnInit {
+    protected readonly FieldType = FieldType;
+
     fields: FieldModel[] = [];
+    member: MemberModel = {data: {}} as MemberModel;
+
+    fetching = 0;
 
     constructor(
         public dialogRef: MatDialogRef<MemberDetailDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberDetailDialogData,
-        private fieldService: FieldService
+        private snackBar: MatSnackBar,
+        private fieldService: FieldService,
+        private memberService: MemberService
     ) {
-        if (!this.data.member) {
-            this.data.member = {data: {}} as MemberModel;
-        }
     }
 
     ngOnInit() {
+        this.fetching++;
         this.fieldService.getFields().subscribe({
             next: fields => {
                 this.fields = fields;
-            }
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
         })
+
+        if (this.data.edit) {
+            this.fetching++;
+            this.memberService.getMemberById(this.data.member.id).subscribe({
+                next: member => {
+                    this.member = member;
+                    this.fetching--;
+                }, error: _ => {
+                    this.fetching--;
+                }
+            })
+        }
     }
 
-    protected readonly FieldType = FieldType;
+    saveMember() {
+        if (this.data.edit) {
+            this.memberService.updateMember(this.member).subscribe(this.handleAfterSave)
+        } else {
+            this.memberService.addMember(this.member).subscribe(this.handleAfterSave);
+        }
+    }
+
+    handleAfterSave: PartialObserver<MemberModel> = {
+        next: member => {
+            this.snackBar.open("Mitglied erfolgreich gespeichert!");
+            this.dialogRef.close(member);
+        },
+        error: _ => {
+            this.snackBar.open("Fehler beim Speichern des Mitglieds!");
+        }
+    }
 }

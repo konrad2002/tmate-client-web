@@ -18,4 +18,8 @@ export class ToolbarService {
     openMemberEditDialog(member: MemberModel) {
       this.memberDialogService.openMemberDetailDialog(true, member);
     }
+
+    openMemberDialog(member: MemberModel) {
+      this.memberDialogService.openMemberDialog(member);
+    }
 }

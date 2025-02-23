@@ -28,12 +28,14 @@ export class TableService {
         this.fieldService.getFields().subscribe({
             next: fields => {
                 this.fieldsSubject.next(fields);
+                this.unselectMember();
             }
         })
 
         this.memberService.getMembers().subscribe({
             next: members => {
                 this.membersSubject.next(members);
+                this.unselectMember();
             }
         })
     }
@@ -43,6 +45,7 @@ export class TableService {
             next: result => {
                 this.membersSubject.next(result.members)
                 this.fieldsSubject.next(result.fields)
+                this.unselectMember();
             },
             error: err => {
                 console.log(err);
