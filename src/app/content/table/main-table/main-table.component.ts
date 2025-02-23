@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {FieldService} from '../../../core/service/api/field.service';
 import {MemberModel} from '../../../core/model/member.model';
 import {MemberService} from '../../../core/service/api/member.service';
 import {TableService} from '../../../core/service/table.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-main-table',
@@ -11,29 +12,34 @@ import {TableService} from '../../../core/service/table.service';
   styleUrl: './main-table.component.scss',
   standalone: false
 })
-export class MainTableComponent implements OnInit {
+export class MainTableComponent implements OnInit, OnDestroy {
     fields: FieldModel[] = [];
     members: MemberModel[] = [];
+
+    fieldSubscription: Subscription;
+    memberSubscription: Subscription;
 
     constructor(
         private fieldService: FieldService,
         private memberService: MemberService,
         private tableService: TableService
     ) {
+        this.fieldSubscription = this.tableService.fields.subscribe(fields => {
+            if (fields)
+                this.fields = fields;
+        })
+        this.memberSubscription = this.tableService.members.subscribe(members => {
+            if (members)
+                this.members = members;
+        })
     }
 
     ngOnInit() {
-        this.fieldService.getFields().subscribe({
-            next: fields => {
-                this.fields = fields;
-            }
-        })
+    }
 
-        this.memberService.getMembers().subscribe({
-            next: members => {
-                this.members = members;
-            }
-        })
+    ngOnDestroy() {
+        this.memberSubscription.unsubscribe();
+        this.fieldSubscription.unsubscribe();
     }
 
     getValuesAsList(field: FieldModel, member: MemberModel): string {
