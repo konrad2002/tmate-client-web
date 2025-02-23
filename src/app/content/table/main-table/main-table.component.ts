@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {FieldService} from '../../../core/service/api/field.service';
 import {MemberModel} from '../../../core/model/member.model';
@@ -12,7 +12,7 @@ import {Subscription} from 'rxjs';
   styleUrl: './main-table.component.scss',
   standalone: false
 })
-export class MainTableComponent implements OnInit, OnDestroy {
+export class MainTableComponent implements OnDestroy {
     fields: FieldModel[] = [];
     members: MemberModel[] = [];
 
@@ -32,9 +32,6 @@ export class MainTableComponent implements OnInit, OnDestroy {
             if (members)
                 this.members = members;
         })
-    }
-
-    ngOnInit() {
     }
 
     ngOnDestroy() {

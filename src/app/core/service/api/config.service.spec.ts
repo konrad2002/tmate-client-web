@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TableService } from './table.service';
+import { ConfigService } from './config.service';
 import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 
-describe('TableService', () => {
-  let service: TableService;
+describe('ConfigService', () => {
+  let service: ConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,7 +14,7 @@ describe('TableService', () => {
             provideHttpClientTesting(),
         ]
     });
-    service = TestBed.inject(TableService);
+    service = TestBed.inject(ConfigService);
   });
 
   it('should be created', () => {

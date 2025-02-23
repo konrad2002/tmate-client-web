@@ -61,14 +61,16 @@ export class MemberDialogComponent implements OnInit{
             }, error: _ => { this.fetching--; }
         })
 
-        this.fetching++;
-        this.memberService.getMemberById(this.data.member.id).subscribe({
-            next: member => {
-                this.member = member;
-                console.log("using:", this.member)
-                this.fetching--;
-            }, error: _ => { this.fetching--; }
-        })
+        if (this.data.member) {
+            this.fetching++;
+            this.memberService.getMemberById(this.data.member.id).subscribe({
+                next: member => {
+                    this.member = member;
+                    console.log("using:", this.member)
+                    this.fetching--;
+                }, error: _ => { this.fetching--; }
+            })
+        }
     }
 
     startEditing() {

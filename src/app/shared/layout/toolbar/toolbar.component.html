@@ -21,10 +21,8 @@
 
 <div class="tools" id="tools">
     <ng-container *ngIf="currentTab === TabName.START">
-        <button class="btn btn-tool inactive" id="btn-tool-search">
-            <mat-icon>search</mat-icon>
-            Suchen
-        </button>
+        <app-toolbar-button label="Suchen" icon="search" (btn_click)="onStartSearch()"></app-toolbar-button>
+
         <button class="btn btn-tool">
             <mat-icon>refresh</mat-icon>
             Neu laden

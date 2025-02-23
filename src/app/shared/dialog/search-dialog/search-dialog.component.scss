@@ -1,0 +1,23 @@
+.search-box {
+    margin-top: 12px;
+}
+
+.member {
+    padding: 8px;
+    background-color: #eee;
+    border-radius: 12px;
+    margin: 4px 0;
+
+    mat-icon  {
+        margin-right: 12px;
+    }
+
+    mat-icon,
+    .member-name {
+        vertical-align: middle;
+    }
+
+    &.clickable {
+        cursor: pointer;
+    }
+}

@@ -22,4 +22,8 @@ export class ToolbarService {
     openMemberDialog(member: MemberModel) {
       this.memberDialogService.openMemberDialog(member);
     }
+
+    openSearchDialog() {
+        this.memberDialogService.openSearchDialog();
+    }
 }

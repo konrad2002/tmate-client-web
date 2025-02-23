@@ -5,6 +5,9 @@ import {MemberModel} from '../../../core/model/member.model';
 import {Subscription} from 'rxjs';
 import {QueryModel} from '../../../core/model/query.model';
 import {QueryService} from '../../../core/service/api/query.service';
+import {ToolbarButtonComponent} from './toolbar-button/toolbar-button.component';
+import {MatIcon} from '@angular/material/icon';
+import {NgIf} from '@angular/common';
 
 enum TabName {
     START,
@@ -17,7 +20,12 @@ enum TabName {
     selector: 'app-toolbar',
     templateUrl: './toolbar.component.html',
     styleUrl: './toolbar.component.scss',
-    standalone: false
+    imports: [
+        ToolbarButtonComponent,
+        MatIcon,
+        NgIf
+    ],
+    standalone: true
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
     currentTab: TabName = TabName.START;
@@ -87,5 +95,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     onStartQuery(query: QueryModel) {
         this.tableService.runQuery(query);
+    }
+
+    onStartSearch() {
+        this.toolbarService.openSearchDialog();
     }
 }

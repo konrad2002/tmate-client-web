@@ -5,7 +5,7 @@ import {ContentModule} from './content/content.module';
 import {LayoutModule} from './shared/layout/layout.module';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import {routes} from './app.routes';
 import {CoreModule} from './core/core.module';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
@@ -30,6 +30,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
     ],
     providers: [
         {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
+        provideAnimations()
     ],
     bootstrap: [AppComponent]
 })

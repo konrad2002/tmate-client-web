@@ -2,6 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ToolbarComponent} from './toolbar.component';
 import {MatIconModule} from '@angular/material/icon';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('ToolbarComponent', () => {
     let component: ToolbarComponent;
@@ -9,9 +11,13 @@ describe('ToolbarComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ToolbarComponent],
             imports: [
+                ToolbarComponent,
                 MatIconModule
+            ],
+            providers: [
+                provideHttpClient(),
+                provideHttpClientTesting(),
             ]
         })
             .compileComponents();

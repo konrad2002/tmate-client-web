@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Mitglieder suchen</h2>
+<mat-dialog-content>
+    <div class="search-box">
+        <mat-form-field>
+            <mat-label>Suchbegriff</mat-label>
+            <input type="search" matInput [(ngModel)]="searchString" (input)="runSearch()">
+        </mat-form-field>
+        <button mat-icon-button (click)="runSearch()"><mat-icon>search</mat-icon></button>
+    </div>
+    <div class="member-list">
+        @for (member of membersFiltered.slice(0, 20); track member.id) {
+            <div class="member clickable" (click)="showMember(member)">
+                <mat-icon>person</mat-icon>
+                <span class="member-name">{{member.data[special_fields.last_name]}}, {{member.data[special_fields.first_name]}}</span>
+            </div>
+        }
+        @if (membersFiltered.length > 20) {
+            <div class="member">
+                <mat-icon>search</mat-icon>
+                <span class="member-name"><i>Zeigt nur die ersten 20 Ergebnisse an!</i></span>
+            </div>
+        }
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+</mat-dialog-actions>

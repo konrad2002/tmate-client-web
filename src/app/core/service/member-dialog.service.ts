@@ -8,6 +8,7 @@ import {
     MemberDetailDialogData
 } from '../../shared/dialog/member-detail-dialog/member-detail-dialog.component';
 import {MemberDialogComponent, MemberDialogData} from '../../shared/dialog/member-dialog/member-dialog.component';
+import {SearchDialogComponent} from '../../shared/dialog/search-dialog/search-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,13 @@ export class MemberDialogService {
         dialogRef.afterClosed().subscribe(result => {
             console.log(result)
             eventSubject?.next(result);
+        });
+    }
+
+    openSearchDialog() {
+        this.dialog.open(SearchDialogComponent, {
+            width: '95%',
+            maxWidth: '950px',
         });
     }
 }
