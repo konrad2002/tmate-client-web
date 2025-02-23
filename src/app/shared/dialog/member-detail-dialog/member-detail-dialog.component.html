@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Mitglied {{data.edit ? 'bearbeiten' : 'hinzufügen'}}</h2>
 <mat-dialog-content>
     @if (fetching > 0) {
-        <mat-spinner></mat-spinner>
+        <app-spinner spinnerLayout="dialog"></app-spinner>
     } @else {
         @if (fields && member && member.data) {
             <div class="member-form">

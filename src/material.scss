@@ -1,3 +1,7 @@
 .material-icons {
     font-family: 'Material Icons Round', 'Material Icons', serif !important;
 }
+
+mat-dialog-actions {
+    border-top: 2px solid var(--main-color);
+}

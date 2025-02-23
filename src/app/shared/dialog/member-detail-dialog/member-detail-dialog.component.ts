@@ -18,7 +18,7 @@ import {KeyValuePipe} from '@angular/common';
 import {MemberService} from '../../../core/service/api/member.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {PartialObserver} from 'rxjs';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {SpinnerComponent} from '../../elements/spinner/spinner.component';
 
 export interface MemberDetailDialogData {
     member: MemberModel;
@@ -42,7 +42,7 @@ export interface MemberDetailDialogData {
         MatSelect,
         MatOption,
         KeyValuePipe,
-        MatProgressSpinner,
+        SpinnerComponent,
     ],
     standalone: true
 })

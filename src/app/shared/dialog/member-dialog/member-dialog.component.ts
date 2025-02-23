@@ -12,9 +12,9 @@ import {FieldService} from '../../../core/service/api/field.service';
 import {MemberService} from '../../../core/service/api/member.service';
 import {MatButton} from '@angular/material/button';
 import {MemberDialogService} from '../../../core/service/member-dialog.service';
-import {DatePipe, NgIf} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
+import {SpinnerComponent} from '../../elements/spinner/spinner.component';
 
 export interface MemberDialogData {
     member: MemberModel;
@@ -30,8 +30,7 @@ export interface MemberDialogData {
         MatButton,
         DatePipe,
         MatIcon,
-        NgIf,
-        MatProgressSpinner
+        SpinnerComponent
     ],
     templateUrl: './member-dialog.component.html',
     styleUrl: './member-dialog.component.scss',

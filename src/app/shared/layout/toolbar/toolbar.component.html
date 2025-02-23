@@ -78,15 +78,8 @@
         <app-toolbar-button label="Hinzufügen" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
         <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="!selectedMember"></app-toolbar-button>
         <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="!selectedMember"></app-toolbar-button>
-
-        <button class="btn btn-tool" [disabled]="!selectedMember">
-            <mat-icon>delete</mat-icon>
-            Löschen
-        </button>
-        <button class="btn btn-tool inactive" id="btn-tool-import-table">
-            <mat-icon>table_chart</mat-icon>
-            Tabelle importieren
-        </button>
+        <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
+        <app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button>
     </ng-container>
 
     <ng-container *ngIf="currentTab === TabName.QUERIES">
