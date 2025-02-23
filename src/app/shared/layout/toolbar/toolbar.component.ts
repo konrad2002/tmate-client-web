@@ -82,4 +82,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             query: any;
         })
     }
+
+    onStartQuery(query: QueryModel) {
+        this.tableService.runQuery(query);
+    }
 }

@@ -40,8 +40,9 @@ export class TableService {
 
     runQuery(query: QueryModel) {
         this.memberService.getMembersUsingQuery(query).subscribe({
-            next: members => {
-                this.membersSubject.next(members)
+            next: result => {
+                this.membersSubject.next(result.members)
+                this.fieldsSubject.next(result.fields)
             },
             error: err => {
                 console.log(err);

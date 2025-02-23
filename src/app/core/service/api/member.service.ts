@@ -5,6 +5,7 @@ import {ApiService} from './api.service';
 import {Observable} from 'rxjs';
 import {MemberModel} from '../../model/member.model';
 import {QueryModel} from '../../model/query.model';
+import {QueryResultDto} from '../../model/query-result-dto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class MemberService extends BaseService {
         return this.apiService.get(this.API_URL, "");
     }
 
-    getMembersUsingQuery(query: QueryModel): Observable<MemberModel[]> {
+    getMembersUsingQuery(query: QueryModel): Observable<QueryResultDto> {
         return this.apiService.get(this.API_URL, "query/" + query.id);
     }
 }
