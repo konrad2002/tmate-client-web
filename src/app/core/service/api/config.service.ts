@@ -3,7 +3,7 @@ import {BaseService} from './base.service';
 import {environment} from '../../../../environments/environment';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs';
-import {SpecialFieldsConfig} from '../../model/config.model';
+import {ConfigModel, SpecialFieldsConfig} from '../../model/config.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +19,9 @@ export class ConfigService extends BaseService {
 
     getSpecialFields(): Observable<SpecialFieldsConfig> {
         return this.apiService.get(this.API_URL, "special_fields");
+    }
+
+    getConfig(): Observable<ConfigModel> {
+        return this.apiService.get(this.API_URL, "");
     }
 }

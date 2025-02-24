@@ -83,21 +83,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         }
     }
 
-    onStartExample() {
-        this.tableService.runQuery(new class implements QueryModel {
-            id = "67ba5eda614dc8fe05444d4b";
-            name = "Example";
-            owner_user_id = "";
-            public = true;
-            query: any;
-        })
-    }
-
     onStartQuery(query: QueryModel) {
         this.tableService.runQuery(query);
     }
 
     onStartSearch() {
         this.toolbarService.openSearchDialog();
+    }
+
+    onStartRefresh() {
+        this.toolbarService.refreshQuery()
     }
 }

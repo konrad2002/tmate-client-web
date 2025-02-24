@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {MemberModel} from '../../model/member.model';
 import {QueryModel} from '../../model/query.model';
 import {QueryResultDto} from '../../model/query-result-dto.model';
+import {query} from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class MemberService extends BaseService {
         return this.apiService.get(this.API_URL, "");
     }
 
-    getMembersUsingQuery(query: QueryModel): Observable<QueryResultDto> {
-        return this.apiService.get(this.API_URL, "query/" + query.id);
+    getMembersUsingQuery(queryId: string): Observable<QueryResultDto> {
+        return this.apiService.get(this.API_URL, "query/" + queryId);
     }
 
     getMemberById(id: string): Observable<MemberModel> {

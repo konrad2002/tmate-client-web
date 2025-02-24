@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {MemberModel} from '../model/member.model';
-import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
+import {BehaviorSubject, distinctUntilChanged, PartialObserver} from 'rxjs';
 import {FieldModel} from '../model/field.model';
 import {FieldService} from './api/field.service';
 import {MemberService} from './api/member.service';
 import {QueryModel} from '../model/query.model';
+import {ConfigService} from './api/config.service';
+import {QueryResultDto} from '../model/query-result-dto.model';
 
 @Injectable({
     providedIn: 'root'
@@ -21,36 +23,24 @@ export class TableService {
     private membersSubject: BehaviorSubject<MemberModel[] | undefined> = new BehaviorSubject<MemberModel[] | undefined>(undefined);
     public members = this.membersSubject.asObservable().pipe(distinctUntilChanged());
 
+    private lastQuery?: QueryModel;
+
     constructor(
         private fieldService: FieldService,
-        private memberService: MemberService
+        private memberService: MemberService,
+        private configService: ConfigService
     ) {
-        this.fieldService.getFields().subscribe({
-            next: fields => {
-                this.fieldsSubject.next(fields);
-                this.unselectMember();
-            }
-        })
-
-        this.memberService.getMembers().subscribe({
-            next: members => {
-                this.membersSubject.next(members);
-                this.unselectMember();
-            }
+        this.configService.getConfig().subscribe(config => {
+            this.memberService.getMembersUsingQuery(config.default_query).subscribe(this.handleQueryResult);
         })
     }
 
-    runQuery(query: QueryModel) {
-        this.memberService.getMembersUsingQuery(query).subscribe({
-            next: result => {
-                this.membersSubject.next(result.members)
-                this.fieldsSubject.next(result.fields)
-                this.unselectMember();
-            },
-            error: err => {
-                console.log(err);
-            }
-        })
+    // executes a given query using the provided ID.
+    // If no query is given, the previously executed query is used
+    runQuery(query?: QueryModel) {
+        if (!query) query = this.lastQuery;
+        if (!query) return;
+        this.memberService.getMembersUsingQuery(query.id).subscribe(this.handleQueryResult)
     }
 
     setSelectedMember(member: MemberModel) {
@@ -59,5 +49,17 @@ export class TableService {
 
     unselectMember() {
         this.selectedMemberSubject.next(undefined);
+    }
+
+    handleQueryResult: PartialObserver<QueryResultDto> = {
+        next: result => {
+            this.membersSubject.next(result.members)
+            this.fieldsSubject.next(result.fields)
+            this.lastQuery = result.query
+            this.unselectMember();
+        },
+        error: err => {
+            console.log(err);
+        }
     }
 }

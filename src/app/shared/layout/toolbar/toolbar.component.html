@@ -22,15 +22,8 @@
 <div class="tools" id="tools">
     <ng-container *ngIf="currentTab === TabName.START">
         <app-toolbar-button label="Suchen" icon="search" (btn_click)="onStartSearch()"></app-toolbar-button>
+        <app-toolbar-button label="Neu laden" icon="refresh" (btn_click)="onStartRefresh()"></app-toolbar-button>
 
-        <button class="btn btn-tool">
-            <mat-icon>refresh</mat-icon>
-            Neu laden
-        </button>
-        <button class="btn btn-tool">
-            <mat-icon>format_list_bulleted</mat-icon>
-            Alle
-        </button>
         <button class="btn btn-tool">
             <mat-icon>format_list_bulleted</mat-icon>
             Alles anzeigen
@@ -39,8 +32,6 @@
         @for (query of queries; track query.id) {
             <app-toolbar-button [label]="query.name" icon="format_list_bulleted" (btn_click)="onStartQuery(query)"></app-toolbar-button>
         }
-        <app-toolbar-button label="Example" icon="format_list_bulleted" (btn_click)="onStartExample()"></app-toolbar-button>
-
 
         <button class="btn btn-tool" id="btn-tool-query-897473910"><i class="btn-tool-icon fas fa-list"
                                                                       aria-hidden="true"></i>Nachwuchs (bed.)

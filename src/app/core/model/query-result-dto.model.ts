@@ -5,5 +5,5 @@ import {QueryModel} from './query.model';
 export interface QueryResultDto {
     members: MemberModel[];
     fields: FieldModel[];
-    Query: QueryModel;
+    query: QueryModel;
 }

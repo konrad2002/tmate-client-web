@@ -12,3 +12,7 @@ export interface AddressFieldsConfig {
     city: string;
     postal_code: string;
 }
+
+export interface ConfigModel {
+    default_query: string;
+}
