@@ -20,8 +20,8 @@ export interface QueryConditionNodeModel extends QueryConditionModel {
     conditions: QueryConditionModel[];
 }
 
-export interface QueryConditionModel {
-    depth: number;
+export interface QueryConditionModel { // eslint-disable-line
+
 }
 
 export interface QueryConditionExpressionModel extends QueryConditionModel {
