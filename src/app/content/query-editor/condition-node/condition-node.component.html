@@ -1,4 +1,4 @@
-<div class="condition-node">
+<div class="condition-node" *ngIf="node">
     <span class="brackets">(</span>
     <mat-form-field>
         <mat-label>Logischer Operator</mat-label>
@@ -70,7 +70,7 @@
                     <button mat-icon-button (click)="removeCondition(condition)"><mat-icon>delete</mat-icon></button>
                 } @else if (isNode(condition)) {
                     <app-condition-node [node]="condition" [fields]="fields"></app-condition-node>
-                    <button class="delete-node-button" *ngIf="condition.conditions.length == 0" mat-icon-button (click)="removeCondition(condition)"><mat-icon>delete</mat-icon></button>
+                    <button class="delete-node-button" *ngIf="condition.conditions.length === 0" mat-icon-button (click)="removeCondition(condition)"><mat-icon>delete</mat-icon></button>
                 }
             </div>
         }

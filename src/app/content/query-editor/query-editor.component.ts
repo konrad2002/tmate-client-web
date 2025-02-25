@@ -4,7 +4,6 @@ import {FieldModel} from '../../core/model/field.model';
 import {FieldService} from '../../core/service/api/field.service';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {
-    QueryConditionExpressionModel,
     QueryConditionNodeModel,
     QueryProjectionModel,
     QuerySortingModel

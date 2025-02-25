@@ -21,7 +21,7 @@ export interface QueryConditionNodeModel extends QueryConditionModel {
 }
 
 export interface QueryConditionModel {
-
+    depth: number;
 }
 
 export interface QueryConditionExpressionModel extends QueryConditionModel {
