@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Abfrage {{data.edit ? 'bearbeiten' : 'hinzufügen'}}</h2>
+<mat-dialog-content>
+    <app-query-editor></app-query-editor>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Abbrechen</button>
+    <button mat-button (click)="saveQuery()">Speichern</button>
+</mat-dialog-actions>

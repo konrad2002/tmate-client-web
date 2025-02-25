@@ -72,10 +72,8 @@
     </ng-container>
 
     <ng-container *ngIf="currentTab === TabName.QUERIES">
-        <button class="btn btn-tool">
-            <mat-icon>add</mat-icon>
-            Abfrage erstellen
-        </button>
+        <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>
+
         <button class="btn btn-tool">
             <mat-icon>assignment_late</mat-icon>
             Bedingung erstellen

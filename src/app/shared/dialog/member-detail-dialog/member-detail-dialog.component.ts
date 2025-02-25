@@ -10,7 +10,7 @@ import {
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
-import {MatButton,} from '@angular/material/button';
+import {MatButton, MatIconButton,} from '@angular/material/button';
 import {FieldService} from '../../../core/service/api/field.service';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {MatOption, MatSelect} from '@angular/material/select';
@@ -23,6 +23,7 @@ import {FamilyMemberFindDialogComponent} from '../family-member-find-dialog/fami
 import {Families,} from '../../../core/model/family.model';
 import {SpecialFieldsConfig} from '../../../core/model/config.model';
 import {ConfigService} from '../../../core/service/api/config.service';
+import {MatIcon} from '@angular/material/icon';
 
 export interface MemberDetailDialogData {
     member: MemberModel;
@@ -48,6 +49,8 @@ export interface MemberDetailDialogData {
         KeyValuePipe,
         SpinnerComponent,
         NgIf,
+        MatIconButton,
+        MatIcon,
     ],
     standalone: true
 })

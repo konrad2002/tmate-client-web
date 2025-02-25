@@ -10,19 +10,23 @@
                         <div class="family-form">
                             <div class="family-info">
                                 @if (addedFamilyMember) {
-                                    <span class="family">Neue Familie mit {{addedFamilyMember.data[special_fields.last_name]}}, {{addedFamilyMember.data[special_fields.first_name]}}</span>
+                                    <span class="family">Neue Familie mit<br>{{addedFamilyMember.data[special_fields.last_name]}}, {{addedFamilyMember.data[special_fields.first_name]}}</span>
                                 } @else {
-                                    @if (families && families.families && families.families[member.data[special_fields.family]]) {
+                                    @if (member.data[special_fields.family] != 0 && families && families.families && families.families[member.data[special_fields.family]]) {
                                         <!-- TODO: use @let after Webstorm update -->
                                         <ng-container *ngIf="families.families[member.data[special_fields.family]] as family">
-                                                <span class="family">Familie {{family.last_name}} (+{{family.member_count}})</span>
+                                                <span class="family">Familie {{family.last_name}} ({{family.member_count}})</span>
                                         </ng-container>
                                     } @else {
                                         <span class="family">Keine Familie</span>
                                     }
                                 }
+
+                                @if (addedFamilyMember || member.data[special_fields.family]) {
+                                    <button mat-icon-button (click)="member.data[special_fields.family] = 0; addedFamilyMember = undefined"><mat-icon>clear</mat-icon></button>
+                                }
                             </div>
-                            <button mat-flat-button (click)="openMemberSearchDialog()">Ändern</button>
+                            <button class="modify-family-button" mat-flat-button (click)="openMemberSearchDialog()">Ändern</button>
                         </div>
                     } @else {
                         <mat-form-field>

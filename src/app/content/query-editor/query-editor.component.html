@@ -1,0 +1,39 @@
+<h3>Projektion</h3>
+
+<section class="projection-select">
+    @for (projection of projections; track projection.field.id) {
+        <mat-checkbox
+            [(ngModel)]="projection.project"
+        >
+          {{projection.field.display_name}}
+        </mat-checkbox>
+    }
+</section>
+
+<h3>Bedingung</h3>
+
+<app-condition-node [node]="condition" [fields]="fields"></app-condition-node>
+
+<h3>Sortierung</h3>
+
+@for (sorting of sortings; track sorting.field.id) {
+    <div>
+        <mat-form-field>
+            <mat-label>Sortieren nach</mat-label>
+            <mat-select [(ngModel)]="sorting.field">
+                @for (field of fields; track field.id) {
+                    <mat-option [value]="field">{{field.display_name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Richtung</mat-label>
+            <mat-select [(ngModel)]="sorting.direction">
+                <mat-option [value]="1">Aufsteigend (ASC)</mat-option>
+                <mat-option [value]="-1">Absteigend (DESC)</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+}
+
+<button mat-icon-button (click)="addSorting()"><mat-icon>add</mat-icon></button>

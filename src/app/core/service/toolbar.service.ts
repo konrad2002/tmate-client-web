@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {MemberDialogService} from './member-dialog.service';
 import {MemberModel} from '../model/member.model';
 import {TableService} from './table.service';
+import {QueryDialogService} from './query-dialog.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ export class ToolbarService {
 
   constructor(
       private memberDialogService: MemberDialogService,
+      private queryDialogService: QueryDialogService,
       private tableService: TableService
   ) { }
 
@@ -31,5 +33,9 @@ export class ToolbarService {
 
     refreshQuery() {
         this.tableService.runQuery();
+    }
+
+    openQueryAddDialog() {
+        this.queryDialogService.openQueryEditDialog(false);
     }
 }

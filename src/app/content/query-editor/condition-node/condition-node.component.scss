@@ -1,0 +1,32 @@
+$colors: red, orange, yellow, green, blue, purple;
+
+.brackets {
+    color: var(--main-color);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.node-content {
+    padding-left: 32px;
+
+    .node-child::before {
+        content: '';
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 24px;
+    }
+
+    mat-form-field {
+        vertical-align: middle;
+    }
+}
+
+app-condition-node {
+    display: inline-block;
+
+}
+
+.delete-node-button {
+    float: left;
+    margin-top: 12px;
+}

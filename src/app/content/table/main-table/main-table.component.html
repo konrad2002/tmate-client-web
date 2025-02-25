@@ -28,6 +28,16 @@
                 @case (FieldType.DATE) {
                     <span>{{member.data[field.name] | date:"d.M.Y"}}</span>
                 }
+                @case (FieldType.FAMILY) {
+                    @if (families && families.families && families.families[member.data[special_fields.family]]) {
+                        <!-- TODO: use @let after Webstorm update -->
+                        <ng-container *ngIf="families.families[member.data[special_fields.family]] as family">
+                            <span class="family">Fam. {{family.last_name}} <span [title]="getFamilyMemberString(family)">({{family.member_count}})</span></span>
+                        </ng-container>
+                    } @else {
+                        <span class="family">-</span>
+                    }
+                }
                 @default {
                     <span>{{member.data[field.name]}}</span>
                 }

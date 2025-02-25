@@ -92,6 +92,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     onStartRefresh() {
-        this.toolbarService.refreshQuery()
+        this.toolbarService.refreshQuery();
+    }
+
+    onQueryAddClick() {
+        this.toolbarService.openQueryAddDialog();
     }
 }

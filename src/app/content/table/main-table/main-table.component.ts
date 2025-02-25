@@ -5,6 +5,9 @@ import {MemberModel} from '../../../core/model/member.model';
 import {MemberService} from '../../../core/service/api/member.service';
 import {TableService} from '../../../core/service/table.service';
 import {Subscription} from 'rxjs';
+import {Families, FamilyModel} from '../../../core/model/family.model';
+import {SpecialFieldsConfig} from '../../../core/model/config.model';
+import {ConfigService} from '../../../core/service/api/config.service';
 
 @Component({
   selector: 'app-main-table',
@@ -19,18 +22,43 @@ export class MainTableComponent implements OnDestroy {
     fieldSubscription: Subscription;
     memberSubscription: Subscription;
 
+    fetching = 0;
+
+    families?: Families;
+
+    special_fields: SpecialFieldsConfig = {} as SpecialFieldsConfig;
+
     constructor(
         private fieldService: FieldService,
         private memberService: MemberService,
-        private tableService: TableService
+        private tableService: TableService,
+        private configService: ConfigService
     ) {
+
         this.fieldSubscription = this.tableService.fields.subscribe(fields => {
             if (fields)
                 this.fields = fields;
         })
+
         this.memberSubscription = this.tableService.members.subscribe(members => {
             if (members)
                 this.members = members;
+        })
+
+        this.fetching++;
+        this.memberService.getFamilies().subscribe({
+            next: families => {
+                this.families = families;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
+        })
+
+        this.fetching++;
+        this.configService.getSpecialFields().subscribe({
+            next: config => {
+                this.special_fields = config;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
         })
     }
 
@@ -51,6 +79,14 @@ export class MainTableComponent implements OnDestroy {
 
     selectMember(member: MemberModel) {
         this.tableService.setSelectedMember(member);
+    }
+
+    getFamilyMemberString(family: FamilyModel): string {
+        const memberNames: string[]= []
+        for (const member of family.members) {
+            memberNames.push(member.data[this.special_fields.first_name] + " " + member.data[this.special_fields.last_name])
+        }
+        return memberNames.join(", ")
     }
 
     protected readonly FieldType = FieldType;

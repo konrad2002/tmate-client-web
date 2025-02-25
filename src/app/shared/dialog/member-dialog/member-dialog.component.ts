@@ -12,9 +12,12 @@ import {FieldService} from '../../../core/service/api/field.service';
 import {MemberService} from '../../../core/service/api/member.service';
 import {MatButton} from '@angular/material/button';
 import {MemberDialogService} from '../../../core/service/member-dialog.service';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {SpinnerComponent} from '../../elements/spinner/spinner.component';
+import {Families} from '../../../core/model/family.model';
+import {SpecialFieldsConfig} from '../../../core/model/config.model';
+import {ConfigService} from '../../../core/service/api/config.service';
 
 export interface MemberDialogData {
     member: MemberModel;
@@ -30,7 +33,8 @@ export interface MemberDialogData {
         MatButton,
         DatePipe,
         MatIcon,
-        SpinnerComponent
+        SpinnerComponent,
+        NgIf
     ],
     templateUrl: './member-dialog.component.html',
     styleUrl: './member-dialog.component.scss',
@@ -44,11 +48,16 @@ export class MemberDialogComponent implements OnInit{
 
     fetching = 0;
 
+    families?: Families;
+
+    special_fields: SpecialFieldsConfig = {} as SpecialFieldsConfig;
+
     constructor(
         public dialogRef: MatDialogRef<MemberDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberDialogData,
         private fieldService: FieldService,
         private memberService: MemberService,
+        private configService: ConfigService,
         private dialogService: MemberDialogService
     ) {}
 
@@ -57,6 +66,22 @@ export class MemberDialogComponent implements OnInit{
         this.fieldService.getFields().subscribe({
             next: fields => {
                 this.fields = fields;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
+        })
+
+        this.fetching++;
+        this.memberService.getFamilies().subscribe({
+            next: families => {
+                this.families = families;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
+        })
+
+        this.fetching++;
+        this.configService.getSpecialFields().subscribe({
+            next: config => {
+                this.special_fields = config;
                 this.fetching--;
             }, error: _ => { this.fetching--; }
         })

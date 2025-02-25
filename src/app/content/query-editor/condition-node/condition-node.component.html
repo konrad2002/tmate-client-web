@@ -1,0 +1,96 @@
+<div class="condition-node">
+    <span class="brackets">(</span>
+    <mat-form-field>
+        <mat-label>Logischer Operator</mat-label>
+        <mat-select [(ngModel)]="node.logicalExpression">
+            <mat-option value="and">UND</mat-option>
+            <mat-option value="or">ODER</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div class="node-content">
+
+        @for (condition of node.conditions; track condition) {
+            <div class="node-child">
+                @if (isExpression(condition)) {
+                    <mat-form-field>
+                        <mat-label>Attribut</mat-label>
+                        <mat-select [(ngModel)]="condition.field">
+                            @for (field of fields; track field.id) {
+                                <mat-option [value]="field">{{field.display_name}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Vergleichsoperator</mat-label>
+                        <mat-select [(ngModel)]="condition.operator">
+                            <mat-option value="eq">GLEICH</mat-option>
+                            <mat-option value="gt">></mat-option>
+                            <mat-option value="gte">>=</mat-option>
+                            <mat-option value="in">IN</mat-option>
+                            <mat-option value="lt"><</mat-option>
+                            <mat-option value="lte"><=</mat-option>
+                            <mat-option value="ne">NICHT GLEICH</mat-option>
+                            <mat-option value="nin">NICHT IN</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{condition.field.display_name}}</mat-label>
+                        @switch (condition.field.type) {
+                            @case (FieldType.NUMBER) {
+                                <input type="number" matInput [(ngModel)]="condition.comparator">
+                            }
+                            @case (FieldType.EMAIL) {
+                                <input type="email" matInput [(ngModel)]="condition.comparator">
+                            }
+                            @case (FieldType.SELECT || FieldType.MULTI_SELECT) {
+                                <mat-select [(ngModel)]="condition.comparator">
+                                    @for (option of condition.field.data.options | keyvalue; track option) {
+                                        <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                    }
+                                </mat-select>
+                            }
+                            @case (FieldType.PHONE_NUMBER) {
+                                <input type="tel" matInput [(ngModel)]="condition.comparator">
+                            }
+                            @case (FieldType.BOOLEAN) {
+                                <mat-select [(ngModel)]="condition.comparator">
+                                    <mat-option [value]="true">Ja</mat-option>
+                                    <mat-option [value]="false">Nein</mat-option>
+                                </mat-select>
+                            }
+                            @case (FieldType.DATE) {
+                                <input type="date" matInput [(ngModel)]="condition.comparator">
+                            }
+                            @default {
+                                <input matInput [(ngModel)]="condition.comparator">
+                            }
+                        }
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeCondition(condition)"><mat-icon>delete</mat-icon></button>
+                } @else if (isNode(condition)) {
+                    <app-condition-node [node]="condition" [fields]="fields"></app-condition-node>
+                    <button class="delete-node-button" *ngIf="condition.conditions.length == 0" mat-icon-button (click)="removeCondition(condition)"><mat-icon>delete</mat-icon></button>
+                }
+            </div>
+        }
+
+        <div class="add-condition">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>add</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="addExpressionChild()">
+                    <mat-icon>check</mat-icon>
+                    <span>Ausdruck</span>
+                </button>
+                <button mat-menu-item (click)="addNodeChild()">
+                    <mat-icon>checklist_rtl</mat-icon>
+                    <span>Geklammerte Ausdrücke</span>
+                </button>
+            </mat-menu>
+
+        </div>
+    </div>
+    <span class="brackets">)</span>
+</div>
