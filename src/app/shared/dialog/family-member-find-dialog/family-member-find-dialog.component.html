@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Mitglieder suchen</h2>
+<h2 mat-dialog-title>Familienmitglied finden</h2>
 <mat-dialog-content>
     <div class="search-box">
         <mat-form-field>
@@ -12,8 +12,10 @@
             <div class="member">
                 <mat-icon>person</mat-icon>
                 <span class="member-name">{{member.data[special_fields.last_name]}}, {{member.data[special_fields.first_name]}}</span>
-                <button mat-button (click)="showMember(member)">Anzeigen</button>
-
+                <div class="existing-family">
+                    <span *ngIf="families && families.families && families.families[member.data[special_fields.family]] as family">Familie {{family.last_name}} ({{family.member_count}}x)</span>
+                </div>
+                <button mat-button (click)="selectMember(member)">Auswählen</button>
             </div>
         }
         @if (membersFiltered.length > 20) {

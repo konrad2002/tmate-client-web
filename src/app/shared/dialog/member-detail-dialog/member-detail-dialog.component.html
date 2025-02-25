@@ -6,46 +6,66 @@
         @if (fields && member && member.data) {
             <div class="member-form">
                 @for (field of fields; track field.id) {
-                    <mat-form-field>
-                        <mat-label>{{field.display_name}}</mat-label>
-                        @switch (field.type) {
-                            @case (FieldType.NUMBER) {
-                                <input type="number" matInput [(ngModel)]="member.data[field.name]">
-                            }
-                            @case (FieldType.EMAIL) {
-                                <input type="email" matInput [(ngModel)]="member.data[field.name]">
-                            }
-                            @case (FieldType.SELECT) {
-                                <mat-select [(ngModel)]="member.data[field.name]">
-                                    @for (option of field.data.options | keyvalue; track option) {
-                                        <mat-option [value]="option.key">{{option.value}}</mat-option>
+                    @if (field.type === FieldType.FAMILY) {
+                        <div class="family-form">
+                            <div class="family-info">
+                                @if (addedFamilyMember) {
+                                    <span class="family">Neue Familie mit {{addedFamilyMember.data[special_fields.last_name]}}, {{addedFamilyMember.data[special_fields.first_name]}}</span>
+                                } @else {
+                                    @if (families && families.families && families.families[member.data[special_fields.family]]) {
+                                        <!-- TODO: use @let after Webstorm update -->
+                                        <ng-container *ngIf="families.families[member.data[special_fields.family]] as family">
+                                                <span class="family">Familie {{family.last_name}} (+{{family.member_count}})</span>
+                                        </ng-container>
+                                    } @else {
+                                        <span class="family">Keine Familie</span>
                                     }
-                                </mat-select>
+                                }
+                            </div>
+                            <button mat-flat-button (click)="openMemberSearchDialog()">Ändern</button>
+                        </div>
+                    } @else {
+                        <mat-form-field>
+                            <mat-label>{{field.display_name}}</mat-label>
+                            @switch (field.type) {
+                                @case (FieldType.NUMBER) {
+                                    <input type="number" matInput [(ngModel)]="member.data[field.name]">
+                                }
+                                @case (FieldType.EMAIL) {
+                                    <input type="email" matInput [(ngModel)]="member.data[field.name]">
+                                }
+                                @case (FieldType.SELECT) {
+                                    <mat-select [(ngModel)]="member.data[field.name]">
+                                        @for (option of field.data.options | keyvalue; track option) {
+                                            <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                        }
+                                    </mat-select>
+                                }
+                                @case (FieldType.MULTI_SELECT) {
+                                    <mat-select [(ngModel)]="member.data[field.name]" multiple>
+                                        @for (option of field.data.options | keyvalue; track option) {
+                                            <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                        }
+                                    </mat-select>
+                                }
+                                @case (FieldType.PHONE_NUMBER) {
+                                    <input type="tel" matInput [(ngModel)]="member.data[field.name]">
+                                }
+                                @case (FieldType.BOOLEAN) {
+                                    <mat-select [(ngModel)]="member.data[field.name]">
+                                        <mat-option [value]="true">Ja</mat-option>
+                                        <mat-option [value]="false">Nein</mat-option>
+                                    </mat-select>
+                                }
+                                @case (FieldType.DATE) {
+                                    <input type="date" matInput [(ngModel)]="member.data[field.name]">
+                                }
+                                @default {
+                                    <input matInput [(ngModel)]="member.data[field.name]">
+                                }
                             }
-                            @case (FieldType.MULTI_SELECT) {
-                                <mat-select [(ngModel)]="member.data[field.name]" multiple>
-                                    @for (option of field.data.options | keyvalue; track option) {
-                                        <mat-option [value]="option.key">{{option.value}}</mat-option>
-                                    }
-                                </mat-select>
-                            }
-                            @case (FieldType.PHONE_NUMBER) {
-                                <input type="tel" matInput [(ngModel)]="member.data[field.name]">
-                            }
-                            @case (FieldType.BOOLEAN) {
-                                <mat-select [(ngModel)]="member.data[field.name]">
-                                    <mat-option [value]="true">Ja</mat-option>
-                                    <mat-option [value]="false">Nein</mat-option>
-                                </mat-select>
-                            }
-                            @case (FieldType.DATE) {
-                                <input type="date" matInput [(ngModel)]="member.data[field.name]">
-                            }
-                            @default {
-                                <input matInput [(ngModel)]="member.data[field.name]">
-                            }
-                        }
-                    </mat-form-field>
+                        </mat-form-field>
+                    }
                 }
             </div>
         }

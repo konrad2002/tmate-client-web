@@ -8,3 +8,22 @@
         width: 100%;
     }
 }
+
+.family-form {
+    .family-info {
+        width: calc(100% - 90px);
+        display: inline-block;
+        vertical-align: middle;
+
+        .family {
+            font-weight: bold;
+            display: block;
+        }
+    }
+
+    button {
+        vertical-align: middle;
+        width: 90px;
+        display: inline-block;
+    }
+}

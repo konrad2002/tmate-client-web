@@ -22,4 +22,5 @@ export enum FieldType {
     PHONE_NUMBER = "phone_number",
     BOOLEAN = "boolean",
     DATE = "date",
+    FAMILY = "family",
 }

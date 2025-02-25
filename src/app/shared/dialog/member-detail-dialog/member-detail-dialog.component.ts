@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MemberModel} from '../../../core/model/member.model';
 import {
-    MAT_DIALOG_DATA,
+    MAT_DIALOG_DATA, MatDialog,
     MatDialogActions, MatDialogClose,
     MatDialogContent,
     MatDialogRef,
@@ -10,15 +10,19 @@ import {
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
-import {MatButton} from '@angular/material/button';
+import {MatButton,} from '@angular/material/button';
 import {FieldService} from '../../../core/service/api/field.service';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {MatOption, MatSelect} from '@angular/material/select';
-import {KeyValuePipe} from '@angular/common';
+import {KeyValuePipe, NgIf} from '@angular/common';
 import {MemberService} from '../../../core/service/api/member.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {PartialObserver} from 'rxjs';
 import {SpinnerComponent} from '../../elements/spinner/spinner.component';
+import {FamilyMemberFindDialogComponent} from '../family-member-find-dialog/family-member-find-dialog.component';
+import {Families,} from '../../../core/model/family.model';
+import {SpecialFieldsConfig} from '../../../core/model/config.model';
+import {ConfigService} from '../../../core/service/api/config.service';
 
 export interface MemberDetailDialogData {
     member: MemberModel;
@@ -43,6 +47,7 @@ export interface MemberDetailDialogData {
         MatOption,
         KeyValuePipe,
         SpinnerComponent,
+        NgIf,
     ],
     standalone: true
 })
@@ -54,12 +59,20 @@ export class MemberDetailDialogComponent implements OnInit {
 
     fetching = 0;
 
+    families?: Families;
+
+    special_fields: SpecialFieldsConfig = {} as SpecialFieldsConfig;
+
+    addedFamilyMember?: MemberModel
+
     constructor(
         public dialogRef: MatDialogRef<MemberDetailDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberDetailDialogData,
         private snackBar: MatSnackBar,
         private fieldService: FieldService,
-        private memberService: MemberService
+        private memberService: MemberService,
+        private configService: ConfigService,
+        private dialog: MatDialog,
     ) {
     }
 
@@ -68,6 +81,22 @@ export class MemberDetailDialogComponent implements OnInit {
         this.fieldService.getFields().subscribe({
             next: fields => {
                 this.fields = fields;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
+        })
+
+        this.fetching++;
+        this.memberService.getFamilies().subscribe({
+            next: families => {
+                this.families = families;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
+        })
+
+        this.fetching++;
+        this.configService.getSpecialFields().subscribe({
+            next: config => {
+                this.special_fields = config;
                 this.fetching--;
             }, error: _ => { this.fetching--; }
         })
@@ -87,9 +116,9 @@ export class MemberDetailDialogComponent implements OnInit {
 
     saveMember() {
         if (this.data.edit) {
-            this.memberService.updateMember(this.member).subscribe(this.handleAfterSave)
+            this.memberService.updateMember(this.member, this.addedFamilyMember?.id).subscribe(this.handleAfterSave)
         } else {
-            this.memberService.addMember(this.member).subscribe(this.handleAfterSave);
+            this.memberService.addMember(this.member, this.addedFamilyMember?.id).subscribe(this.handleAfterSave);
         }
     }
 
@@ -101,5 +130,17 @@ export class MemberDetailDialogComponent implements OnInit {
         error: _ => {
             this.snackBar.open("Fehler beim Speichern des Mitglieds!");
         }
+    }
+
+    openMemberSearchDialog() {
+        const dialogRef = this.dialog.open(FamilyMemberFindDialogComponent, {
+            width: '95%',
+            maxWidth: '950px',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result)
+            this.addedFamilyMember = result;
+        });
     }
 }

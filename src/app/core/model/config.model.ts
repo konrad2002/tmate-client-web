@@ -3,6 +3,7 @@ export interface SpecialFieldsConfig {
     last_name: string;
     e_mail: string;
     e_mail_2: string;
+    family: string;
     address: AddressFieldsConfig
 }
 

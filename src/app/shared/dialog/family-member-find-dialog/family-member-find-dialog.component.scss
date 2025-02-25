@@ -22,7 +22,12 @@
 
     .member-name {
         display: inline-block;
-        width: calc(100% - 12px - 24px - 94px - 16px);
+        width: calc((100% - 12px - 24px - 94px - 16px) * 0.6);
+    }
+
+    .existing-family {
+        display: inline-block;
+        width: calc((100% - 12px - 24px - 94px - 16px) * 0.4);
     }
 
     button {
