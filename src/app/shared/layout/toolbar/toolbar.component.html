@@ -69,10 +69,18 @@
         <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="!selectedMember"></app-toolbar-button>
         <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
         <app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button>
+        <button class="btn btn-tool">
+            <mat-icon>family_restroom</mat-icon>
+            Familien gruppieren
+        </button>
     </ng-container>
 
     <ng-container *ngIf="currentTab === TabName.QUERIES">
         <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>
+
+        @for (query of queries; track query.id) {
+            <app-toolbar-button label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
+        }
 
         <button class="btn btn-tool">
             <mat-icon>assignment_late</mat-icon>
@@ -81,10 +89,6 @@
         <button class="btn btn-tool">
             <mat-icon>delete</mat-icon>
             Abfrage / Bedingung löschen
-        </button>
-        <button class="btn btn-tool">
-            <mat-icon>family_restroom</mat-icon>
-            Familien gruppieren
         </button>
     </ng-container>
 

@@ -3,7 +3,9 @@ import {FieldModel} from './field.model';
 export interface QueryModel {
     id: string;
     name: string;
-    query: any;
+    projection: BSONDocument;
+    filter: BSONDocument;
+    sort: BSONDocument;
     owner_user_id: string;
     public: boolean;
 }
@@ -34,3 +36,11 @@ export interface QuerySortingModel {
     field: FieldModel;
     direction: number;
 }
+
+
+export interface BSONElement {
+    Key: string;
+    Value: any;
+}
+
+export type BSONDocument = BSONElement[];

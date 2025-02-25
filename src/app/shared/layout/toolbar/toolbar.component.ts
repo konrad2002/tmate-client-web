@@ -98,4 +98,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     onQueryAddClick() {
         this.toolbarService.openQueryAddDialog();
     }
+
+    onQueryEditClick(query: QueryModel) {
+        this.toolbarService.openQueryEditDialog(query);
+    }
 }

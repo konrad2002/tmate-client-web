@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ConditionNodeComponent} from './condition-node/condition-node.component';
 import {FieldModel} from '../../core/model/field.model';
 import {FieldService} from '../../core/service/api/field.service';
@@ -33,11 +33,11 @@ import {MatLabel} from '@angular/material/form-field';
     standalone: true
 })
 export class QueryEditorComponent implements OnInit {
-    fields: FieldModel[] = [];
+    @Input() fields?: FieldModel[];
 
-    projections: QueryProjectionModel[] = [];
-    condition: QueryConditionNodeModel = { logicalExpression: "and", conditions: [] } as QueryConditionNodeModel
-    sortings: QuerySortingModel[] = [];
+    @Input() projections: QueryProjectionModel[] = [];
+    @Input() condition: QueryConditionNodeModel = { logicalExpression: "and", conditions: [] } as QueryConditionNodeModel
+    @Input() sortings: QuerySortingModel[] = [];
 
     fetching = 0;
 
@@ -47,7 +47,9 @@ export class QueryEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.fetchFields();
+        if (!this.fields) {
+            this.fetchFields();
+        }
     }
 
     fetchFields() {
@@ -55,8 +57,6 @@ export class QueryEditorComponent implements OnInit {
         this.fieldService.getFields().subscribe({
             next: fields => {
                 this.fields = fields;
-                this.projections = [];
-                fields.forEach((field) => {this.projections.push({field: field, project: false} as QueryProjectionModel)})
                 this.fetching--;
             },
             error: _ => {

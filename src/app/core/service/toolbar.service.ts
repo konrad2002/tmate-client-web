@@ -3,6 +3,7 @@ import {MemberDialogService} from './member-dialog.service';
 import {MemberModel} from '../model/member.model';
 import {TableService} from './table.service';
 import {QueryDialogService} from './query-dialog.service';
+import {QueryModel} from '../model/query.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,9 @@ export class ToolbarService {
 
     openQueryAddDialog() {
         this.queryDialogService.openQueryEditDialog(false);
+    }
+
+    openQueryEditDialog(query: QueryModel) {
+        this.queryDialogService.openQueryEditDialog(true, query);
     }
 }
