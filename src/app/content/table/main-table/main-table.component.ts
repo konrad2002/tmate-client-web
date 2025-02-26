@@ -119,7 +119,7 @@ export class MainTableComponent implements OnDestroy {
 
     protected readonly FieldType = FieldType;
 
-    sortByField(field: FieldModel, direction: number = 1) {
+    sortByField(field: FieldModel, direction = 1) {
         this.tableService.runQuery(this.query, {field: field, direction: direction} as QuerySortingModel)
     }
 }

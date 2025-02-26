@@ -5,7 +5,7 @@
         @for (field of fields; track field.id) {
             <th *ngIf="field.name === query.sort[0].Key.replace('data.', '') as isSorting; else elseBlock"
                 (click)="sortByField(field, query.sort[0].Value * -1)">
-                <mat-icon>{{ query.sort[0].Value == -1 ? 'arrow_drop_down' : 'arrow_drop_up' }}</mat-icon>
+                <mat-icon>{{ query.sort[0].Value === -1 ? 'arrow_drop_down' : 'arrow_drop_up' }}</mat-icon>
                 <span class="underline">{{ field.display_name }}</span>
             </th>
             <ng-template #elseBlock>

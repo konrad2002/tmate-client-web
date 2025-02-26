@@ -10,7 +10,7 @@ describe('MainTableComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [MainTableComponent],
+            imports: [MainTableComponent],
             providers: [
                 provideHttpClient(),
                 provideHttpClientTesting(),
