@@ -49,7 +49,7 @@ export class QueryConversionService {
         return this.processConditionsToBson([condition]);
     }
 
-    conditionBsonToTs(document: BSONDocument, fields: FieldModel[]): QueryConditionNodeModel {// eslint-disable-line
+    conditionBsonToTs(document: BSONDocument, fields: FieldModel[]): QueryConditionNodeModel {
         console.log("doc:", document);
 
         const condition = this.processBsonElementToCondition(document[0], fields);
@@ -91,7 +91,7 @@ export class QueryConversionService {
     private processConditionsToBson(conditions: QueryConditionModel[]): BSONDocument {
         const rnd = Math.round(Math.random() * 1000);
         console.log("[" + rnd + "]: processing conditions:", conditions)
-        let document: BSONDocument = [];
+        const document: BSONDocument = [];
         for (const condition of conditions) {
             if (isExpression(condition)) {
                 document.push({

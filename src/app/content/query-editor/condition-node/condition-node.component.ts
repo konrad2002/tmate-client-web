@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import {
     isExpression,
     isNode,
-    QueryConditionExpressionModel,
     QueryConditionModel,
     QueryConditionNodeModel
 } from '../../../core/model/query.model';
