@@ -71,7 +71,9 @@ export class QueryEditorDialogComponent implements OnInit {
             if (this.data.edit) {
                 this.projections = this.queryConversionService.projectionBsonToTs(this.data.query.projection, fields);
                 this.sortings = this.queryConversionService.sortingBsonToTs(this.data.query.sort, fields);
-                this.condition = this.queryConversionService.conditionBsonToTs(this.data.query.filter, fields);
+                if (this.data.query.filter) {
+                    this.condition = this.queryConversionService.conditionBsonToTs(this.data.query.filter, fields);
+                }
             } else {
                 this.projections = this.fields.map(field => { return {field: field, project: false} as QueryProjectionModel})
             }
