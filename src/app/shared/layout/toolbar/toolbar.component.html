@@ -20,85 +20,41 @@
 </div>
 
 <div class="tools" id="tools">
-    <ng-container *ngIf="currentTab === TabName.START">
-        <app-toolbar-button label="Suchen" icon="search" (btn_click)="onStartSearch()"></app-toolbar-button>
-        <app-toolbar-button label="Neu laden" icon="refresh" (btn_click)="onStartRefresh()"></app-toolbar-button>
+    @switch (currentTab) {
+        @case (TabName.START) {
+            <app-toolbar-button label="Suchen" icon="search" (btn_click)="onStartSearch()"></app-toolbar-button>
+            <app-toolbar-button label="Neu laden" icon="refresh" (btn_click)="onStartRefresh()"></app-toolbar-button>
 
-        <button class="btn btn-tool">
-            <mat-icon>format_list_bulleted</mat-icon>
-            Alles anzeigen
-        </button>
-
-        @for (query of queries; track query.id) {
-            <app-toolbar-button [label]="query.name" icon="format_list_bulleted" (btn_click)="onStartQuery(query)"></app-toolbar-button>
+            @for (query of queries; track query.id) {
+                <app-toolbar-button [label]="query.name" icon="format_list_bulleted" (btn_click)="onStartQuery(query)"></app-toolbar-button>
+            }
         }
-
-        <button class="btn btn-tool" id="btn-tool-query-897473910"><i class="btn-tool-icon fas fa-list"
-                                                                      aria-hidden="true"></i>Nachwuchs (bed.)
-        </button>
-        <button class="btn btn-tool btn-tool-delete btn-tool-query-delete" id="btn-tool-query-delete-897473910"
-                style="display: none;"><i class="fas fa-times" aria-hidden="true"></i></button>
-        <script>
-            $("#btn-tool-query-897473910").click(function () {
-                loadTable(null, null, null, 1, null, null, '897473910');
-            });
-
-            $("#btn-tool-query-delete-897473910").hide();
-
-            $("#btn-tool-query-delete-897473910").click(function () {
-                var json = ({
-                    heading: "Abfrage löschen?",
-                    content: "Soll die ausgewählte Abfrage wirklich gelöscht werden?",
-                    cancel: true,
-                    submitText: "Löschen",
-                    submit: "query/query_delete",
-                    color: "red",
-                    callback: true,
-                    callbackTitle: "Abfrage löschen"
-                });
-                createWindow("alert", "overlay/alert", '897473910', json);
-            });
-
-
-        </script>
-    </ng-container>
-
-    <ng-container *ngIf="currentTab === TabName.MEMBERS">
-        <app-toolbar-button label="Hinzufügen" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
-        <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="!selectedMember"></app-toolbar-button>
-        <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="!selectedMember"></app-toolbar-button>
-        <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
-        <app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button>
-        <button class="btn btn-tool">
-            <mat-icon>family_restroom</mat-icon>
-            Familien gruppieren
-        </button>
-    </ng-container>
-
-    <ng-container *ngIf="currentTab === TabName.QUERIES">
-        <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>
-
-        @for (query of queries; track query.id) {
-            <app-toolbar-button label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
+        @case (TabName.MEMBERS) {
+            <app-toolbar-button label="Hinzufügen" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
+            <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="!selectedMember"></app-toolbar-button>
+            <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="!selectedMember"></app-toolbar-button>
+            <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
+            <app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button>
+            <button class="btn btn-tool">
+                <mat-icon>family_restroom</mat-icon>
+                Familien gruppieren
+            </button>
         }
+        @case (TabName.QUERIES) {
+            <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>
 
-        <button class="btn btn-tool">
-            <mat-icon>assignment_late</mat-icon>
-            Bedingung erstellen
-        </button>
-        <button class="btn btn-tool">
-            <mat-icon>delete</mat-icon>
-            Abfrage / Bedingung löschen
-        </button>
-    </ng-container>
-
-    <ng-container *ngIf="currentTab === TabName.EXPORT">
-        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->
-        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
-        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->
-        <app-toolbar-button label="Excel aktuelle Abfrage" icon="file_download"></app-toolbar-button>
-        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-all"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @alle</button>-->
-        <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-this"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @diese Abfrage</button>-->
-    </ng-container>
+            @for (query of queries; track query.id) {
+                <app-toolbar-button label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
+            }
+        }
+        @case (TabName.EXPORT) {
+            <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->
+            <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
+            <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->
+            <app-toolbar-button label="Excel aktuelle Abfrage" icon="file_download"></app-toolbar-button>
+            <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-all"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @alle</button>-->
+            <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-this"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @diese Abfrage</button>-->
+        }
+    }
 
 </div>

@@ -1,5 +1,11 @@
 import {Injectable} from '@angular/core';
-import {BSONDocument, QueryConditionNodeModel, QueryProjectionModel, QuerySortingModel} from '../model/query.model';
+import {
+    BSONDocument,
+    BSONElement,
+    QueryConditionNodeModel,
+    QueryProjectionModel,
+    QuerySortingModel
+} from '../model/query.model';
 import {FieldModel} from '../model/field.model';
 
 @Injectable({
@@ -7,11 +13,17 @@ import {FieldModel} from '../model/field.model';
 })
 export class QueryConversionService {
 
-    constructor() {
-    }
-
-    projectionTsToBson(projection: QueryProjectionModel[]): BSONDocument {
-        return {} as BSONDocument;
+    projectionTsToBson(projections: QueryProjectionModel[]): BSONDocument {
+        const document: BSONDocument = [];
+        for (const projection of projections) {
+            if (projection.project) {
+                document.push({
+                    Key: "data." + projection.field.name,
+                    Value: 1
+                } as BSONElement)
+            }
+        }
+        return document;
     }
 
     projectionBsonToTs(document: BSONDocument, fields: FieldModel[]): QueryProjectionModel[] {
@@ -30,17 +42,24 @@ export class QueryConversionService {
     }
 
 
-    conditionTsToBson(condition: QueryConditionNodeModel): BSONDocument {
-        return {} as BSONDocument;
+    conditionTsToBson(condition: QueryConditionNodeModel): BSONDocument { // eslint-disable-line
+        return [];
     }
 
-    conditionBsonToTs(document: BSONDocument): QueryConditionNodeModel {
+    conditionBsonToTs(document: BSONDocument): QueryConditionNodeModel {// eslint-disable-line
         return {} as QueryConditionNodeModel;
     }
 
 
-    sortingTsToBson(sorting: QuerySortingModel[]): BSONDocument {
-        return {} as BSONDocument;
+    sortingTsToBson(sortings: QuerySortingModel[]): BSONDocument {
+        const document: BSONDocument = [];
+        for (const sorting of sortings) {
+            document.push({
+                Key: "data." + sorting.field.name,
+                Value: sorting.direction
+            } as BSONElement)
+        }
+        return document;
     }
 
     sortingBsonToTs(document: BSONDocument, fields: FieldModel[]): QuerySortingModel[] {

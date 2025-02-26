@@ -1,4 +1,12 @@
-@if (projections && sortings && fields && fetching == 0) {
+@if (projections && sortings && fields && fetching === 0) {
+
+    <h3>Allgemein</h3>
+
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input type="text" [(ngModel)]="query.name" matInput>
+    </mat-form-field>
+
     <h3>Projektion</h3>
 
     <section class="projection-select">

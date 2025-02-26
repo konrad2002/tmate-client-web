@@ -7,7 +7,6 @@ import {QueryModel} from '../../../core/model/query.model';
 import {QueryService} from '../../../core/service/api/query.service';
 import {ToolbarButtonComponent} from './toolbar-button/toolbar-button.component';
 import {MatIcon} from '@angular/material/icon';
-import {NgIf} from '@angular/common';
 
 enum TabName {
     START,
@@ -23,7 +22,6 @@ enum TabName {
     imports: [
         ToolbarButtonComponent,
         MatIcon,
-        NgIf
     ],
     standalone: true
 })

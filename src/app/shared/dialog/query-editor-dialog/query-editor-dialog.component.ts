@@ -18,6 +18,9 @@ import {QueryService} from '../../../core/service/api/query.service';
 import {QueryConversionService} from '../../../core/service/query-conversion.service';
 import {FieldModel} from '../../../core/model/field.model';
 import {FieldService} from '../../../core/service/api/field.service';
+import {PartialObserver} from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NgIf} from '@angular/common';
 
 export interface QueryEditorDialogData {
     query: QueryModel;
@@ -31,7 +34,8 @@ export interface QueryEditorDialogData {
         MatDialogActions,
         MatDialogClose,
         MatButton,
-        QueryEditorComponent
+        QueryEditorComponent,
+        NgIf
     ],
     templateUrl: './query-editor-dialog.component.html',
     styleUrl: './query-editor-dialog.component.scss',
@@ -50,17 +54,26 @@ export class QueryEditorDialogComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<QueryEditorDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: QueryEditorDialogData,
+        private snackBar: MatSnackBar,
         private queryService: QueryService,
         private fieldService: FieldService,
         private queryConversionService: QueryConversionService
-    ) {}
+    ) {
+        if (!this.data.edit) {
+            this.data.query = {} as QueryModel;
+        }
+    }
 
     ngOnInit() {
         this.fetching++;
         this.fieldService.getFields().subscribe(fields => {
             this.fields = fields;
-            this.projections = this.queryConversionService.projectionBsonToTs(this.data.query.projection, fields);
-            this.sortings = this.queryConversionService.sortingBsonToTs(this.data.query.sort, fields);
+            if (this.data.edit) {
+                this.projections = this.queryConversionService.projectionBsonToTs(this.data.query.projection, fields);
+                this.sortings = this.queryConversionService.sortingBsonToTs(this.data.query.sort, fields);
+            } else {
+                this.projections = this.fields.map(field => { return {field: field, project: false} as QueryProjectionModel})
+            }
             this.fetching--;
         })
         // TODO: fetch query again from service by id
@@ -68,5 +81,36 @@ export class QueryEditorDialogComponent implements OnInit {
 
     saveQuery() {
         // TODO
+        this.data.query.projection = this.queryConversionService.projectionTsToBson(this.projections)
+        this.data.query.sort = this.queryConversionService.sortingTsToBson(this.sortings)
+        this.data.query.filter = this.queryConversionService.conditionTsToBson(this.condition);
+
+        if (this.data.edit) {
+            this.queryService.updateQuery(this.data.query).subscribe(this.handleAfterSave)
+        } else {
+            this.queryService.addQuery(this.data.query).subscribe(this.handleAfterSave);
+        }
+    }
+
+    handleAfterSave: PartialObserver<QueryModel> = {
+        next: query => {
+            this.snackBar.open("Abfrage erfolgreich gespeichert!");
+            this.dialogRef.close(query);
+        },
+        error: _ => {
+            this.snackBar.open("Fehler beim Speichern der Abfrage!");
+        }
+    }
+
+    deleteQuery() {
+        this.queryService.removeQueryById(this.data.query.id).subscribe({
+            next: query => {
+                this.snackBar.open("Abfrage erfolgreich gelöscht!");
+                this.dialogRef.close(query);
+            },
+            error: _ => {
+                this.snackBar.open("Fehler beim Löschen der Abfrage!");
+            }
+        })
     }
 }

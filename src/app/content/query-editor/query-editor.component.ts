@@ -4,7 +4,7 @@ import {FieldModel} from '../../core/model/field.model';
 import {FieldService} from '../../core/service/api/field.service';
 import {MatCheckbox} from '@angular/material/checkbox';
 import {
-    QueryConditionNodeModel,
+    QueryConditionNodeModel, QueryModel,
     QueryProjectionModel,
     QuerySortingModel
 } from '../../core/model/query.model';
@@ -13,6 +13,7 @@ import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatOption, MatSelect} from '@angular/material/select';
 import {MatLabel} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
 
 
 @Component({
@@ -26,7 +27,8 @@ import {MatLabel} from '@angular/material/form-field';
         MatSelect,
         MatOption,
         MatFormField,
-        MatLabel
+        MatLabel,
+        MatInput
     ],
     templateUrl: './query-editor.component.html',
     styleUrl: './query-editor.component.scss',
@@ -38,6 +40,8 @@ export class QueryEditorComponent implements OnInit {
     @Input() projections: QueryProjectionModel[] = [];
     @Input() condition: QueryConditionNodeModel = { logicalExpression: "and", conditions: [] } as QueryConditionNodeModel
     @Input() sortings: QuerySortingModel[] = [];
+
+    @Input() query: QueryModel = {} as QueryModel;
 
     fetching = 0;
 
