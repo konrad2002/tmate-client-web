@@ -103,6 +103,7 @@ export class QueryEditorDialogComponent implements OnInit {
     }
 
     deleteQuery() {
+        // TODO: confirm with popup
         this.queryService.removeQueryById(this.data.query.id).subscribe({
             next: query => {
                 this.snackBar.open("Abfrage erfolgreich gelöscht!");
