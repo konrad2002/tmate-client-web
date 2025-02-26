@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {MemberModel} from '../model/member.model';
 import {BehaviorSubject, distinctUntilChanged, PartialObserver} from 'rxjs';
 import {FieldModel} from '../model/field.model';
@@ -16,7 +16,6 @@ export class TableService {
     private selectedMemberSubject: BehaviorSubject<MemberModel | undefined> = new BehaviorSubject<MemberModel | undefined>(undefined);
     public selectedMember = this.selectedMemberSubject.asObservable().pipe(distinctUntilChanged());
 
-
     private fieldsSubject: BehaviorSubject<FieldModel[] | undefined> = new BehaviorSubject<FieldModel[] | undefined>(undefined);
     public fields = this.fieldsSubject.asObservable().pipe(distinctUntilChanged());
 
@@ -28,6 +27,11 @@ export class TableService {
 
     private fetchingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public fetching  = this.fetchingSubject.asObservable().pipe(distinctUntilChanged());
+
+    private dirtySubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public dirty  = this.dirtySubject.asObservable().pipe(distinctUntilChanged());
+
+    saveTableEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     constructor(
         private fieldService: FieldService,
@@ -52,6 +56,10 @@ export class TableService {
         this.selectedMemberSubject.next(member);
     }
 
+    setDirty(state: boolean) {
+        this.dirtySubject.next(state);
+    }
+
     unselectMember() {
         this.selectedMemberSubject.next(undefined);
     }
@@ -61,6 +69,7 @@ export class TableService {
             this.membersSubject.next(result.members)
             this.fieldsSubject.next(result.fields)
             this.querySubject.next(result.query)
+            this.setDirty(false);
             this.unselectMember();
             this.fetchingSubject.next(false);
         },

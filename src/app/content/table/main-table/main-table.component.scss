@@ -2,40 +2,6 @@ mat-progress-bar {
     position: absolute;
 }
 
-#table-info {
-    text-align: center;
-}
-
-.table-info-box {
-    position: absolute;
-    border-radius: 0 20px 20px 20px;
-    background-color: white;
-    box-shadow: 0 0 30px #333;
-    opacity: 1;
-    transition: 0.3s;
-    margin-top: 30px;
-    width: 40%;
-    margin-left: 30px;
-    padding: 10px;
-}
-
-.btn-close.table-info-close {
-    width: 22px;
-    height: 22px;
-    font-size: 16px;
-    margin-top: -40px;
-    margin-right: -125px;
-    text-align: center;
-}
-
-.btn-close.table-info-close:hover {
-    width: 24px;
-    height: 24px;
-    margin-right: -124px;
-    margin-top: -39px;
-    font-size: 17px;
-}
-
 .main-table {
     mat-icon {
         width: 20px;
@@ -58,23 +24,38 @@ mat-progress-bar {
     }
 }
 
-.table-info-row {
-    display: block;
-    padding: 5px;
-    border-bottom: solid 2px var(--main-color);
-    margin: 0;
+.edit-mode,
+.field-edit-mode {
+    input[type=text],
+    input[type=number],
+    input[type=date],
+    input[type=password],
+    input[type=tel],
+    input[type=email],
+    select {
+        font-size: 15px;
+        background-color: transparent;
+        border: none;
+        width: auto;
+        color: var(--main-color);
+    }
 }
 
-.table-info-row:last-child {
-    border-bottom: none;
+td {
+    user-select: none;
 }
 
-.table-info-box-hidden {
-    opacity: 0;
+.dirty {
+    color: darkorange;
 }
 
-.table-order-col {
-    text-decoration: underline;
+.field-edit-mode {
+    color: var(--main-color);
+    user-select: text;
+
+    .family {
+        color: gray;
+    }
 }
 
 table {
@@ -97,10 +78,7 @@ th {
     color: white;
 }
 
-.main {
-    margin-top: 50px;
-}
-
+/*
 input[type=text],
 input[type=number],
 input[type=date],
@@ -130,21 +108,6 @@ input[type=submit] {
     cursor: pointer;
 }
 
-.edit-add-row,
-.query-where-select-tile {
-    display: inline-block;
-    width: 45%;
-    margin-right: 5%;
-    margin-top: 10px;
-}
-
-.query-where-select-tile {
-    width: calc(35% - 26px);
-}
-
-.query-where-select-operations {
-    width: 100px;
-}
 
 .edit-add-row input[type=text],
 .edit-add-row input[type=number],
@@ -157,3 +120,4 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color: var(--main-color);
 }
+*/

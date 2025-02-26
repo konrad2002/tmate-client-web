@@ -43,7 +43,14 @@
                             @case (FieldType.EMAIL) {
                                 <input type="email" matInput [(ngModel)]="condition.comparator">
                             }
-                            @case (FieldType.SELECT || FieldType.MULTI_SELECT) {
+                            @case (FieldType.SELECT) {
+                                <mat-select [(ngModel)]="condition.comparator">
+                                    @for (option of condition.field.data.options | keyvalue; track option) {
+                                        <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                    }
+                                </mat-select>
+                            }
+                            @case (FieldType.MULTI_SELECT) {
                                 <mat-select [(ngModel)]="condition.comparator">
                                     @for (option of condition.field.data.options | keyvalue; track option) {
                                         <mat-option [value]="option.key">{{option.value}}</mat-option>

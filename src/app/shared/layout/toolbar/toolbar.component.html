@@ -5,6 +5,9 @@
         <button class="btn btn-tab {{currentTab === TabName.START   ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.START)">Start
         </button>
+        <button class="btn btn-tab {{currentTab === TabName.EDIT ? 'btn-tab-active' : ''}}"
+                (click)="switchTab(TabName.EDIT)">Bearbeiten
+        </button>
         <button class="btn btn-tab {{currentTab === TabName.MEMBERS ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.MEMBERS)">Mitglieder
         </button>
@@ -27,6 +30,16 @@
 
             @for (query of queries; track query.id) {
                 <app-toolbar-button [label]="query.name" icon="format_list_bulleted" (btn_click)="onStartQuery(query)"></app-toolbar-button>
+            }
+        }
+        @case (TabName.EDIT) {
+            <!--app-toolbar-button label="Bearbeiten aktivieren" icon="edit" (btn_click)="onEditEdit()"></app-toolbar-button>
+            <app-toolbar-button label="Abbrechen" icon="clear" (btn_click)="onEditCancel()"></app-toolbar-button-->
+            @if (dirty) {
+                <app-toolbar-button label="Zurücksetzen" icon="restore" (btn_click)="onEditReset()"></app-toolbar-button>
+                <app-toolbar-button label="Änderungen übernehmen" icon="save" (btn_click)="onEditSave()"></app-toolbar-button>
+            } @else {
+                <app-toolbar-button label="Bearbeiten aktivieren" icon="edit" (btn_click)="onEditEdit()"></app-toolbar-button>
             }
         }
         @case (TabName.MEMBERS) {

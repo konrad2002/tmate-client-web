@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>
+    Hilfe
+    @switch (data.page) {
+        @case (5) {
+            - Mitglieder bearbeiten
+        }
+    }
+</h2>
+
+<mat-dialog-content>
+    @switch (data.page) {
+        @case (5) {
+            <p>Um Mitglieder zu Bearbeiten gibt es 2 Wege. Entweder über das Mitglieder-Datenblatt oder direkt in der Tabelle.</p>
+
+            <h3>Datenblatt</h3>
+
+            <p>In der Tabelle kann ein Mitglied durch Klicken auf den Knopf in der ersten Spalte ausgewählt werden. Anschließend kann über den Reiter "Mitglieder" die Option "Bearbeiten" gewählt werden. Im sich öffnenden Dialog können alle Daten des Mitgliedes angepasst werden und abschließend durch die Taste "Speichern" gespeichert werden.</p>
+
+            <h3>Tabelle</h3>
+
+            <p>Möchte man viele Daten von verschiedenen Mitgliedern ändern, bietet sich diese Funktionen an. Durch Doppelklick auf das zu ändernde Feld in der Tabelle wird der "Bearbeitungsmodus" aktiviert. Das Feld wird blau hervorgerufen und kann nun bearbeitet werden. Nachdem man aus dem Feld heraus klickt, wird ein geänderter Wert durch orange Färbung angezeigt. Solange ein Wert orange ist, wurde er noch nicht gespeichert. Durch klicken der Schaltfläche "Änderungen übernehmen" werden alle Mitglieder auf den aktuellen Tabellenstand gebracht und die orangen Werte festgeschrieben. Über die Taste "Zurücksetzen" können die Änderungen auch jederzeit wieder verworfen werden.</p>
+        }
+        @default {
+            <i>Hilfeseite nicht gefunden!</i>
+        }
+    }
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+</mat-dialog-actions>
