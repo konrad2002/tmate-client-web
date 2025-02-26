@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {
     BSONDocument,
     BSONElement,
+    isExpression,
+    isNode, QueryConditionExpressionModel,
+    QueryConditionModel,
     QueryConditionNodeModel,
     QueryProjectionModel,
     QuerySortingModel
@@ -42,12 +45,17 @@ export class QueryConversionService {
     }
 
 
-    conditionTsToBson(condition: QueryConditionNodeModel): BSONDocument { // eslint-disable-line
-        return [];
+    conditionTsToBson(condition: QueryConditionNodeModel): BSONDocument {
+        return this.processConditionsToBson([condition]);
     }
 
-    conditionBsonToTs(document: BSONDocument): QueryConditionNodeModel {// eslint-disable-line
-        return {} as QueryConditionNodeModel;
+    conditionBsonToTs(document: BSONDocument, fields: FieldModel[]): QueryConditionNodeModel {// eslint-disable-line
+        console.log("doc:", document);
+
+        const condition = this.processBsonElementToCondition(document[0], fields);
+
+        console.log("cond:", condition);
+        return condition as QueryConditionNodeModel;
     }
 
 
@@ -78,6 +86,53 @@ export class QueryConversionService {
 
         console.log("sort:", sortings)
         return sortings;
+    }
+
+    private processConditionsToBson(conditions: QueryConditionModel[]): BSONDocument {
+        const rnd = Math.round(Math.random() * 1000);
+        console.log("[" + rnd + "]: processing conditions:", conditions)
+        let document: BSONDocument = [];
+        for (const condition of conditions) {
+            if (isExpression(condition)) {
+                document.push({
+                    Key: "data." + condition.field.name,
+                    Value: {Key: condition.operator, Value: condition.comparator} as BSONElement,
+                } as BSONElement)
+            } else if (isNode(condition)) {
+                if (condition.conditions.length <= 0) return document;
+                document.push({
+                    Key: condition.logicalExpression,
+                    Value: this.processConditionsToBson(condition.conditions)
+                })
+            }
+
+        }
+
+        console.log("[" + rnd + "]: processed document:", document)
+
+        return document
+    }
+
+    processBsonElementToCondition(bsonElement: BSONElement, fields: FieldModel[]): QueryConditionModel {
+        const rnd = Math.round(Math.random() * 1000);
+        console.log("[" + rnd + "]: processing bsonElement:", bsonElement)
+        let condition: QueryConditionModel = {};
+        if (bsonElement.Key === "$and" || bsonElement.Key === "$or" || bsonElement.Key === "$nor") {
+            condition = {
+                logicalExpression: bsonElement.Key,
+                conditions: bsonElement.Value.map((bson: BSONElement[]) => {return this.processBsonElementToCondition(bson[0], fields)})
+            } as QueryConditionNodeModel;
+        } else if (bsonElement.Key.includes("data.")) {
+            condition = {
+                field: fields.find(field => {return field.name === bsonElement.Key.replace("data.", "")}),
+                operator: bsonElement.Value[0].Key,
+                comparator: bsonElement.Value[0].Value,
+            } as QueryConditionExpressionModel;
+        }
+
+        console.log("[" + rnd + "]: processed condition:", condition)
+
+        return condition;
     }
 
 }

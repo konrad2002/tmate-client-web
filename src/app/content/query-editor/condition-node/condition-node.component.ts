@@ -1,5 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {
+    isExpression,
+    isNode,
     QueryConditionExpressionModel,
     QueryConditionModel,
     QueryConditionNodeModel
@@ -39,13 +41,6 @@ export class ConditionNodeComponent {
     @Input() node!: QueryConditionNodeModel
     @Input() fields!: FieldModel[];
 
-    isNode(obj: QueryConditionModel): obj is QueryConditionNodeModel {
-        return 'logicalExpression' in obj;
-    }
-
-    isExpression(obj: QueryConditionModel): obj is QueryConditionExpressionModel {
-        return 'operator' in obj;
-    }
 
     protected readonly FieldType = FieldType;
 
@@ -61,4 +56,7 @@ export class ConditionNodeComponent {
         const index = this.node.conditions.indexOf(condition, 0);
         this.node.conditions.splice(index, 1);
     }
+
+    protected readonly isNode = isNode;
+    protected readonly isExpression = isExpression;
 }

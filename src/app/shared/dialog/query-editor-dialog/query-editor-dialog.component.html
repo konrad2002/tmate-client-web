@@ -1,10 +1,11 @@
 <h2 mat-dialog-title>Abfrage {{data.edit ? 'bearbeiten' : 'hinzufügen'}}</h2>
 <mat-dialog-content>
-    @if (projections && fetching === 0 && fields) {
+    @if (projections && sortings && condition && fetching === 0 && fields) {
         <app-query-editor
             [fields]="fields"
             [projections]="projections"
             [sortings]="sortings"
+            [condition]="condition"
             [query]="data.query"
         ></app-query-editor>
     }

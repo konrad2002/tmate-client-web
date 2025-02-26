@@ -5,6 +5,7 @@ export interface QueryModel {
     name: string;
     projection: BSONDocument;
     filter: BSONDocument;
+    filter_json: any;
     sort: BSONDocument;
     owner_user_id: string;
     public: boolean;
@@ -18,7 +19,7 @@ export interface QueryProjectionModel {
 // represents a list of conditions, connected by an
 
 export interface QueryConditionNodeModel extends QueryConditionModel {
-    logicalExpression: "and" | "or" | "nor";
+    logicalExpression: "$and" | "$or" | "$nor";
     conditions: QueryConditionModel[];
 }
 
@@ -28,7 +29,7 @@ export interface QueryConditionModel { // eslint-disable-line
 
 export interface QueryConditionExpressionModel extends QueryConditionModel {
     field: FieldModel;
-    operator: "eq" | "gt" | "gte" | "in" | "lt" | "lte" | "ne" | "nin";
+    operator: "$eq" | "$gt" | "$gte" | "$in" | "$lt" | "$lte" | "$ne" | "$nin";
     comparator: any;
 }
 
@@ -44,3 +45,13 @@ export interface BSONElement {
 }
 
 export type BSONDocument = BSONElement[];
+
+
+
+export function isNode(obj: QueryConditionModel): obj is QueryConditionNodeModel {
+    return 'logicalExpression' in obj;
+}
+
+export function isExpression(obj: QueryConditionModel): obj is QueryConditionExpressionModel {
+    return 'operator' in obj;
+}

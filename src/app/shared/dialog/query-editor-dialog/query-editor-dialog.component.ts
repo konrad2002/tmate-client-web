@@ -46,7 +46,7 @@ export class QueryEditorDialogComponent implements OnInit {
     fields: FieldModel[] = [];
 
     projections: QueryProjectionModel[] = [];
-    condition: QueryConditionNodeModel = { logicalExpression: "and", conditions: [] } as QueryConditionNodeModel
+    condition: QueryConditionNodeModel = { logicalExpression: "$and", conditions: [] } as QueryConditionNodeModel
     sortings: QuerySortingModel[] = [];
 
     fetching = 0;
@@ -71,6 +71,7 @@ export class QueryEditorDialogComponent implements OnInit {
             if (this.data.edit) {
                 this.projections = this.queryConversionService.projectionBsonToTs(this.data.query.projection, fields);
                 this.sortings = this.queryConversionService.sortingBsonToTs(this.data.query.sort, fields);
+                this.condition = this.queryConversionService.conditionBsonToTs(this.data.query.filter, fields);
             } else {
                 this.projections = this.fields.map(field => { return {field: field, project: false} as QueryProjectionModel})
             }
@@ -83,7 +84,7 @@ export class QueryEditorDialogComponent implements OnInit {
         // TODO
         this.data.query.projection = this.queryConversionService.projectionTsToBson(this.projections)
         this.data.query.sort = this.queryConversionService.sortingTsToBson(this.sortings)
-        this.data.query.filter = this.queryConversionService.conditionTsToBson(this.condition);
+        this.data.query.filter_json = this.queryConversionService.conditionTsToBson(this.condition);
 
         if (this.data.edit) {
             this.queryService.updateQuery(this.data.query).subscribe(this.handleAfterSave)

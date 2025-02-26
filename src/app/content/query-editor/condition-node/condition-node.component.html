@@ -3,8 +3,8 @@
     <mat-form-field>
         <mat-label>Logischer Operator</mat-label>
         <mat-select [(ngModel)]="node.logicalExpression">
-            <mat-option value="and">UND</mat-option>
-            <mat-option value="or">ODER</mat-option>
+            <mat-option value="$and">UND</mat-option>
+            <mat-option value="$or">ODER</mat-option>
         </mat-select>
     </mat-form-field>
 
@@ -24,14 +24,14 @@
                     <mat-form-field>
                         <mat-label>Vergleichsoperator</mat-label>
                         <mat-select [(ngModel)]="condition.operator">
-                            <mat-option value="eq">GLEICH</mat-option>
-                            <mat-option value="gt">></mat-option>
-                            <mat-option value="gte">>=</mat-option>
-                            <mat-option value="in">IN</mat-option>
-                            <mat-option value="lt"><</mat-option>
-                            <mat-option value="lte"><=</mat-option>
-                            <mat-option value="ne">NICHT GLEICH</mat-option>
-                            <mat-option value="nin">NICHT IN</mat-option>
+                            <mat-option value="$eq">GLEICH</mat-option>
+                            <mat-option value="$gt">></mat-option>
+                            <mat-option value="$gte">>=</mat-option>
+                            <mat-option value="$in">IN</mat-option>
+                            <mat-option value="$lt"><</mat-option>
+                            <mat-option value="$lte"><=</mat-option>
+                            <mat-option value="$ne">NICHT GLEICH</mat-option>
+                            <mat-option value="$nin">NICHT IN</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>

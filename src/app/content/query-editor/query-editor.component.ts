@@ -38,7 +38,7 @@ export class QueryEditorComponent implements OnInit {
     @Input() fields?: FieldModel[];
 
     @Input() projections: QueryProjectionModel[] = [];
-    @Input() condition: QueryConditionNodeModel = { logicalExpression: "and", conditions: [] } as QueryConditionNodeModel
+    @Input() condition: QueryConditionNodeModel = { logicalExpression: "$and", conditions: [] } as QueryConditionNodeModel
     @Input() sortings: QuerySortingModel[] = [];
 
     @Input() query: QueryModel = {} as QueryModel;
