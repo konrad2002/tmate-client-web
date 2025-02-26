@@ -8,21 +8,36 @@ import {Subscription} from 'rxjs';
 import {Families, FamilyModel} from '../../../core/model/family.model';
 import {SpecialFieldsConfig} from '../../../core/model/config.model';
 import {ConfigService} from '../../../core/service/api/config.service';
+import {QueryModel, QuerySortingModel} from '../../../core/model/query.model';
+import {MatProgressBar} from '@angular/material/progress-bar';
+import {MatIcon} from '@angular/material/icon';
+import {DatePipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-main-table',
-  templateUrl: './main-table.component.html',
-  styleUrl: './main-table.component.scss',
-  standalone: false
+    selector: 'app-main-table',
+    imports: [
+        MatProgressBar,
+        MatIcon,
+        NgIf,
+        NgForOf,
+        DatePipe
+    ],
+    templateUrl: './main-table.component.html',
+    styleUrl: './main-table.component.scss',
+    standalone: true
 })
 export class MainTableComponent implements OnDestroy {
     fields: FieldModel[] = [];
     members: MemberModel[] = [];
+    query: QueryModel = {} as QueryModel;
 
     fieldSubscription: Subscription;
     memberSubscription: Subscription;
+    querySubscription: Subscription;
+    fetchingSubscription: Subscription;
 
     fetching = 0;
+    fetchingQuery = false;
 
     families?: Families;
 
@@ -45,12 +60,23 @@ export class MainTableComponent implements OnDestroy {
                 this.members = members;
         })
 
+        this.querySubscription = this.tableService.query.subscribe(query => {
+            if (query)
+                this.query = query;
+        })
+
+        this.fetchingSubscription = this.tableService.fetching.subscribe(fetching => {
+            this.fetchingQuery = fetching;
+        })
+
         this.fetching++;
         this.memberService.getFamilies().subscribe({
             next: families => {
                 this.families = families;
                 this.fetching--;
-            }, error: _ => { this.fetching--; }
+            }, error: _ => {
+                this.fetching--;
+            }
         })
 
         this.fetching++;
@@ -58,7 +84,9 @@ export class MainTableComponent implements OnDestroy {
             next: config => {
                 this.special_fields = config;
                 this.fetching--;
-            }, error: _ => { this.fetching--; }
+            }, error: _ => {
+                this.fetching--;
+            }
         })
     }
 
@@ -82,7 +110,7 @@ export class MainTableComponent implements OnDestroy {
     }
 
     getFamilyMemberString(family: FamilyModel): string {
-        const memberNames: string[]= []
+        const memberNames: string[] = []
         for (const member of family.members) {
             memberNames.push(member.data[this.special_fields.first_name] + " " + member.data[this.special_fields.last_name])
         }
@@ -90,4 +118,8 @@ export class MainTableComponent implements OnDestroy {
     }
 
     protected readonly FieldType = FieldType;
+
+    sortByField(field: FieldModel, direction: number = 1) {
+        this.tableService.runQuery(this.query, {field: field, direction: direction} as QuerySortingModel)
+    }
 }

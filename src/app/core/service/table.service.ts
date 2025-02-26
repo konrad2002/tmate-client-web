@@ -4,7 +4,7 @@ import {BehaviorSubject, distinctUntilChanged, PartialObserver} from 'rxjs';
 import {FieldModel} from '../model/field.model';
 import {FieldService} from './api/field.service';
 import {MemberService} from './api/member.service';
-import {QueryModel} from '../model/query.model';
+import {QueryModel, QuerySortingModel} from '../model/query.model';
 import {ConfigService} from './api/config.service';
 import {QueryResultDto} from '../model/query-result-dto.model';
 
@@ -23,7 +23,11 @@ export class TableService {
     private membersSubject: BehaviorSubject<MemberModel[] | undefined> = new BehaviorSubject<MemberModel[] | undefined>(undefined);
     public members = this.membersSubject.asObservable().pipe(distinctUntilChanged());
 
-    private lastQuery?: QueryModel;
+    private querySubject: BehaviorSubject<QueryModel | undefined> = new BehaviorSubject<QueryModel | undefined>(undefined);
+    public query  = this.querySubject.asObservable().pipe(distinctUntilChanged());
+
+    private fetchingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public fetching  = this.fetchingSubject.asObservable().pipe(distinctUntilChanged());
 
     constructor(
         private fieldService: FieldService,
@@ -37,10 +41,11 @@ export class TableService {
 
     // executes a given query using the provided ID.
     // If no query is given, the previously executed query is used
-    runQuery(query?: QueryModel) {
-        if (!query) query = this.lastQuery;
+    runQuery(query?: QueryModel, sorting?: QuerySortingModel) {
+        if (!query) query = this.querySubject.getValue()
         if (!query) return;
-        this.memberService.getMembersUsingQuery(query.id).subscribe(this.handleQueryResult)
+        this.fetchingSubject.next(true);
+        this.memberService.getMembersUsingQuery(query.id, sorting).subscribe(this.handleQueryResult)
     }
 
     setSelectedMember(member: MemberModel) {
@@ -55,11 +60,13 @@ export class TableService {
         next: result => {
             this.membersSubject.next(result.members)
             this.fieldsSubject.next(result.fields)
-            this.lastQuery = result.query
+            this.querySubject.next(result.query)
             this.unselectMember();
+            this.fetchingSubject.next(false);
         },
         error: err => {
             console.log(err);
+            this.fetchingSubject.next(false);
         }
     }
 }

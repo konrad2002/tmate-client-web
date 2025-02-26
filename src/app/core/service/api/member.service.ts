@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {MemberModel} from '../../model/member.model';
 import {QueryResultDto} from '../../model/query-result-dto.model';
 import {Families} from '../../model/family.model';
+import {QuerySortingModel} from '../../model/query.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,11 @@ export class MemberService extends BaseService {
         return this.apiService.get(this.API_URL, "");
     }
 
-    getMembersUsingQuery(queryId: string): Observable<QueryResultDto> {
-        return this.apiService.get(this.API_URL, "query/" + queryId);
+    getMembersUsingQuery(queryId: string, sorting?: QuerySortingModel): Observable<QueryResultDto> {
+        let queryString = "";
+        if (sorting)
+            queryString = "?sort_field=" + sorting.field.name + "&sort_direction=" + sorting.direction;
+        return this.apiService.get(this.API_URL, "query/" + queryId + queryString);
     }
 
     getMemberById(id: string): Observable<MemberModel> {

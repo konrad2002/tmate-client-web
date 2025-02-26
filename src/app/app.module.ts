@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AppComponent} from './app.component';
-import {ContentModule} from './content/content.module';
 import {LayoutModule} from './shared/layout/layout.module';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
@@ -22,7 +21,6 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
         CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
-        ContentModule,
         LayoutModule,
         RouterModule.forRoot(routes, { useHash: true }),
         RouterOutlet,

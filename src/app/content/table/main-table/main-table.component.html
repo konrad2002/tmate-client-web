@@ -1,8 +1,19 @@
-
+<mat-progress-bar *ngIf="fetchingQuery" color="primary"></mat-progress-bar>
 <table class="main-table">
     <tr>
         <th>&nbsp;</th>
-        <th *ngFor="let field of fields">{{field.display_name}}</th>
+        @for (field of fields; track field.id) {
+            <th *ngIf="field.name === query.sort[0].Key.replace('data.', '') as isSorting; else elseBlock"
+                (click)="sortByField(field, query.sort[0].Value * -1)">
+                <mat-icon>{{ query.sort[0].Value == -1 ? 'arrow_drop_down' : 'arrow_drop_up' }}</mat-icon>
+                <span class="underline">{{ field.display_name }}</span>
+            </th>
+            <ng-template #elseBlock>
+                <th (click)="sortByField(field)">
+                    {{ field.display_name }}
+                </th>
+            </ng-template>
+        }
     </tr>
 
     <tr *ngFor="let member of members">
@@ -10,13 +21,13 @@
         <td *ngFor="let field of fields">
             @switch (field.type) {
                 @case (FieldType.EMAIL) {
-                    <a href="mailto:{{member.data[field.name]}}">{{member.data[field.name]}}</a>
+                    <a href="mailto:{{member.data[field.name]}}">{{ member.data[field.name] }}</a>
                 }
                 @case (FieldType.SELECT) {
-                    <span>{{field.data.options[member.data[field.name]]}}</span>
+                    <span>{{ field.data.options[member.data[field.name]] }}</span>
                 }
                 @case (FieldType.MULTI_SELECT) {
-                    <span>{{getValuesAsList(field, member)}}</span>
+                    <span>{{ getValuesAsList(field, member) }}</span>
                 }
                 @case (FieldType.BOOLEAN) {
                     @if (member.data[field.name] === true) {
@@ -26,20 +37,21 @@
                     }
                 }
                 @case (FieldType.DATE) {
-                    <span>{{member.data[field.name] | date:"d.M.Y"}}</span>
+                    <span>{{ member.data[field.name] | date:"d.M.Y" }}</span>
                 }
                 @case (FieldType.FAMILY) {
                     @if (families && families.families && families.families[member.data[special_fields.family]]) {
                         <!-- TODO: use @let after Webstorm update -->
                         <ng-container *ngIf="families.families[member.data[special_fields.family]] as family">
-                            <span class="family">Fam. {{family.last_name}} <span [title]="getFamilyMemberString(family)">({{family.member_count}})</span></span>
+                            <span class="family">Fam. {{ family.last_name }} <span
+                                [title]="getFamilyMemberString(family)">({{ family.member_count }})</span></span>
                         </ng-container>
                     } @else {
                         <span class="family">-</span>
                     }
                 }
                 @default {
-                    <span>{{member.data[field.name]}}</span>
+                    <span>{{ member.data[field.name] }}</span>
                 }
             }
         </td>

@@ -1,13 +1,16 @@
+mat-progress-bar {
+    position: absolute;
+}
+
 #table-info {
     text-align: center;
 }
 
 .table-info-box {
     position: absolute;
-    border-radius: 20px;
-    border-top-left-radius: 0px;
+    border-radius: 0 20px 20px 20px;
     background-color: white;
-    box-shadow: 0px 0px 30px #333;
+    box-shadow: 0 0 30px #333;
     opacity: 1;
     transition: 0.3s;
     margin-top: 30px;
@@ -42,6 +45,16 @@
 
     th {
         cursor: pointer;
+        white-space: nowrap;
+
+        mat-icon {
+            color: white;
+            display: inline-block;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
     }
 }
 
@@ -95,7 +108,7 @@ input[type=password],
 select {
     width: 100%;
     padding: 12px 20px;
-    margin: 0px 0;
+    margin: 0 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
