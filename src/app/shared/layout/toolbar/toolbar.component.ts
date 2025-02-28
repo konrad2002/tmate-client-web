@@ -127,4 +127,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     onEditEdit() {
         this.helpDialogService.openHelp(5);
     }
+
+    onExportCurrentExcel() {
+        this.toolbarService.onExportExcel();
+    }
 }

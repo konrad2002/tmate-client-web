@@ -6,6 +6,9 @@ import {QueryDialogService} from './query-dialog.service';
 import {QueryModel} from '../model/query.model';
 import {BehaviorSubject, distinctUntilChanged} from 'rxjs';
 import {TabName} from '../../shared/layout/toolbar/toolbar.component';
+import {ExportService} from './api/export.service';
+import {FileService} from './file.service';
+import {formatCurrentDate} from '../misc/date';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +21,9 @@ export class ToolbarService {
     constructor(
         private memberDialogService: MemberDialogService,
         private queryDialogService: QueryDialogService,
-        private tableService: TableService
+        private tableService: TableService,
+        private exportService: ExportService,
+        private fileService: FileService
     ) {
     }
 
@@ -52,5 +57,16 @@ export class ToolbarService {
 
     openQueryEditDialog(query: QueryModel) {
         this.queryDialogService.openQueryEditDialog(true, query);
+    }
+
+    onExportExcel() {
+        this.tableService.query.subscribe(query => {
+            if (query) {
+                this.exportService.downloadQueryAsExcel(query).subscribe(data => {
+                    const blob = new Blob([data], { type: 'text' });
+                    this.fileService.download("Mitglieder_" + formatCurrentDate() + ".xlsx", blob);
+                },)
+            }
+        })
     }
 }

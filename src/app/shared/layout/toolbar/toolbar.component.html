@@ -64,7 +64,7 @@
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->
-            <app-toolbar-button label="Excel aktuelle Abfrage" icon="file_download"></app-toolbar-button>
+            <app-toolbar-button label="Excel aktuelle Abfrage" icon="file_download" (btn_click)="onExportCurrentExcel()"></app-toolbar-button>
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-all"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @alle</button>-->
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-this"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @diese Abfrage</button>-->
         }
