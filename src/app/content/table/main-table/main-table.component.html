@@ -1,7 +1,7 @@
 <mat-progress-bar *ngIf="fetchingQuery" color="primary"></mat-progress-bar>
 <table class="main-table">
     <tr>
-        <th>&nbsp;</th>
+        <th *ngIf="editModeField === undefined">&nbsp;</th>
         @for (field of fields; track field.id) {
             <th *ngIf="field.name === query.sort[0].Key.replace('data.', '') as isSorting; else elseBlock"
                 (click)="sortByField(field, query.sort[0].Value * -1)">

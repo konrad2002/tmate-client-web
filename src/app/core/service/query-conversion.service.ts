@@ -3,13 +3,14 @@ import {
     BSONDocument,
     BSONElement,
     isExpression,
-    isNode, QueryConditionExpressionModel,
+    isNode,
+    QueryConditionExpressionModel,
     QueryConditionModel,
     QueryConditionNodeModel,
     QueryProjectionModel,
     QuerySortingModel
 } from '../model/query.model';
-import {FieldModel} from '../model/field.model';
+import {FieldModel, FieldType} from '../model/field.model';
 
 @Injectable({
     providedIn: 'root'
@@ -45,8 +46,8 @@ export class QueryConversionService {
     }
 
 
-    conditionTsToBson(condition: QueryConditionNodeModel): BSONDocument {
-        return this.processConditionsToBson([condition]);
+    conditionTsToBson(condition: QueryConditionNodeModel, fields: FieldModel[]): BSONDocument {
+        return this.processConditionsToBson([condition], fields);
     }
 
     conditionBsonToTs(document: BSONDocument, fields: FieldModel[]): QueryConditionNodeModel {
@@ -88,12 +89,15 @@ export class QueryConversionService {
         return sortings;
     }
 
-    private processConditionsToBson(conditions: QueryConditionModel[]): BSONDocument {
+    private processConditionsToBson(conditions: QueryConditionModel[], fields: FieldModel[]): BSONDocument {
         const rnd = Math.round(Math.random() * 1000);
         console.log("[" + rnd + "]: processing conditions:", conditions)
         const document: BSONDocument = [];
         for (const condition of conditions) {
             if (isExpression(condition)) {
+                if (condition.field.type === FieldType.DATE) {
+                    condition.comparator = new Date(condition.comparator);
+                }
                 document.push({
                     Key: "data." + condition.field.name,
                     Value: {Key: condition.operator, Value: condition.comparator} as BSONElement,
@@ -102,7 +106,7 @@ export class QueryConversionService {
                 if (condition.conditions.length <= 0) return document;
                 document.push({
                     Key: condition.logicalExpression,
-                    Value: this.processConditionsToBson(condition.conditions)
+                    Value: this.processConditionsToBson(condition.conditions, fields)
                 })
             }
 

@@ -86,7 +86,7 @@ export class QueryEditorDialogComponent implements OnInit {
         // TODO
         this.data.query.projection = this.queryConversionService.projectionTsToBson(this.projections)
         this.data.query.sort = this.queryConversionService.sortingTsToBson(this.sortings)
-        this.data.query.filter_json = this.queryConversionService.conditionTsToBson(this.condition);
+        this.data.query.filter_json = this.queryConversionService.conditionTsToBson(this.condition, this.fields);
 
         if (this.data.edit) {
             this.queryService.updateQuery(this.data.query).subscribe(this.handleAfterSave)

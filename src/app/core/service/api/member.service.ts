@@ -3,7 +3,12 @@ import {environment} from '../../../../environments/environment';
 import {BaseService} from './base.service';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs';
-import {MemberModel} from '../../model/member.model';
+import {
+    MemberModel,
+    transformMemberObservable,
+    transformMembersObservable,
+    transformQueryResultObservable
+} from '../../model/member.model';
 import {QueryResultDto} from '../../model/query-result-dto.model';
 import {Families} from '../../model/family.model';
 import {QuerySortingModel} from '../../model/query.model';
@@ -22,18 +27,18 @@ export class MemberService extends BaseService {
     }
 
     getMembers(): Observable<MemberModel[]> {
-        return this.apiService.get(this.API_URL, "");
+        return transformMembersObservable(this.apiService.get(this.API_URL, ""));
     }
 
     getMembersUsingQuery(queryId: string, sorting?: QuerySortingModel): Observable<QueryResultDto> {
         let queryString = "";
         if (sorting)
             queryString = "?sort_field=" + sorting.field.name + "&sort_direction=" + sorting.direction;
-        return this.apiService.get(this.API_URL, "query/" + queryId + queryString);
+        return transformQueryResultObservable(this.apiService.get(this.API_URL, "query/" + queryId + queryString));
     }
 
     getMemberById(id: string): Observable<MemberModel> {
-        return this.apiService.get(this.API_URL, "id/" + id);
+        return transformMemberObservable(this.apiService.get(this.API_URL, "id/" + id));
     }
 
     getFamilies(): Observable<Families> {
@@ -43,12 +48,14 @@ export class MemberService extends BaseService {
     addMember(member: MemberModel, familyMemberId?: string): Observable<MemberModel> {
         let familyString = "";
         if (familyMemberId) familyString = "?family_member_id=" + familyMemberId
-        return this.apiService.post(this.API_URL, "" + familyString, member);
+        return transformMemberObservable(this.apiService.post(this.API_URL, "" + familyString, member));
     }
 
     updateMember(member: MemberModel, familyMemberId?: string): Observable<MemberModel> {
         let familyString = "";
         if (familyMemberId) familyString = "?family_member_id=" + familyMemberId
-        return this.apiService.put(this.API_URL, "" + familyString, member);
+        return transformMemberObservable(this.apiService.put(this.API_URL, "" + familyString, member));
     }
+
+
 }
