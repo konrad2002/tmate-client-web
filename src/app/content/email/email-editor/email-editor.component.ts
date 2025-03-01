@@ -1,4 +1,4 @@
-import {Component, computed, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AngularEditorConfig, AngularEditorModule} from '@kolkov/angular-editor';
 import {FormsModule} from '@angular/forms';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -154,7 +154,7 @@ export class EmailEditorComponent implements OnInit {
     }
 
     add($event: MatChipInputEvent) {
-        console.log("add triggered")
+        console.log("add triggered", $event);
     }
 
     sendMail() {

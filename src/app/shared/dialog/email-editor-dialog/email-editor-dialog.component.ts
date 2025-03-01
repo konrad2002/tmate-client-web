@@ -10,7 +10,6 @@ import {
 } from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import {MemberModel} from '../../../core/model/member.model';
-import {HelpDialogData} from '../help-dialog/help-dialog.component';
 
 export interface EmailEditorDialogData {
     receivers: MemberModel[];
@@ -36,9 +35,5 @@ export class EmailEditorDialogComponent {
         public dialogRef: MatDialogRef<EmailEditorDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: EmailEditorDialogData,
     ) {
-    }
-
-    sendMail() {
-
     }
 }
