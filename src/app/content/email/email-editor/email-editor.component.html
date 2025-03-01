@@ -1,0 +1,53 @@
+<div *ngIf="specialFields && availableSenders">
+    <mat-form-field>
+        <mat-label>Empfänger</mat-label>
+        <mat-chip-grid #chipGrid>
+            @for (receiver of receivers; track $index) {
+                <mat-chip-row (removed)="removeReceiver(receiver)">
+                    <span class="{{receiver.data[specialFields.e_mail] ? '' : 'no-email' }}">{{receiver.data[specialFields.last_name]}}, {{receiver.data[specialFields.first_name]}} <{{receiver.data[specialFields.e_mail]}}></span>
+                    <button matChipRemove>
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-chip-row>
+            }
+        </mat-chip-grid>
+
+        <input
+            name="currentFruit"
+            placeholder="Mitglied suchen..."
+            #fruitInput
+            [(ngModel)]="memberSearchText"
+            [matChipInputFor]="chipGrid"
+            [matAutocomplete]="auto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+        />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addReceiver($event); fruitInput.value = ''" [displayWith]="displayReceiverFn">
+            @for (member of filteredMembers(); track member.id) {
+                <mat-option [value]="member">{{member.data[specialFields.last_name]}}, {{member.data[specialFields.first_name]}}</mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Absender</mat-label>
+        <mat-select [(ngModel)]="sender">
+            @for (sender of availableSenders; track sender) {
+                <mat-option [value]="sender.address">{{sender.name}} <{{sender.address}}></mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Betreff</mat-label>
+        <input type="text" matInput [(ngModel)]="subject">
+    </mat-form-field>
+    <angular-editor [config]="editorConfig" [(ngModel)]="htmlContent">
+        <ng-template #customButtons let-executeCommandFn="executeCommandFn">
+            <ae-toolbar-set>
+                <button aeButton title="Vorname" (click)="executeCommandFn('insertHtml', '{{.vorname}}')">
+                    Vorname
+                </button>
+            </ae-toolbar-set>
+        </ng-template>
+    </angular-editor>
+</div>
+

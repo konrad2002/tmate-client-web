@@ -44,8 +44,8 @@
         }
         @case (TabName.MEMBERS) {
             <app-toolbar-button label="Hinzufügen" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
-            <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="!selectedMember"></app-toolbar-button>
-            <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="!selectedMember"></app-toolbar-button>
+            <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
+            <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
             <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
             <app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button>
             <button class="btn btn-tool">
@@ -65,6 +65,7 @@
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-this"><i class="btn-tool-icon fas fa-file-csv"></i>CSV aktuelle Abfrage</button>-->
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-excel-all"><i class="btn-tool-icon fas fa-file-excel"></i>Excel alle Einträge</button>-->
             <app-toolbar-button label="Excel aktuelle Abfrage" icon="file_download" (btn_click)="onExportCurrentExcel()"></app-toolbar-button>
+            <app-toolbar-button label="Serien-Mail" icon="mail" (btn_click)="onExportSerialMailClick()"></app-toolbar-button>
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-all"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @alle</button>-->
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-mail-this"><i class="btn-tool-icon fas fa-envelope"></i>Serienmail @diese Abfrage</button>-->
         }

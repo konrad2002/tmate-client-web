@@ -15,7 +15,7 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
 import {MatIcon} from '@angular/material/icon';
-import {MemberDialogService} from '../../../core/service/member-dialog.service';
+import {MemberDialogService} from '../../../core/service/dialog/member-dialog.service';
 
 @Component({
     selector: 'app-search-dialog',

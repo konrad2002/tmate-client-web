@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {HelpDialogComponent, HelpDialogData} from '../../shared/dialog/help-dialog/help-dialog.component';
+import {HelpDialogComponent, HelpDialogData} from '../../../shared/dialog/help-dialog/help-dialog.component';
 
 @Injectable({
     providedIn: 'root'

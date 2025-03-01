@@ -1,7 +1,7 @@
 <mat-progress-bar *ngIf="fetchingQuery" color="primary"></mat-progress-bar>
 <table class="main-table">
     <tr>
-        <th *ngIf="editModeField === undefined">&nbsp;</th>
+        <th *ngIf="editModeField === undefined"><input type="checkbox" [checked]="selectedMembers.length === members.length" [indeterminate]="selectedMembers.length > 0 && selectedMembers.length < members.length" (click)="toggleSelectAll()"></th>
         @for (field of fields; track field.id) {
             <th *ngIf="field.name === query.sort[0].Key.replace('data.', '') as isSorting; else elseBlock"
                 (click)="sortByField(field, query.sort[0].Value * -1)">
@@ -17,7 +17,9 @@
     </tr>
 
     <tr *ngFor="let member of members">
-        <td *ngIf="editModeField === undefined"><input type="radio" [value]="member.id" name="row-select" (click)="selectMember(member)"></td>
+        <td *ngIf="editModeField === undefined">
+            <input type="checkbox" [value]="member.id" name="row-select" [checked]="isSelected(member)" (change)="toggleMemberSelection(member, $event)">
+        </td>
 
         <td
             *ngFor="let field of fields"

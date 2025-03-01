@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs';
-import {MemberEvent} from '../model/event/member-event.model';
 import {MatDialog} from '@angular/material/dialog';
-import {QueryModel} from '../model/query.model';
+import {QueryModel} from '../../model/query.model';
+import {MemberEvent} from '../../model/event/member-event.model';
 import {
     QueryEditorDialogComponent,
     QueryEditorDialogData
-} from '../../shared/dialog/query-editor-dialog/query-editor-dialog.component';
+} from '../../../shared/dialog/query-editor-dialog/query-editor-dialog.component';
 
 @Injectable({
   providedIn: 'root'

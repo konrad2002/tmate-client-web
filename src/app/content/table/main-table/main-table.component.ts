@@ -39,12 +39,15 @@ export class MainTableComponent implements OnDestroy {
 
     dirty = false;
 
+    selectedMembers: MemberModel[] = [];
+
     fieldSubscription: Subscription;
     memberSubscription: Subscription;
     querySubscription: Subscription;
     fetchingSubscription: Subscription;
     dirtySubscription: Subscription;
     tableSaveEventSubscription: Subscription;
+    selectedMemberSubscription: Subscription;
 
     fetching = 0;
     fetchingQuery = false;
@@ -86,6 +89,10 @@ export class MainTableComponent implements OnDestroy {
 
         this.tableSaveEventSubscription = this.dirtySubscription = this.tableService.dirty.subscribe(dirty => {
             this.dirty = dirty;
+        })
+
+        this.selectedMemberSubscription = this.tableService.selectedMember.subscribe(members => {
+            this.selectedMembers = members;
         })
 
         this.tableService.saveTableEvent.subscribe(save => {
@@ -134,8 +141,18 @@ export class MainTableComponent implements OnDestroy {
         return entries.join(", ");
     }
 
-    selectMember(member: MemberModel) {
-        this.tableService.setSelectedMember(member);
+    toggleMemberSelection(member: MemberModel, event: Event) {
+        const isChecked = (event.target as HTMLInputElement).checked;
+        if (isChecked) {
+            this.selectedMembers.push(member);
+        } else {
+            this.selectedMembers = this.selectedMembers.filter(m => m.id !== member.id);
+        }
+        this.tableService.setSelectedMembers(this.selectedMembers);
+    }
+
+    isSelected(member: MemberModel): boolean {
+        return this.selectedMembers.some(m => m.id === member.id);
     }
 
     getFamilyMemberString(family: FamilyModel): string {
@@ -212,6 +229,14 @@ export class MainTableComponent implements OnDestroy {
                     }
                 });
             }
+        }
+    }
+
+    toggleSelectAll() {
+        if (this.selectedMembers.length === this.members.length) {
+            this.tableService.unselectAllMembers();
+        } else {
+            this.tableService.setSelectedMembers([...this.members]);
         }
     }
 }

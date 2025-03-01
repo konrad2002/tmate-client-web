@@ -7,7 +7,7 @@ import {QueryModel} from '../../../core/model/query.model';
 import {QueryService} from '../../../core/service/api/query.service';
 import {ToolbarButtonComponent} from './toolbar-button/toolbar-button.component';
 import {MatIcon} from '@angular/material/icon';
-import {HelpDialogService} from '../../../core/service/help-dialog.service';
+import {HelpDialogService} from '../../../core/service/dialog/help-dialog.service';
 
 export enum TabName {
     START,
@@ -34,7 +34,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     dirty = false;
     dirtySubscription: Subscription;
 
-    selectedMember?: MemberModel;
+    selectedMembers?: MemberModel[];
     selectedMemberSubscription: Subscription;
 
 
@@ -49,8 +49,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private queryService: QueryService,
         private helpDialogService: HelpDialogService
     ) {
-        this.selectedMemberSubscription = this.tableService.selectedMember.subscribe(member => {
-            this.selectedMember = member;
+        this.selectedMemberSubscription = this.tableService.selectedMember.subscribe(members => {
+            this.selectedMembers = members;
         })
         this.tabSubscription = this.toolbarService.tab.subscribe(tab => {
             this.currentTab = tab;
@@ -74,6 +74,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.selectedMemberSubscription.unsubscribe();
         this.tabSubscription.unsubscribe();
+        this.dirtySubscription.unsubscribe();
     }
 
     switchTab(tab: TabName) {
@@ -85,14 +86,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     onMemberViewClick() {
-        if (this.selectedMember) {
-            this.toolbarService.openMemberDialog(this.selectedMember);
+        if (this.selectedMembers?.length === 1) {
+            this.toolbarService.openMemberDialog(this.selectedMembers[0]);
         }
     }
 
     onMemberEditClick() {
-        if (this.selectedMember) {
-            this.toolbarService.openMemberEditDialog(this.selectedMember);
+        if (this.selectedMembers?.length === 1) {
+            this.toolbarService.openMemberEditDialog(this.selectedMembers[0]);
         }
     }
 
@@ -130,5 +131,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     onExportCurrentExcel() {
         this.toolbarService.onExportExcel();
+    }
+
+    onExportSerialMailClick() {
+        this.toolbarService.onOpenEmailEditorDialog();
     }
 }

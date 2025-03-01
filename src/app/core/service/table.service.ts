@@ -13,7 +13,7 @@ import {QueryResultDto} from '../model/query-result-dto.model';
 })
 export class TableService {
 
-    private selectedMemberSubject: BehaviorSubject<MemberModel | undefined> = new BehaviorSubject<MemberModel | undefined>(undefined);
+    private selectedMemberSubject: BehaviorSubject<MemberModel[]> = new BehaviorSubject<MemberModel[]>([]);
     public selectedMember = this.selectedMemberSubject.asObservable().pipe(distinctUntilChanged());
 
     private fieldsSubject: BehaviorSubject<FieldModel[] | undefined> = new BehaviorSubject<FieldModel[] | undefined>(undefined);
@@ -52,16 +52,16 @@ export class TableService {
         this.memberService.getMembersUsingQuery(query.id, sorting).subscribe(this.handleQueryResult)
     }
 
-    setSelectedMember(member: MemberModel) {
-        this.selectedMemberSubject.next(member);
+    setSelectedMembers(members: MemberModel[]) {
+        this.selectedMemberSubject.next(members);
     }
 
     setDirty(state: boolean) {
         this.dirtySubject.next(state);
     }
 
-    unselectMember() {
-        this.selectedMemberSubject.next(undefined);
+    unselectAllMembers() {
+        this.selectedMemberSubject.next([]);
     }
 
     handleQueryResult: PartialObserver<QueryResultDto> = {
@@ -70,7 +70,7 @@ export class TableService {
             this.fieldsSubject.next(result.fields)
             this.querySubject.next(result.query)
             this.setDirty(false);
-            this.unselectMember();
+            this.unselectAllMembers();
             this.fetchingSubject.next(false);
         },
         error: err => {

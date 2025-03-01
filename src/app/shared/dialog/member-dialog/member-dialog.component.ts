@@ -11,13 +11,13 @@ import {
 import {FieldService} from '../../../core/service/api/field.service';
 import {MemberService} from '../../../core/service/api/member.service';
 import {MatButton} from '@angular/material/button';
-import {MemberDialogService} from '../../../core/service/member-dialog.service';
 import {DatePipe, NgIf} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {SpinnerComponent} from '../../elements/spinner/spinner.component';
 import {Families} from '../../../core/model/family.model';
 import {SpecialFieldsConfig} from '../../../core/model/config.model';
 import {ConfigService} from '../../../core/service/api/config.service';
+import {MemberDialogService} from '../../../core/service/dialog/member-dialog.service';
 
 export interface MemberDialogData {
     member: MemberModel;
