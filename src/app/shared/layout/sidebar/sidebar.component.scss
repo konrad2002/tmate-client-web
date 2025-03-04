@@ -22,8 +22,7 @@
         box-shadow: none;
         height: 60px;
 
-        &:hover,
-        &:focus {
+        &:hover {
             color: var(--main-color);
             background-color: #444;
         }

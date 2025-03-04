@@ -1,0 +1,31 @@
+<div class="main">
+    <div class="wrapper" id="login-wrapper">
+        <div class="banner" style="transition: 0.3s;">
+            <span class="login-title">tMat<sup>e</sup></span>
+            <span class="login-subtitle"><b class="login-letter">T</b>eam <b class="login-letter">M</b>ember <b class="login-letter">A</b>dministration <b class="login-letter">T</b>ool</span>
+            <ul>
+                <li>Verwaltungssoftware für Vereine</li>
+                <li>individuelle Mitgliederlisten</li>
+                <li>personalisierte Abfragen und Statistiken</li>
+                <li>Zusatzfunktionen wie Familien, ärztliche Atteste und Beitragszahlungen</li>
+            </ul>
+            <br>
+            <p>© 2020 – <a href="http://logilutions.de">Logilutions</a></p>
+        </div>
+        <div class="content" style="transition: 0.3s;">
+            <h1>Login</h1>
+            <p>Um auf die Anwendung zugreifen zu können, müssen sich registrierte Benutzer hier anmelden.</p>
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <mat-form-field>
+                    <mat-label>Benutzername</mat-label>
+                    <input matInput formControlName="username">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput formControlName="password" type="password">
+                </mat-form-field>
+                <button mat-button>Login</button>
+            </form>
+        </div>
+    </div>
+</div>

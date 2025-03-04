@@ -21,4 +21,8 @@ export class UserService extends BaseService {
     getUsers(): Observable<UserModel[]> {
         return this.apiService.get(this.API_URL, "");
     }
+
+    login(username: string, password: string): Observable<string> {
+        return this.apiService.post(this.API_URL, "login", {username: username, password: password});
+    }
 }

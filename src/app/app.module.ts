@@ -8,6 +8,8 @@ import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-brow
 import {routes} from './app.routes';
 import {CoreModule} from './core/core.module';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {TokenInterceptor} from './core/interceptor/token.interceptor';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
     ],
     providers: [
         {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
+        {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
         provideAnimations()
     ],
     bootstrap: [AppComponent]
