@@ -1,4 +1,4 @@
-<button class="btn btn-nav" id="btn-nav-msg">
+<!--button class="btn btn-nav" id="btn-nav-msg">
     <mat-icon>chat_bubble</mat-icon>
     <span>Mitteilungen</span>
 </button>
@@ -6,30 +6,30 @@
     <mat-icon>push_pin</mat-icon>
     <span>Pinwand</span>
 </button>
-<!-- <button class="btn btn-nav" id="btn-nav-settings">
+<button class="btn btn-nav" id="btn-nav-settings">
     <i class="fas fa-cog icon-nav"></i>
     <span>Einstellungen</span>
 </button> -->
-<button class="btn btn-nav" id="btn-nav-table">
+<button class="btn btn-nav" id="btn-nav-table" *appHasPermission="['table_structure_management']">
     <mat-icon>table</mat-icon>
     <span>Mitgliedertabelle</span>
 </button>
-<button class="btn btn-nav" id="btn-nav-user" (click)="onUserManagementClick()">
+<button class="btn btn-nav" id="btn-nav-user" (click)="onUserManagementClick()" *appHasPermission="['user_management']">
     <mat-icon>manage_accounts</mat-icon>
     <span>Benutzer</span>
 </button>
-<button class="btn btn-nav" id="btn-nav-setup">
+<button class="btn btn-nav" id="btn-nav-setup" *appHasPermission="['email_address_management']">
     <mat-icon>settings</mat-icon>
     <span>Konfiguration</span>
 </button>
-<button class="btn btn-nav" id="btn-nav-addons">
+<!--button class="btn btn-nav" id="btn-nav-addons">
     <mat-icon>extensions</mat-icon>
     <span>Erweiterungen</span>
-</button>
-<button class="btn btn-nav btn-nav-bottom btn-nav-bottom-2" id="btn-nav-settings">
+</button-->
+<!--button class="btn btn-nav btn-nav-bottom btn-nav-bottom-2" id="btn-nav-settings">
     <mat-icon>settings</mat-icon>
     <span>Einstellungen</span>
-</button>
+</button-->
 <button class="btn btn-nav btn-nav-bottom btn-nav-bottom-1" id="btn-nav-logout" (click)="onLogoutClick()">
     <mat-icon>logout</mat-icon>
     <span>Abmelden</span>

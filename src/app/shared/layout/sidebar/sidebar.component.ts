@@ -1,12 +1,18 @@
 import { Component } from '@angular/core';
 import {UserDialogService} from '../../../core/service/dialog/user-dialog.service';
 import {AuthService} from '../../../core/service/auth.service';
+import {MatIcon} from '@angular/material/icon';
+import {HasPermissionDirective} from '../../../core/directive/has-permission.directive';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss',
-  standalone: false
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.scss',
+    imports: [
+        MatIcon,
+        HasPermissionDirective
+    ],
+    standalone: true
 })
 export class SidebarComponent {
 

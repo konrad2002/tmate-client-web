@@ -3,6 +3,7 @@ import {BehaviorSubject, distinctUntilChanged, ReplaySubject} from 'rxjs';
 import {UserModel} from '../model/user.model';
 import {UserService} from './api/user.service';
 import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
     providedIn: 'root'
@@ -23,7 +24,8 @@ export class AuthService {
 
     constructor(
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private snackBar: MatSnackBar
     ) {
         this.isAuthenticatedSubject.next(window.localStorage.getItem("token") != undefined);
     }
@@ -33,10 +35,12 @@ export class AuthService {
             next: token => {
                 this.isAuthenticatedSubject.next(true);
                 window.localStorage.setItem("token", token);
+                this.snackBar.open("Anmeldung erfolgreich!");
+                this.fetchUser();
                 this.router.navigateByUrl(this.router.createUrlTree([""]))
             }, error: err => {
                 console.log(err);
-
+                this.snackBar.open("Fehler beim Anmelden: " + err);
             }
         })
     }
@@ -45,6 +49,13 @@ export class AuthService {
         console.log("Logout!")
         this.isAuthenticatedSubject.next(false);
         window.localStorage.removeItem("token");
+        this.snackBar.open("Du wurdest abgemeldet!");
         this.router.navigateByUrl(this.router.createUrlTree(["login"]))
+    }
+
+    fetchUser() {
+        this.userService.getUserForMe().subscribe(user => {
+            this.currentUserSubject.next(user);
+        })
     }
 }

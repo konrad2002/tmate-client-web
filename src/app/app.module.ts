@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AppComponent} from './app.component';
-import {LayoutModule} from './shared/layout/layout.module';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
@@ -23,7 +22,6 @@ import {TokenInterceptor} from './core/interceptor/token.interceptor';
         CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
-        LayoutModule,
         RouterModule.forRoot(routes, { useHash: true }),
         RouterOutlet,
         CoreModule
