@@ -12,7 +12,7 @@ export class LoginGuard implements CanActivate {
         private router: Router
     ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree { // eslint-disable-line
         console.log("check permissions to access this page")
         return this.authService.isAuthenticated.pipe(
             map((isAuth) => (isAuth ? true : this.router.createUrlTree(['/login'])))

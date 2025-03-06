@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         console.log("intercepting")
 
-        let token = window.localStorage.getItem("token");
+        const token = window.localStorage.getItem("token");
 
         if (token) {
             if (request.url.includes("tmate.weiss-konrad.de") || request.url.includes("localhost")) {
