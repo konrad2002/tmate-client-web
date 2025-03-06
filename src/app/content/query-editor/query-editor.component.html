@@ -27,7 +27,7 @@
 
     @for (sorting of sortings; track sorting.field.id) {
         <div>
-            <mat-form-field>
+            <mat-form-field floatLabel="always">
                 <mat-label>Sortieren nach</mat-label>
                 <mat-select [(ngModel)]="sorting.field">
                     @for (field of fields; track field.id) {
@@ -35,7 +35,7 @@
                     }
                 </mat-select>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field floatLabel="always">
                 <mat-label>Richtung</mat-label>
                 <mat-select [(ngModel)]="sorting.direction">
                     <mat-option [value]="1">Aufsteigend (ASC)</mat-option>

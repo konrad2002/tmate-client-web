@@ -29,7 +29,7 @@
                             <button class="modify-family-button" mat-flat-button (click)="openMemberSearchDialog()">Ändern</button>
                         </div>
                     } @else {
-                        <mat-form-field>
+                        <mat-form-field floatLabel="always">
                             <mat-label>{{field.display_name}}</mat-label>
                             @switch (field.type) {
                                 @case (FieldType.NUMBER) {

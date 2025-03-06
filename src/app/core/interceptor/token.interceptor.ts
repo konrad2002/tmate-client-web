@@ -17,13 +17,14 @@ export class TokenInterceptor implements HttpInterceptor {
     ) {}
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+        console.log("intercepting")
 
         let token = window.localStorage.getItem("token");
 
         if (token) {
-            if (request.url.includes("TODO") || request.url.includes("localhost")) {
+            if (request.url.includes("tmate.weiss-konrad.de") || request.url.includes("localhost")) {
                 const modifiedReq = request.clone({
-                    headers: request.headers.set('Authorization', token),
+                    headers: request.headers.set('Authorization', 'Bearer ' + token),
                 });
 
                 console.log("accessing " + request.url + " with token");

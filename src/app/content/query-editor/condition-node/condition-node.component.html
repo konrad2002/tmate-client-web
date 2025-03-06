@@ -13,7 +13,7 @@
         @for (condition of node.conditions; track condition) {
             <div class="node-child">
                 @if (isExpression(condition)) {
-                    <mat-form-field>
+                    <mat-form-field floatLabel="always">
                         <mat-label>Attribut</mat-label>
                         <mat-select [(ngModel)]="condition.field">
                             @for (field of fields; track field.id) {
@@ -21,7 +21,7 @@
                             }
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field>
+                    <mat-form-field floatLabel="always">
                         <mat-label>Vergleichsoperator</mat-label>
                         <mat-select [(ngModel)]="condition.operator">
                             <mat-option value="$eq">GLEICH</mat-option>
@@ -34,7 +34,7 @@
                             <mat-option value="$nin">NICHT IN</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field>
+                    <mat-form-field floatLabel="always">
                         <mat-label>{{condition.field.display_name}}</mat-label>
                         @switch (condition.field.type) {
                             @case (FieldType.NUMBER) {

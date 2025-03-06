@@ -4,6 +4,6 @@ export const environment = {
     color: "#d72222",
 
     api_urls: {
-        tmate_server: "http://localhost:8085/api/v1/",
+        tmate_server: "https://tmate.weiss-konrad.de/api/v1/",
     },
 };
