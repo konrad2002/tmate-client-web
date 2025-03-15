@@ -6,7 +6,6 @@ import {Subscription} from 'rxjs';
 import {QueryModel} from '../../../core/model/query.model';
 import {QueryService} from '../../../core/service/api/query.service';
 import {ToolbarButtonComponent} from './toolbar-button/toolbar-button.component';
-import {MatIcon} from '@angular/material/icon';
 import {HelpDialogService} from '../../../core/service/dialog/help-dialog.service';
 import {UserModel} from '../../../core/model/user.model';
 import {AuthService} from '../../../core/service/auth.service';
@@ -26,7 +25,6 @@ export enum TabName {
     styleUrl: './toolbar.component.scss',
     imports: [
         ToolbarButtonComponent,
-        MatIcon,
         NgIf,
     ],
     standalone: true
@@ -46,6 +44,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
 
     queries: QueryModel[] = [];
+    queriesSubscription: Subscription;
 
 
     protected readonly TabName = TabName;
@@ -69,6 +68,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.currentUserSubscription = this.authService.currentUser.subscribe(user => {
             this.currentUser = user;
         })
+        this.queriesSubscription = this.queryService.queries.subscribe(queries => {
+            this.queries = queries;
+        })
     }
 
     ngOnInit() {
@@ -76,10 +78,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     fetchQueries() {
-        this.queryService.getQueries().subscribe(queries => {
-            this.queries = queries;
-            console.log(queries);
-        })
+        this.queryService.fetchQueries();
     }
 
     ngOnDestroy() {
@@ -87,6 +86,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.tabSubscription.unsubscribe();
         this.dirtySubscription.unsubscribe();
         this.currentUserSubscription.unsubscribe();
+        this.queriesSubscription.unsubscribe();
     }
 
     switchTab(tab: TabName) {

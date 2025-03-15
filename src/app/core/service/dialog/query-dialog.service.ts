@@ -7,6 +7,7 @@ import {
     QueryEditorDialogComponent,
     QueryEditorDialogData
 } from '../../../shared/dialog/query-editor-dialog/query-editor-dialog.component';
+import {QueryService} from '../api/query.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ import {
 export class QueryDialogService {
 
   constructor(
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private queryService: QueryService
   ) { }
 
     openQueryEditDialog(edit: boolean, query?: QueryModel, eventSubject?: Subject<MemberEvent>) {
@@ -29,6 +31,7 @@ export class QueryDialogService {
 
         dialogRef.afterClosed().subscribe(result => {
             console.log(result)
+            this.queryService.fetchQueries();
             eventSubject?.next(result);
         });
     }

@@ -25,7 +25,7 @@ export class ToolbarService {
         private tableService: TableService,
         private exportService: ExportService,
         private fileService: FileService,
-        private emailDialogService: EmailDialogService
+        private emailDialogService: EmailDialogService,
     ) {
     }
 
