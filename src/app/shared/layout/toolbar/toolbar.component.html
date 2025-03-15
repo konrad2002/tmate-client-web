@@ -19,7 +19,7 @@
         </button>
     </div>
 
-    <span class="tab-user-info">Angemeldet als: <b>konrad2002</b></span>
+    <span class="tab-user-info" *ngIf="currentUser">Angemeldet als: <b>{{currentUser.username}}</b></span>
 </div>
 
 <div class="tools" id="tools">
@@ -47,11 +47,7 @@
             <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
             <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
             <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
-            <app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button>
-            <button class="btn btn-tool">
-                <mat-icon>family_restroom</mat-icon>
-                Familien gruppieren
-            </button>
+            <!--app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button-->
         }
         @case (TabName.QUERIES) {
             <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>

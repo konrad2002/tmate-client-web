@@ -8,6 +8,9 @@ import {QueryService} from '../../../core/service/api/query.service';
 import {ToolbarButtonComponent} from './toolbar-button/toolbar-button.component';
 import {MatIcon} from '@angular/material/icon';
 import {HelpDialogService} from '../../../core/service/dialog/help-dialog.service';
+import {UserModel} from '../../../core/model/user.model';
+import {AuthService} from '../../../core/service/auth.service';
+import {NgIf} from '@angular/common';
 
 export enum TabName {
     START,
@@ -24,6 +27,7 @@ export enum TabName {
     imports: [
         ToolbarButtonComponent,
         MatIcon,
+        NgIf,
     ],
     standalone: true
 })
@@ -37,6 +41,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     selectedMembers?: MemberModel[];
     selectedMemberSubscription: Subscription;
 
+    currentUserSubscription: Subscription;
+    currentUser?: UserModel;
+
 
     queries: QueryModel[] = [];
 
@@ -47,7 +54,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private toolbarService: ToolbarService,
         private tableService: TableService,
         private queryService: QueryService,
-        private helpDialogService: HelpDialogService
+        private helpDialogService: HelpDialogService,
+        private authService: AuthService
     ) {
         this.selectedMemberSubscription = this.tableService.selectedMember.subscribe(members => {
             this.selectedMembers = members;
@@ -57,6 +65,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         })
         this.dirtySubscription = this.tableService.dirty.subscribe(dirty => {
             this.dirty = dirty;
+        })
+        this.currentUserSubscription = this.authService.currentUser.subscribe(user => {
+            this.currentUser = user;
         })
     }
 
@@ -75,6 +86,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.selectedMemberSubscription.unsubscribe();
         this.tabSubscription.unsubscribe();
         this.dirtySubscription.unsubscribe();
+        this.currentUserSubscription.unsubscribe();
     }
 
     switchTab(tab: TabName) {
