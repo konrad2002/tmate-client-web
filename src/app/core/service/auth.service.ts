@@ -4,6 +4,7 @@ import {UserModel} from '../model/user.model';
 import {UserService} from './api/user.service';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {UserDialogService} from './dialog/user-dialog.service';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,7 @@ export class AuthService {
 
     constructor(
         private userService: UserService,
+        private userDialogService: UserDialogService,
         private router: Router,
         private snackBar: MatSnackBar
     ) {
@@ -36,11 +38,10 @@ export class AuthService {
                 this.isAuthenticatedSubject.next(true);
                 window.localStorage.setItem("token", token);
                 this.snackBar.open("Anmeldung erfolgreich!");
-                this.fetchUser();
                 this.router.navigateByUrl(this.router.createUrlTree([""]))
             }, error: err => {
                 console.log(err);
-                this.snackBar.open("Fehler beim Anmelden: " + err);
+                this.snackBar.open("Fehler beim Anmelden: " + err.message);
             }
         })
     }
@@ -56,6 +57,9 @@ export class AuthService {
     fetchUser() {
         this.userService.getUserForMe().subscribe(user => {
             this.currentUserSubject.next(user);
+            if (user.temp_password) {
+                this.userDialogService.openPasswordChangeDialog(true);
+            }
         })
     }
 }

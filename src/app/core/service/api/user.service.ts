@@ -30,4 +30,12 @@ export class UserService extends BaseService {
         return this.apiService.get(this.API_URL, "me");
     }
 
+    changePasswordForMe(password: string): Observable<UserModel> {
+        return this.apiService.post(this.API_URL, "me/password", password);
+    }
+
+    changePasswordForUser(username: string, password: string): Observable<UserModel> {
+        return this.apiService.post(this.API_URL, "password/" + username, password);
+    }
+
 }

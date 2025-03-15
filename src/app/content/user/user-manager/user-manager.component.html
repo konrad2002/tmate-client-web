@@ -8,6 +8,7 @@
         <th>Aktiviert?</th>
         <th>Temp. Passwort?</th>
         <th>Logins</th>
+        <th>&nbsp;</th>
     </tr>
     @for (user of users; track user.id) {
         <tr>
@@ -19,6 +20,7 @@
             <td>{{user.active}}</td>
             <td>{{user.temp_password}}</td>
             <td>{{user.logins}}</td>
+            <td><button mat-button (click)="changePassword(user.username)">Passwort ändern</button> </td>
         </tr>
     }
 </table>

@@ -12,6 +12,7 @@ type PermissionKey = keyof PermissionSet;
 export class HasPermissionDirective implements OnDestroy {
     private subscription: Subscription | null = null;
     private currentPermissions: PermissionSet | null = null;
+    private isViewRendered = false; // Tracks whether the view is already inserted
 
     @Input('appHasPermission') set permissionArgs(value: [PermissionKey, (boolean | number)?, string?, string?]) {
         if (this.subscription) {
@@ -24,10 +25,14 @@ export class HasPermissionDirective implements OnDestroy {
             console.log(this.currentPermissions)
             const [permission, expected, param1, param2] = value; // Extract values safely
 
-            if (this.checkPermission(permission, expected, param1, param2)) {
+            const hasPermission = this.checkPermission(permission, expected, param1, param2);
+
+            if (hasPermission && !this.isViewRendered) {
                 this.viewContainer.createEmbeddedView(this.templateRef);
-            } else {
+                this.isViewRendered = true;
+            } else if (!hasPermission && this.isViewRendered) {
                 this.viewContainer.clear();
+                this.isViewRendered = false;
             }
         });
     }
