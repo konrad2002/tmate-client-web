@@ -21,6 +21,7 @@ import {FieldService} from '../../../core/service/api/field.service';
 import {PartialObserver} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NgIf} from '@angular/common';
+import {MiscDialogService} from '../../../core/service/dialog/misc-dialog.service';
 
 export interface QueryEditorDialogData {
     query: QueryModel;
@@ -57,7 +58,8 @@ export class QueryEditorDialogComponent implements OnInit {
         private snackBar: MatSnackBar,
         private queryService: QueryService,
         private fieldService: FieldService,
-        private queryConversionService: QueryConversionService
+        private queryConversionService: QueryConversionService,
+        private miscDialogService: MiscDialogService
     ) {
         if (!this.data.edit) {
             this.data.query = {} as QueryModel;
@@ -107,13 +109,17 @@ export class QueryEditorDialogComponent implements OnInit {
 
     deleteQuery() {
         // TODO: confirm with popup
-        this.queryService.removeQueryById(this.data.query.id).subscribe({
-            next: query => {
-                this.snackBar.open("Abfrage erfolgreich gelöscht!");
-                this.dialogRef.close(query);
-            },
-            error: _ => {
-                this.snackBar.open("Fehler beim Löschen der Abfrage!");
+        this.miscDialogService.startDeletionDialog().afterClosed().subscribe(del => {
+            if (del) {
+                this.queryService.removeQueryById(this.data.query.id).subscribe({
+                    next: query => {
+                        this.snackBar.open("Abfrage erfolgreich gelöscht!");
+                        this.dialogRef.close(query);
+                    },
+                    error: _ => {
+                        this.snackBar.open("Fehler beim Löschen der Abfrage!");
+                    }
+                })
             }
         })
     }
