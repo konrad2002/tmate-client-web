@@ -1,4 +1,5 @@
 <button class="btn btn-tool {{disabled ? 'inactive': ''}}" [disabled]="disabled" (click)="onClick()">
     <mat-icon>{{icon}}</mat-icon>
     {{label}}
+    <div class="badge" *ngIf="batchIcon" [title]="batchTitle"><mat-icon>{{batchIcon}}</mat-icon></div>
 </button>

@@ -14,6 +14,11 @@ import {MatIcon} from '@angular/material/icon';
 import {MatFormField, MatOption, MatSelect} from '@angular/material/select';
 import {MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
+import {UserModel} from '../../core/model/user.model';
+import {UserService} from '../../core/service/api/user.service';
+import {NgIf} from '@angular/common';
+import {HasPermissionDirective} from '../../core/directive/has-permission.directive';
+import {SpinnerComponent} from '../../shared/elements/spinner/spinner.component';
 
 
 @Component({
@@ -28,7 +33,10 @@ import {MatInput} from '@angular/material/input';
         MatOption,
         MatFormField,
         MatLabel,
-        MatInput
+        MatInput,
+        NgIf,
+        HasPermissionDirective,
+        SpinnerComponent
     ],
     templateUrl: './query-editor.component.html',
     styleUrl: './query-editor.component.scss',
@@ -43,10 +51,13 @@ export class QueryEditorComponent implements OnInit {
 
     @Input() query: QueryModel = {} as QueryModel;
 
+    users?: UserModel[];
+
     fetching = 0;
 
     constructor(
-        private fieldService: FieldService
+        private fieldService: FieldService,
+        private userService: UserService
     ) {
     }
 
@@ -54,6 +65,10 @@ export class QueryEditorComponent implements OnInit {
         if (!this.fields) {
             this.fetchFields();
         }
+
+        this.userService.getUsers().subscribe(users => {
+            this.users = users;
+        })
     }
 
     fetchFields() {

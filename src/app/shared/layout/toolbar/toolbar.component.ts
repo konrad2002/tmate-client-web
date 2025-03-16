@@ -10,6 +10,8 @@ import {HelpDialogService} from '../../../core/service/dialog/help-dialog.servic
 import {UserModel} from '../../../core/model/user.model';
 import {AuthService} from '../../../core/service/auth.service';
 import {NgIf} from '@angular/common';
+import {NilObjectId} from "../../../core/misc/object-id.const";
+import {HasPermissionDirective} from '../../../core/directive/has-permission.directive';
 
 export enum TabName {
     START,
@@ -26,6 +28,7 @@ export enum TabName {
     imports: [
         ToolbarButtonComponent,
         NgIf,
+        HasPermissionDirective,
     ],
     standalone: true
 })
@@ -148,4 +151,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     onExportSerialMailClick() {
         this.toolbarService.onOpenEmailEditorDialog();
     }
+
+    protected readonly NilObjectId = NilObjectId;
 }

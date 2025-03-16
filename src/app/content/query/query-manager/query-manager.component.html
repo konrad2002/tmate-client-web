@@ -1,0 +1,15 @@
+@if (fetching) {
+    <app-spinner spinnerLayout="dialog"></app-spinner>
+} @else {
+    <table>
+        <ng-container *ngFor="let entry of queries | keyvalue">
+            <tr>
+                <th colspan="2">{{entry.key.first_name}} {{entry.key.last_name}}</th>
+            </tr>
+            <tr *ngFor="let query of entry.value">
+                <td>{{query.name}}</td>
+                <td><button mat-flat-button (click)="onEditQuery(query)">Bearbeiten</button></td>
+            </tr>
+        </ng-container>
+    </table>
+}

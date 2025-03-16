@@ -9,6 +9,9 @@
             [query]="data.query"
         ></app-query-editor>
     }
+    @if (fetching > 0) {
+        <app-spinner spinnerLayout="dialog"></app-spinner>
+    }
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="false">Abbrechen</button>

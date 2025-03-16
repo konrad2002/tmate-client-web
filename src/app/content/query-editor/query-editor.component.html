@@ -7,6 +7,20 @@
         <input type="text" [(ngModel)]="query.name" matInput>
     </mat-form-field>
 
+
+    <ng-container *appHasPermission="['query_management']">
+        <br>
+        <mat-form-field floatLabel="always" *ngIf="users">
+            <mat-label>Besitzer</mat-label>
+            <mat-select [(ngModel)]="query.owner_user_id">
+                <mat-option [value]="'000000000000000000000000'">Alle</mat-option>
+                @for (user of users; track user.id) {
+                    <mat-option [value]="user.id">{{user.first_name}} {{user.last_name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+
     <h3>Projektion</h3>
 
     <section class="projection-select">
@@ -46,4 +60,8 @@
     }
 
     <button mat-icon-button (click)="addSorting()"><mat-icon>add</mat-icon></button>
+}
+
+@if (fetching > 0) {
+    <app-spinner spinnerLayout="dialog"></app-spinner>
 }

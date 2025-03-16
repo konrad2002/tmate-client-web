@@ -10,15 +10,19 @@
     <i class="fas fa-cog icon-nav"></i>
     <span>Einstellungen</span>
 </button> -->
-<button class="btn btn-nav" id="btn-nav-table" *appHasPermission="['table_structure_management']">
+<button class="btn btn-nav" *appHasPermission="['table_structure_management']">
     <mat-icon>table</mat-icon>
     <span>Mitgliedertabelle</span>
 </button>
-<button class="btn btn-nav" id="btn-nav-user" (click)="onUserManagementClick()" *appHasPermission="['user_management']">
+<button class="btn btn-nav" (click)="onUserManagementClick()" *appHasPermission="['user_management']">
     <mat-icon>manage_accounts</mat-icon>
     <span>Benutzer</span>
 </button>
-<button class="btn btn-nav" id="btn-nav-setup" *appHasPermission="['email_address_management']">
+<button class="btn btn-nav" (click)="onQueryManagementClick()" *appHasPermission="['query_management']">
+    <mat-icon>tune</mat-icon>
+    <span>Abfragen</span>
+</button>
+<button class="btn btn-nav" *appHasPermission="['email_address_management']">
     <mat-icon>settings</mat-icon>
     <span>Konfiguration</span>
 </button>

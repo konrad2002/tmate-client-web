@@ -3,6 +3,7 @@ import {UserDialogService} from '../../../core/service/dialog/user-dialog.servic
 import {AuthService} from '../../../core/service/auth.service';
 import {MatIcon} from '@angular/material/icon';
 import {HasPermissionDirective} from '../../../core/directive/has-permission.directive';
+import {QueryDialogService} from '../../../core/service/dialog/query-dialog.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -18,7 +19,8 @@ export class SidebarComponent {
 
     constructor(
         private userDialogService: UserDialogService,
-        private authService: AuthService
+        private queryDialogService: QueryDialogService,
+        private authService: AuthService,
     ) {
     }
 
@@ -28,5 +30,9 @@ export class SidebarComponent {
 
     onLogoutClick() {
         this.authService.logout();
+    }
+
+    onQueryManagementClick() {
+        this.queryDialogService.openQueryManagementDialog();
     }
 }

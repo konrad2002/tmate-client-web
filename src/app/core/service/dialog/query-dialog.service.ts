@@ -8,6 +8,9 @@ import {
     QueryEditorDialogData
 } from '../../../shared/dialog/query-editor-dialog/query-editor-dialog.component';
 import {QueryService} from '../api/query.service';
+import {
+    QueryManagementDialogComponent
+} from '../../../shared/dialog/query-management-dialog/query-management-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +37,12 @@ export class QueryDialogService {
             this.queryService.fetchQueries();
             eventSubject?.next(result);
         });
+    }
+
+    openQueryManagementDialog() {
+        this.dialog.open(QueryManagementDialogComponent, {
+            width: '95%',
+            maxWidth: '950px',
+        })
     }
 }

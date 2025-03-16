@@ -29,7 +29,14 @@
             <app-toolbar-button label="Neu laden" icon="refresh" (btn_click)="onStartRefresh()"></app-toolbar-button>
 
             @for (query of queries; track query.id) {
-                <app-toolbar-button [label]="query.name" icon="format_list_bulleted" (btn_click)="onStartQuery(query)"></app-toolbar-button>
+                <app-toolbar-button
+                    class="query-{{query.owner_user_id === NilObjectId ? 'all' : 'mine'}}"
+                    icon="format_list_bulleted"
+                    [batchIcon]="query.owner_user_id === NilObjectId ? '' : 'person'"
+                    batchTitle="Eigene Abfrage"
+                    [label]="query.name"
+                    (btn_click)="onStartQuery(query)"
+                ></app-toolbar-button>
             }
         }
         @case (TabName.EDIT) {
@@ -53,7 +60,11 @@
             <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>
 
             @for (query of queries; track query.id) {
-                <app-toolbar-button label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
+                @if (query.owner_user_id === NilObjectId) {
+                    <app-toolbar-button *appHasPermission="['query_management']" label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
+                } @else {
+                    <app-toolbar-button label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
+                }
             }
         }
         @case (TabName.EXPORT) {

@@ -22,6 +22,7 @@ import {PartialObserver} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {NgIf} from '@angular/common';
 import {MiscDialogService} from '../../../core/service/dialog/misc-dialog.service';
+import {SpinnerComponent} from '../../elements/spinner/spinner.component';
 
 export interface QueryEditorDialogData {
     query: QueryModel;
@@ -36,7 +37,8 @@ export interface QueryEditorDialogData {
         MatDialogClose,
         MatButton,
         QueryEditorComponent,
-        NgIf
+        NgIf,
+        SpinnerComponent
     ],
     templateUrl: './query-editor-dialog.component.html',
     styleUrl: './query-editor-dialog.component.scss',
