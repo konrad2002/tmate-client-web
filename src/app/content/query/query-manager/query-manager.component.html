@@ -1,7 +1,7 @@
 @if (fetching) {
     <app-spinner spinnerLayout="dialog"></app-spinner>
 } @else {
-    <table>
+    <table class="table">
         <ng-container *ngFor="let entry of queries | keyvalue">
             <tr>
                 <th colspan="2">{{entry.key.first_name}} {{entry.key.last_name}}</th>

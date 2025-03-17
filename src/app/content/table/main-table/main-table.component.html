@@ -1,5 +1,5 @@
 <mat-progress-bar *ngIf="fetchingQuery" color="primary"></mat-progress-bar>
-<table class="main-table">
+<table class="main-table table">
     <tr>
         <th *ngIf="editModeField === undefined"><input type="checkbox" [checked]="selectedMembers.length === members.length" [indeterminate]="selectedMembers.length > 0 && selectedMembers.length < members.length" (click)="toggleSelectAll()"></th>
         @for (field of fields; track field.id) {
