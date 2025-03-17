@@ -69,7 +69,7 @@ export class ToolbarService {
                     this.fileService.download("Mitglieder_" + formatCurrentDate() + ".xlsx", blob);
                 },)
             }
-        })
+        }).unsubscribe();
     }
 
     onOpenEmailEditorDialog() {
