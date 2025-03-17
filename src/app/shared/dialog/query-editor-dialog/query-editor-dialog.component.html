@@ -16,5 +16,9 @@
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="false">Abbrechen</button>
     <button *ngIf="data.edit" class="delete-button" mat-button (click)="deleteQuery()">Löschen</button>
-    <button mat-button (click)="saveQuery()">Speichern</button>
+    <button
+        mat-button
+        (click)="saveQuery()"
+        [disabled]="!sortings || !projections || sortings.length <= 0 || projections.length <= 0 || !data.query.name"
+    >Speichern</button>
 </mat-dialog-actions>

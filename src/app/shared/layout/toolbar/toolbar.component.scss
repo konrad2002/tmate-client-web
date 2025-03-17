@@ -12,6 +12,14 @@
     white-space: nowrap;
 }
 
+.tools {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.tools::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+
 .tabs {
     background-color: #333;
     padding: 10px 10px 0;
