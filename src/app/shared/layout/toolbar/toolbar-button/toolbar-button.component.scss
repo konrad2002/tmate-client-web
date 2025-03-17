@@ -2,6 +2,7 @@
 .btn-tool {
     background-color: #333;
     font-size: 14px;
+    position: relative;
 
     &:hover {
         background-color: #444;
@@ -51,14 +52,13 @@ mat-icon {
 .badge {
     width: 18px;
     height: 18px;
-    background-color: white;
+    background-color: #fff;
     border-radius: 50%;
     position: absolute;
-    margin-top: -60px;
-    margin-left: 30px;
+    margin: -64px calc(50% - 3px);
     padding: 2px;
 
     mat-icon {
-        font-size: 16px;
+        font-size: 18px;
     }
 }

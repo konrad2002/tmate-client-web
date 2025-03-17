@@ -32,7 +32,7 @@
                 <app-toolbar-button
                     class="query-{{query.owner_user_id === NilObjectId ? 'all' : 'mine'}}"
                     icon="format_list_bulleted"
-                    [batchIcon]="query.owner_user_id === NilObjectId ? '' : 'person'"
+                    [batchIcon]="query.owner_user_id === NilObjectId ? 'public' : ''"
                     batchTitle="Eigene Abfrage"
                     [label]="query.name"
                     (btn_click)="onStartQuery(query)"
