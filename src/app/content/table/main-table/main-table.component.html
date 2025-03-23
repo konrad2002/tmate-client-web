@@ -17,7 +17,7 @@
     </tr>
 
     <tr *ngFor="let member of members">
-        <td *ngIf="editModeField === undefined">
+        <td *ngIf="editModeField === undefined && !dirty">
             <input type="checkbox" [value]="member.id" name="row-select" [checked]="isSelected(member)" (change)="toggleMemberSelection(member, $event)">
         </td>
 
