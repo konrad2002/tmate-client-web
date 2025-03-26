@@ -32,45 +32,53 @@
                             <mat-option value="$lte"><=</mat-option>
                             <mat-option value="$ne">NICHT GLEICH</mat-option>
                             <mat-option value="$nin">NICHT IN</mat-option>
+                            <mat-option value="$exists">EXISTIERT</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field floatLabel="always">
                         <mat-label>{{condition.field.display_name}}</mat-label>
-                        @switch (condition.field.type) {
-                            @case (FieldType.NUMBER) {
-                                <input type="number" matInput [(ngModel)]="condition.comparator">
-                            }
-                            @case (FieldType.EMAIL) {
-                                <input type="email" matInput [(ngModel)]="condition.comparator">
-                            }
-                            @case (FieldType.SELECT) {
-                                <mat-select [(ngModel)]="condition.comparator">
-                                    @for (option of condition.field.data.options | keyvalue; track option) {
-                                        <mat-option [value]="option.key">{{option.value}}</mat-option>
-                                    }
-                                </mat-select>
-                            }
-                            @case (FieldType.MULTI_SELECT) {
-                                <mat-select [(ngModel)]="condition.comparator">
-                                    @for (option of condition.field.data.options | keyvalue; track option) {
-                                        <mat-option [value]="option.key">{{option.value}}</mat-option>
-                                    }
-                                </mat-select>
-                            }
-                            @case (FieldType.PHONE_NUMBER) {
-                                <input type="tel" matInput [(ngModel)]="condition.comparator">
-                            }
-                            @case (FieldType.BOOLEAN) {
-                                <mat-select [(ngModel)]="condition.comparator">
-                                    <mat-option [value]="true">Ja</mat-option>
-                                    <mat-option [value]="false">Nein</mat-option>
-                                </mat-select>
-                            }
-                            @case (FieldType.DATE) {
-                                <input type="date" matInput [(ngModel)]="condition.comparator">
-                            }
-                            @default {
-                                <input matInput [(ngModel)]="condition.comparator">
+                        @if (condition.operator === "$exists") {
+                            <mat-select [(ngModel)]="condition.comparator">
+                                <mat-option [value]="true">Ja</mat-option>
+                                <mat-option [value]="false">Nein</mat-option>
+                            </mat-select>
+                        } @else {
+                            @switch (condition.field.type) {
+                                @case (FieldType.NUMBER) {
+                                    <input type="number" matInput [(ngModel)]="condition.comparator">
+                                }
+                                @case (FieldType.EMAIL) {
+                                    <input type="email" matInput [(ngModel)]="condition.comparator">
+                                }
+                                @case (FieldType.SELECT) {
+                                    <mat-select [(ngModel)]="condition.comparator">
+                                        @for (option of condition.field.data.options | keyvalue; track option) {
+                                            <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                        }
+                                    </mat-select>
+                                }
+                                @case (FieldType.MULTI_SELECT) {
+                                    <mat-select [(ngModel)]="condition.comparator">
+                                        @for (option of condition.field.data.options | keyvalue; track option) {
+                                            <mat-option [value]="option.key">{{option.value}}</mat-option>
+                                        }
+                                    </mat-select>
+                                }
+                                @case (FieldType.PHONE_NUMBER) {
+                                    <input type="tel" matInput [(ngModel)]="condition.comparator">
+                                }
+                                @case (FieldType.BOOLEAN) {
+                                    <mat-select [(ngModel)]="condition.comparator">
+                                        <mat-option [value]="true">Ja</mat-option>
+                                        <mat-option [value]="false">Nein</mat-option>
+                                    </mat-select>
+                                }
+                                @case (FieldType.DATE) {
+                                    <input type="date" matInput [(ngModel)]="condition.comparator">
+                                }
+                                @default {
+                                    <input matInput [(ngModel)]="condition.comparator">
+                                }
                             }
                         }
                     </mat-form-field>

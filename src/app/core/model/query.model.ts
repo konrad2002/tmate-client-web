@@ -29,7 +29,7 @@ export interface QueryConditionModel { // eslint-disable-line
 
 export interface QueryConditionExpressionModel extends QueryConditionModel {
     field: FieldModel;
-    operator: "$eq" | "$gt" | "$gte" | "$in" | "$lt" | "$lte" | "$ne" | "$nin";
+    operator: "$eq" | "$gt" | "$gte" | "$in" | "$lt" | "$lte" | "$ne" | "$nin" | "$exists";
     comparator: any;
 }
 
