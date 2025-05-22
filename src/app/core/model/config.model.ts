@@ -4,6 +4,8 @@ export interface SpecialFieldsConfig {
     e_mail: string;
     e_mail_2: string;
     family: string;
+    attest_date: string;
+    attest_required: string;
     address: AddressFieldsConfig
 }
 

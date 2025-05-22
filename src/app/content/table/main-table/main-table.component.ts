@@ -54,7 +54,7 @@ export class MainTableComponent implements OnDestroy {
 
     families?: Families;
 
-    special_fields: SpecialFieldsConfig = {} as SpecialFieldsConfig;
+    specialFields: SpecialFieldsConfig = {} as SpecialFieldsConfig;
 
     editModeField?: {field: FieldModel, member: MemberModel};
     valueBeforeEdit?: any;
@@ -114,7 +114,7 @@ export class MainTableComponent implements OnDestroy {
         this.fetching++;
         this.configService.getSpecialFields().subscribe({
             next: config => {
-                this.special_fields = config;
+                this.specialFields = config;
                 this.fetching--;
             }, error: _ => {
                 this.fetching--;
@@ -158,7 +158,7 @@ export class MainTableComponent implements OnDestroy {
     getFamilyMemberString(family: FamilyModel): string {
         const memberNames: string[] = []
         for (const member of family.members) {
-            memberNames.push(member.data[this.special_fields.first_name] + " " + member.data[this.special_fields.last_name])
+            memberNames.push(member.data[this.specialFields.first_name] + " " + member.data[this.specialFields.last_name])
         }
         return memberNames.join(", ")
     }
@@ -200,7 +200,7 @@ export class MainTableComponent implements OnDestroy {
     }
 
     private getMemberName(member: MemberModel): string {
-        return member.data[this.special_fields.last_name] + ", " + member.data[this.special_fields.first_name];
+        return member.data[this.specialFields.last_name] + ", " + member.data[this.specialFields.first_name];
     }
 
     private saveDirtyMembers() {
@@ -238,5 +238,29 @@ export class MainTableComponent implements OnDestroy {
         } else {
             this.tableService.setSelectedMembers([...this.members]);
         }
+    }
+
+    getAttestDateClass(dateString: string, required: boolean): string {
+        const date = new Date(dateString);
+        console.log("test date", date, "required", required);
+        if (!required) return "attest-not-required";
+        if (this.isOlderThanOneYear(date)) return "attest-red";
+        if (this.isOlderThan11Months(date)) return "attest-orange";
+        return "attest-no-class";
+    }
+
+    isOlderThan11Months(date: Date): boolean {
+        const now = new Date();
+        const elevenMonthsAgo = new Date(now);
+        elevenMonthsAgo.setMonth(elevenMonthsAgo.getMonth() - 11);
+        console.log("date", date, "evelenMonthsAgo", elevenMonthsAgo);
+        return date < elevenMonthsAgo;
+    }
+
+    isOlderThanOneYear(date: Date): boolean {
+        const now = new Date();
+        const oneYearAgo = new Date(now);
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+        return date < oneYearAgo;
     }
 }
