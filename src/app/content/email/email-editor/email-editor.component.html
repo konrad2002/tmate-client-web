@@ -32,7 +32,7 @@
         <mat-label>Absender</mat-label>
         <mat-select [(ngModel)]="sender">
             @for (sender of availableSenders; track sender) {
-                <mat-option [value]="sender.address">{{sender.name}} <{{sender.address}}></mat-option>
+                <mat-option [value]="sender.address" *appHasPermission="['email_address_usage', true, sender.address]">{{sender.name}} <{{sender.address}}></mat-option>
             }
         </mat-select>
     </mat-form-field>

@@ -16,6 +16,7 @@ import {MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger} f
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {EmailService} from '../../../core/service/api/email.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {HasPermissionDirective} from '../../../core/directive/has-permission.directive';
 
 @Component({
     selector: 'app-email-editor',
@@ -34,7 +35,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
         NgIf,
         MatChipInput,
         MatAutocompleteTrigger,
-        MatAutocomplete
+        MatAutocomplete,
+        HasPermissionDirective
     ],
     templateUrl: './email-editor.component.html',
     styleUrl: './email-editor.component.scss',
