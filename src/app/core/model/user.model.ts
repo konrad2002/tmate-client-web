@@ -12,6 +12,7 @@ export interface UserModel {
 }
 
 export interface PermissionSet {
+    super_user: boolean;
     user_management: boolean;
     table_structure_management: boolean;
     email_address_management: boolean;

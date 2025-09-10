@@ -33,7 +33,7 @@
                     class="query-{{query.owner_user_id === NilObjectId ? 'all' : 'mine'}}"
                     icon="format_list_bulleted"
                     [batchIcon]="query.owner_user_id === NilObjectId ? 'public' : ''"
-                    batchTitle="Eigene Abfrage"
+                    batchTitle="Globale Abfrage"
                     [label]="query.name"
                     (btn_click)="onStartQuery(query)"
                 ></app-toolbar-button>
