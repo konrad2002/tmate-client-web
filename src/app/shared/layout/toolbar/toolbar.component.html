@@ -6,6 +6,7 @@
                 (click)="switchTab(TabName.START)">Start
         </button>
         <button class="btn btn-tab {{currentTab === TabName.EDIT ? 'btn-tab-active' : ''}}"
+                *appHasPermission="['member_admin', 2]"
                 (click)="switchTab(TabName.EDIT)">Bearbeiten
         </button>
         <button class="btn btn-tab {{currentTab === TabName.MEMBERS ? 'btn-tab-active' : ''}}"
@@ -50,10 +51,10 @@
             }
         }
         @case (TabName.MEMBERS) {
-            <app-toolbar-button label="Hinzufügen" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
+            <app-toolbar-button label="Hinzufügen" *appHasPermission="['member_admin', 2]" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
             <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
-            <app-toolbar-button label="Bearbeiten" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
-            <app-toolbar-button label="Löschen" icon="delete" [disabled]="true"></app-toolbar-button>
+            <app-toolbar-button label="Bearbeiten" *appHasPermission="['member_admin', 2]" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
+            <app-toolbar-button label="Löschen" *appHasPermission="['member_admin', 3]" icon="delete" [disabled]="true"></app-toolbar-button>
             <!--app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button-->
         }
         @case (TabName.QUERIES) {

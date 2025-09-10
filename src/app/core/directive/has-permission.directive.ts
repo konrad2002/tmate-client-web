@@ -62,7 +62,7 @@ export class HasPermissionDirective implements OnDestroy {
         }
 
         if (typeof perm === 'number') {
-            return perm === expected;
+            return perm >= (expected as number);
         }
 
         if (permission === 'email_address_usage' && param1) {
