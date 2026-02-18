@@ -24,4 +24,8 @@ export class ConfigService extends BaseService {
     getConfig(): Observable<ConfigModel> {
         return this.apiService.get(this.API_URL, "");
     }
+
+    initConfig(): Observable<void> {
+        return this.apiService.post(this.API_URL, "init", null);
+    }
 }
