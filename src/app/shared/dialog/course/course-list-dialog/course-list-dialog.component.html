@@ -18,6 +18,14 @@
                 </mat-select>
             </mat-form-field>
         }
+
+        <mat-form-field style="margin-left: 20px;">
+            <mat-label>Suche</mat-label>
+            <input matInput type="search" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="Kurse suchen">
+        </mat-form-field>
+        <mat-slide-toggle style="margin-left: 16px;" [(ngModel)]="searchAll" (ngModelChange)="applyFilters()">
+            Alle Kurse durchsuchen
+        </mat-slide-toggle>
     </div>
 
     @if (courses) {

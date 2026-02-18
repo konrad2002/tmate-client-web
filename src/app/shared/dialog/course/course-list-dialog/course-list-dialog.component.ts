@@ -16,6 +16,8 @@ import {MatSelect} from '@angular/material/select';
 import {MatOption} from '@angular/material/core';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
+import {MatInput} from '@angular/material/input';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-course-list-dialog',
@@ -33,7 +35,9 @@ import {FormsModule} from '@angular/forms';
         MatOption,
         MatFormField,
         MatLabel,
-        FormsModule
+        FormsModule,
+        MatInput,
+        MatSlideToggle
     ],
   templateUrl: './course-list-dialog.component.html',
   styleUrl: './course-list-dialog.component.scss'
@@ -47,6 +51,8 @@ export class CourseListDialogComponent implements OnInit {
     filterType: 'upcoming' | 'current' | 'past' = 'upcoming';
     selectedYear: number | null = null;
     availableYears: number[] = [];
+    searchTerm = '';
+    searchAll = false;
 
     constructor(
         public dialogRef: MatDialogRef<CourseListDialogComponent>,
@@ -67,28 +73,53 @@ export class CourseListDialogComponent implements OnInit {
 
     applyFilters() {
         this.courses = [];
-        console.log("apply filters", this.filterType, this.selectedYear)
-        let filtered = this.allCourses;
         const today = new Date();
+        const query = this.searchTerm.trim().toLowerCase();
 
-        switch (this.filterType) {
-            case 'upcoming':
-                filtered = this.allCourses.filter(course => course.begin_date.getTime() > today.getTime());
-                break;
-            case 'current':
-                filtered = this.allCourses.filter(course => {
-                    return course.begin_date.getTime() <= today.getTime() && today.getTime() <= course.end_date.getTime();
-                });
-                break;
-            case 'past':
-                filtered = this.allCourses.filter(course => course.end_date.getTime() < today.getTime());
-                if (this.selectedYear) {
-                    filtered = filtered.filter(course => course.begin_date.getFullYear() === this.selectedYear);
-                }
-                break;
+        let filtered = this.allCourses;
+        if (!this.searchAll) {
+            switch (this.filterType) {
+                case 'upcoming':
+                    filtered = this.allCourses.filter(course => course.begin_date.getTime() > today.getTime());
+                    break;
+                case 'current':
+                    filtered = this.allCourses.filter(course => {
+                        return course.begin_date.getTime() <= today.getTime() && today.getTime() <= course.end_date.getTime();
+                    });
+                    break;
+                case 'past':
+                    filtered = this.allCourses.filter(course => course.end_date.getTime() < today.getTime());
+                    if (this.selectedYear) {
+                        filtered = filtered.filter(course => course.begin_date.getFullYear() === this.selectedYear);
+                    }
+                    break;
+            }
+        }
+
+        if (query.length > 0) {
+            filtered = filtered.filter(course => this.matchesSearch(course, query));
         }
 
         this.courses = filtered;
+    }
+
+    private matchesSearch(course: CourseModel, query: string): boolean {
+        const haystack = [
+            course.id,
+            course.name,
+            course.location,
+            course.time,
+            course.price,
+            course.total_spots,
+            course.free_spots,
+            course.style,
+            course.level,
+            course.age,
+            course.information
+        ]
+            .map(value => (value ?? '').toString().toLowerCase());
+
+        return haystack.some(value => value.includes(query));
     }
 
     extractAvailableYears() {
