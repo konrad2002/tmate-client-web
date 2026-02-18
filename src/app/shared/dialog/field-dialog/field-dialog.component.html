@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Spalte erstellen</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="field.name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Anzeigename</mat-label>
+        <input matInput [(ngModel)]="field.display_name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Typ</mat-label>
+        <mat-select [(ngModel)]="field.type">
+            @for (fieldType of fieldTypes; track fieldType) {
+                <mat-option [value]="fieldType">{{fieldType}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <mat-slide-toggle [(ngModel)]="field.nullable">Null?</mat-slide-toggle>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+    <button mat-button (click)="createField()">Spalte erstellen</button>
+</mat-dialog-actions>

@@ -62,6 +62,9 @@
                             <span class="family">-</span>
                         }
                     }
+                    @case (FieldType.COURSES) {
+                        <span>{{ member.data[field.name].length }}</span>
+                    }
                     @default {
                         <span>{{ member.data[field.name] }}</span>
                     }

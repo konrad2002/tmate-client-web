@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Mitgliedertabelle</h2>
+<mat-dialog-content>
+    <button mat-button (click)="createField()">Spalte erstellen</button>
+
+    @if (fields) {
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Anzeigename</th>
+                <th>Typ</th>
+                <th>Daten</th>
+                <th>Null?</th>
+                <th>Position</th>
+            </tr>
+        @for (field of fields; track field.id) {
+            <tr>
+                <td>{{field.id}}</td>
+                <td>{{field.name}}</td>
+                <td>{{field.display_name}}</td>
+                <td>{{field.type}}</td>
+                <td>{{field.data}}</td>
+                <td>{{field.nullable}}</td>
+                <td>{{field.position}}</td>
+            </tr>
+        }
+        </table>
+    }
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+</mat-dialog-actions>
