@@ -1,29 +1,27 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FieldDialogComponent} from './field-dialog.component';
+import {CourseListDialogComponent} from './course-list-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {provideAnimations} from '@angular/platform-browser/animations';
 
-describe('FieldDialogComponent', () => {
-    let component: FieldDialogComponent;
-    let fixture: ComponentFixture<FieldDialogComponent>;
+describe('CourseListDialogComponent', () => {
+    let component: CourseListDialogComponent;
+    let fixture: ComponentFixture<CourseListDialogComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [FieldDialogComponent],
+            imports: [CourseListDialogComponent],
             providers: [
                 {provide: MAT_DIALOG_DATA, useValue: {}},
                 {provide: MatDialogRef, useValue: {}},
                 provideHttpClient(),
                 provideHttpClientTesting(),
-                provideAnimations()
             ]
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(FieldDialogComponent);
+        fixture = TestBed.createComponent(CourseListDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

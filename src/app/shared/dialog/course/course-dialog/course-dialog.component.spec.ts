@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {FieldDialogComponent} from './field-dialog.component';
+import {CourseDialogComponent} from './course-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideAnimations} from '@angular/platform-browser/animations';
 
-describe('FieldDialogComponent', () => {
-    let component: FieldDialogComponent;
-    let fixture: ComponentFixture<FieldDialogComponent>;
+describe('CourseDialogComponent', () => {
+    let component: CourseDialogComponent;
+    let fixture: ComponentFixture<CourseDialogComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [FieldDialogComponent],
+            imports: [CourseDialogComponent],
             providers: [
                 {provide: MAT_DIALOG_DATA, useValue: {}},
                 {provide: MatDialogRef, useValue: {}},
@@ -23,7 +23,7 @@ describe('FieldDialogComponent', () => {
         })
             .compileComponents();
 
-        fixture = TestBed.createComponent(FieldDialogComponent);
+        fixture = TestBed.createComponent(CourseDialogComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

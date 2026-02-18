@@ -9,6 +9,7 @@ import {CoreModule} from './core/core.module';
 import {MAT_SNACK_BAR_DEFAULT_OPTIONS} from '@angular/material/snack-bar';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TokenInterceptor} from './core/interceptor/token.interceptor';
+import {provideNativeDateAdapter} from '@angular/material/core';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {TokenInterceptor} from './core/interceptor/token.interceptor';
     providers: [
         {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3500}},
         {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-        provideAnimations()
+        provideAnimations(),
+        provideNativeDateAdapter()
     ],
     bootstrap: [AppComponent]
 })

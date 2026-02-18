@@ -15,6 +15,9 @@
         <button class="btn btn-tab {{currentTab === TabName.QUERIES ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.QUERIES)">Abfragen
         </button>
+        <button *appHasPermission="['course_management']" class="btn btn-tab {{currentTab === TabName.COURSES ? 'btn-tab-active' : ''}}"
+                (click)="switchTab(TabName.COURSES)">Kurse
+        </button>
         <button class="btn btn-tab {{currentTab === TabName.EXPORT  ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.EXPORT)">Export
         </button>
@@ -67,6 +70,10 @@
                     <app-toolbar-button label="'{{query.name}}' bearbeiten" icon="edit" (btn_click)="onQueryEditClick(query)"></app-toolbar-button>
                 }
             }
+        }
+        @case (TabName.COURSES) {
+            <app-toolbar-button label="Kursliste" icon="class" (btn_click)="onCourseListClick()"></app-toolbar-button>
+            <app-toolbar-button label="Zu Kurs hinzufügen" icon="play_lesson" [disabled]="true"></app-toolbar-button>
         }
         @case (TabName.EXPORT) {
             <!--        <button class="btn btn-tool inactive" id="btn-tool-export-csv-all"><i class="btn-tool-icon fas fa-file-csv"></i>CSV alle Einträge</button>-->

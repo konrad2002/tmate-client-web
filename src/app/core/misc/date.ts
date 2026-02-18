@@ -10,3 +10,15 @@ export function formatCurrentDate(): string {
 
     return `${yyyy}-${mm}-${dd}_${hh}-${ii}-${ss}`;
 }
+
+
+export function toIsoDateTime(value: Date | string | null | undefined): string | null {
+    if (!value) {
+        return null;
+    }
+    if (value instanceof Date) {
+        return value.toISOString();
+    }
+    const parsed = new Date(`${value}T00:00:00Z`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
+}

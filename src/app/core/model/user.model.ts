@@ -18,6 +18,7 @@ export interface PermissionSet {
     email_address_management: boolean;
     bypass_email_regex: boolean;
     query_management: boolean;
+    course_management: boolean;
 
     email_address_usage: Record<string, boolean>;
 

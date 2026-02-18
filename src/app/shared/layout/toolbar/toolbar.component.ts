@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {ToolbarService} from '../../../core/service/toolbar.service';
 import {TableService} from '../../../core/service/table.service';
 import {MemberModel} from '../../../core/model/member.model';
@@ -12,12 +12,14 @@ import {AuthService} from '../../../core/service/auth.service';
 import {NgIf} from '@angular/common';
 import {NilObjectId} from "../../../core/misc/object-id.const";
 import {HasPermissionDirective} from '../../../core/directive/has-permission.directive';
+import {CourseDialogService} from '../../../core/service/dialog/course-dialog.service';
 
 export enum TabName {
     START,
     EDIT,
     MEMBERS,
     QUERIES,
+    COURSES,
     EXPORT
 }
 
@@ -33,6 +35,13 @@ export enum TabName {
     standalone: true
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
+    private toolbarService: ToolbarService = inject(ToolbarService);
+    private tableService: TableService = inject(TableService);
+    private queryService: QueryService = inject(QueryService);
+    private helpDialogService: HelpDialogService = inject(HelpDialogService);
+    private courseDialogService: CourseDialogService = inject(CourseDialogService);
+    private authService: AuthService = inject(AuthService);
+
     currentTab: TabName = TabName.START;
     tabSubscription: Subscription;
 
@@ -52,13 +61,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     protected readonly TabName = TabName;
 
-    constructor(
-        private toolbarService: ToolbarService,
-        private tableService: TableService,
-        private queryService: QueryService,
-        private helpDialogService: HelpDialogService,
-        private authService: AuthService
-    ) {
+    constructor() {
         this.selectedMemberSubscription = this.tableService.selectedMember.subscribe(members => {
             this.selectedMembers = members;
         })
@@ -153,4 +156,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     protected readonly NilObjectId = NilObjectId;
+
+    onCourseListClick() {
+        this.courseDialogService.openCourseListDialog();
+    }
 }

@@ -23,4 +23,18 @@ export enum FieldType {
     BOOLEAN = "boolean",
     DATE = "date",
     FAMILY = "family",
+    COURSES = "courses"
 }
+
+export const fieldTypes: FieldType[] = [
+    FieldType.STRING,
+    FieldType.NUMBER,
+    FieldType.EMAIL,
+    FieldType.SELECT,
+    FieldType.MULTI_SELECT,
+    FieldType.PHONE_NUMBER,
+    FieldType.BOOLEAN,
+    FieldType.DATE,
+    FieldType.FAMILY,
+    FieldType.COURSES,
+]

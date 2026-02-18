@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>Kurs erstellen</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="course.name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Alter</mat-label>
+        <mat-select [(ngModel)]="course.age">
+            <mat-option value="Erwachsene">Erwachsene</mat-option>
+            <mat-option value="Kinder">Kinder</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Ort</mat-label>
+        <mat-select [(ngModel)]="course.location">
+            <mat-option value="Marienberg">Marienberg</mat-option>
+            <mat-option value="Freital">Freital</mat-option>
+            <mat-option value="Olbernhau">Olbernhau</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Schwimmart</mat-label>
+        <input matInput [(ngModel)]="course.style">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Level</mat-label>
+        <input matInput [(ngModel)]="course.level">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Uhrzeit</mat-label>
+        <input type="time" matInput [(ngModel)]="course.time">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Preis</mat-label>
+        <input type="number" matInput [(ngModel)]="course.price">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Plätze gesamt</mat-label>
+        <input type="number" matInput [(ngModel)]="course.total_spots">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Verfügbare Plätze</mat-label>
+        <input type="number" matInput [(ngModel)]="course.free_spots">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Zeitraum</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start" [(ngModel)]="course.begin_date">
+            <input matEndDate placeholder="Ende" [(ngModel)]="course.end_date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Weitere Informationen</mat-label>
+        <textarea matInput [(ngModel)]="course.information"></textarea>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+    <button mat-button (click)="createCourse()">Kurs erstellen</button>
+</mat-dialog-actions>
