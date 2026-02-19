@@ -1,7 +1,11 @@
-import {inject, Injectable} from '@angular/core';
+import {EventEmitter, inject, Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {CourseListDialogComponent} from '../../../shared/dialog/course/course-list-dialog/course-list-dialog.component';
-import {CourseDialogComponent} from '../../../shared/dialog/course/course-dialog/course-dialog.component';
+import {
+    CourseDialogComponent,
+    CourseDialogData
+} from '../../../shared/dialog/course/course-dialog/course-dialog.component';
+import {CourseModel} from '../../model/course.model';
 
 @Injectable({
     providedIn: 'root'
@@ -16,10 +20,15 @@ export class CourseDialogService {
         })
     }
 
-    openCourseDialog() {
+    openCourseDialog(course?: CourseModel, callback?: EventEmitter<CourseModel>) {
         this.dialog.open(CourseDialogComponent, {
             width: '50%',
-            maxWidth: '500px'
+            maxWidth: '500px',
+            data: {
+                course: course
+            } as CourseDialogData
+        }).afterClosed().subscribe((result: CourseModel) => {
+            callback?.next(result);
         });
     }
 }

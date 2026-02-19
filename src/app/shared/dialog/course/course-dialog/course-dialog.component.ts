@@ -1,7 +1,8 @@
-import {Component, inject} from '@angular/core';
+import {Component, Inject, inject} from '@angular/core';
 import {CourseService} from '../../../../core/service/api/course.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {
+    MAT_DIALOG_DATA,
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
@@ -17,6 +18,10 @@ import {MatSelect} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput, MatDateRangePicker} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+
+export interface CourseDialogData {
+    course?: CourseModel;
+}
 
 @Component({
   selector: 'app-course-dialog',
@@ -58,16 +63,31 @@ export class CourseDialogComponent {
 
     constructor(
         public dialogRef: MatDialogRef<CourseDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: CourseDialogData
     ) {
+        if (data.course) {
+            this.course = data.course;
+        }
     }
 
     createCourse() {
         this.courseService.addCourse(this.course).subscribe({
             next: (result) => {
                 this.snackBar.open("Kurs angelegt!")
-                this.dialogRef.close(result)
+                this.dialogRef.close(CourseModel.fromDto(result))
             }, error: _ => {
-                this.snackBar.open("Kurs anlegen fehlgeschlagen!")
+                this.snackBar.open("Erstellen fehlgeschlagen!")
+            }
+        });
+    }
+
+    updateCourse() {
+        this.courseService.updateCourse(this.course).subscribe({
+            next: (result) => {
+                this.snackBar.open("Kurs aktualisiert!")
+                this.dialogRef.close(CourseModel.fromDto(result))
+            }, error: _ => {
+                this.snackBar.open("Speichern fehlgeschlagen!")
             }
         });
     }

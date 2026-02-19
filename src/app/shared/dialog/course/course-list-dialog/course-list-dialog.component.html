@@ -31,9 +31,11 @@
     @if (courses) {
         <table class="table">
             <tr>
+                <th>&nbsp;</th>
                 <th>Name</th>
                 <th>Ort</th>
                 <th>Zeit</th>
+                <th>Tag</th>
                 <th>Preis</th>
                 <th>Plätze</th>
                 <th>Frei</th>
@@ -46,9 +48,13 @@
             </tr>
             @for (course of courses; track course.id) {
                 <tr>
+                    <td>
+                        <button mat-icon-button (click)="editCourse(course)"><mat-icon>edit</mat-icon></button>
+                    </td>
                     <td>{{course.name}}</td>
                     <td>{{course.location}}</td>
                     <td>{{course.time}}</td>
+                    <td>{{course.day}}</td>
                     <td>{{course.price}}</td>
                     <td>{{course.total_spots}}</td>
                     <td>{{course.free_spots}}</td>

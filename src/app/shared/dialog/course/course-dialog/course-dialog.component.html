@@ -1,4 +1,10 @@
-<h2 mat-dialog-title>Kurs erstellen</h2>
+<h2 mat-dialog-title>
+    @if (data.course) {
+        Kurs bearbeiten
+    } @else {
+        Kurs erstellen
+    }
+</h2>
 <mat-dialog-content>
     <mat-form-field>
         <mat-label>Name</mat-label>
@@ -32,6 +38,18 @@
         <input type="time" matInput [(ngModel)]="course.time">
     </mat-form-field>
     <mat-form-field>
+        <mat-label>Wochentag</mat-label>
+        <mat-select [(ngModel)]="course.day">
+            <mat-option value="Montag">Montag</mat-option>
+            <mat-option value="Dienstag">Dienstag</mat-option>
+            <mat-option value="Mittwoch">Mittwoch</mat-option>
+            <mat-option value="Donnerstag">Donnerstag</mat-option>
+            <mat-option value="Freitag">Freitag</mat-option>
+            <mat-option value="Samstag">Samstag</mat-option>
+            <mat-option value="Sonntag">Sonntag</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
         <mat-label>Preis</mat-label>
         <input type="number" matInput [(ngModel)]="course.price">
     </mat-form-field>
@@ -60,5 +78,9 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="false">Schließen</button>
-    <button mat-button (click)="createCourse()">Kurs erstellen</button>
+    @if (data.course) {
+        <button mat-button (click)="updateCourse()">Kurs speichern</button>
+    } @else {
+        <button mat-button (click)="createCourse()">Kurs erstellen</button>
+    }
 </mat-dialog-actions>

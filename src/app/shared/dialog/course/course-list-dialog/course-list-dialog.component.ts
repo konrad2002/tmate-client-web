@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, EventEmitter, inject, OnInit} from '@angular/core';
 import {
     MatDialogActions,
     MatDialogClose,
@@ -7,7 +7,7 @@ import {
     MatDialogTitle
 } from '@angular/material/dialog';
 import {CourseService} from '../../../../core/service/api/course.service';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {CourseDialogService} from '../../../../core/service/dialog/course-dialog.service';
 import {CourseModel} from '../../../../core/model/course.model';
 import {DatePipe, CommonModule} from '@angular/common';
@@ -18,6 +18,7 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-course-list-dialog',
@@ -37,7 +38,9 @@ import {MatSlideToggle} from '@angular/material/slide-toggle';
         MatLabel,
         FormsModule,
         MatInput,
-        MatSlideToggle
+        MatSlideToggle,
+        MatIconButton,
+        MatIcon
     ],
   templateUrl: './course-list-dialog.component.html',
   styleUrl: './course-list-dialog.component.scss'
@@ -109,6 +112,7 @@ export class CourseListDialogComponent implements OnInit {
             course.name,
             course.location,
             course.time,
+            course.day,
             course.price,
             course.total_spots,
             course.free_spots,
@@ -141,5 +145,20 @@ export class CourseListDialogComponent implements OnInit {
 
     createCourse() {
         this.courseDialogService.openCourseDialog();
+    }
+
+    editCourse(course: CourseModel) {
+        const callback = new EventEmitter<CourseModel>()
+        this.courseDialogService.openCourseDialog(course, callback);
+
+        callback.subscribe({
+            next: (updatedCourse: CourseModel) => {
+                const index = this.allCourses.findIndex(c => c.id === updatedCourse.id);
+                if (index !== -1) {
+                    this.allCourses[index] = updatedCourse;
+                    this.applyFilters();
+                }
+            }
+        })
     }
 }

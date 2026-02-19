@@ -5,6 +5,7 @@ export interface CourseModel {
     name: string;
     location: string;
     time: string;
+    day: string;
     price: number;
     total_spots: number;
     free_spots: number;
@@ -24,6 +25,7 @@ export interface CourseModelDto {
     name: string;
     location: string;
     time: string;
+    day: string;
     price: number;
     total_spots: number;
     free_spots: number;
