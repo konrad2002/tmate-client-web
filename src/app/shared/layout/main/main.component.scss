@@ -3,6 +3,9 @@
     margin-left: 70px;
     transition: 0.5s;
     margin-top: 152px;
+    overflow: scroll;
+    display: block;
+    height: calc(100vh - 152px);
 }
 
 app-sidebar:hover ~ .content {

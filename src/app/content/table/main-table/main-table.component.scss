@@ -12,6 +12,8 @@ mat-progress-bar {
     th {
         cursor: pointer;
         white-space: nowrap;
+        position: sticky;
+        top: 0;
 
         mat-icon {
             color: white;
