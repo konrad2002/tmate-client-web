@@ -1,6 +1,8 @@
 <div class="tabs">
     <div class="title">tMat<sup>e</sup></div>
 
+    <span class="tab-user-info" *ngIf="currentUser">Nutzer: <b>{{currentUser.username}}</b></span>
+
     <div class="tab-buttons">
         <button class="btn btn-tab {{currentTab === TabName.START   ? 'btn-tab-active' : ''}}"
                 (click)="switchTab(TabName.START)">Start
@@ -22,8 +24,6 @@
                 (click)="switchTab(TabName.EXPORT)">Export
         </button>
     </div>
-
-    <span class="tab-user-info" *ngIf="currentUser">Angemeldet als: <b>{{currentUser.username}}</b></span>
 </div>
 
 <div class="tools" id="tools">
