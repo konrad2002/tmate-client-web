@@ -14,7 +14,7 @@ import {MatButton, MatIconButton,} from '@angular/material/button';
 import {FieldService} from '../../../core/service/api/field.service';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {MatOption, MatSelect} from '@angular/material/select';
-import {KeyValuePipe, NgIf} from '@angular/common';
+import {KeyValuePipe} from '@angular/common';
 import {MemberService} from '../../../core/service/api/member.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {PartialObserver} from 'rxjs';
@@ -48,7 +48,6 @@ export interface MemberDetailDialogData {
         MatOption,
         KeyValuePipe,
         SpinnerComponent,
-        NgIf,
         MatIconButton,
         MatIcon,
     ],
@@ -109,6 +108,7 @@ export class MemberDetailDialogComponent implements OnInit {
             this.memberService.getMemberById(this.data.member.id).subscribe({
                 next: member => {
                     this.member = member;
+                    console.log("loaded details for member: ", member);
                     this.fetching--;
                 }, error: _ => {
                     this.fetching--;

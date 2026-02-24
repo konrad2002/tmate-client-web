@@ -53,17 +53,18 @@
                     }
                     @case (FieldType.FAMILY) {
                         @if (families && families.families && families.families[member.data[specialFields.family]]) {
-                            <!-- TODO: use @let after Webstorm update -->
-                            <ng-container *ngIf="families.families[member.data[specialFields.family]] as family">
-                                <span class="family">Fam. {{ family.last_name }} <span
-                                    [title]="getFamilyMemberString(family)">({{ family.member_count }})</span></span>
-                            </ng-container>
+                            @let family = families.families[member.data[specialFields.family]];
+                            <span class="family">Fam. {{ family.last_name }} <span [title]="getFamilyMemberString(family)">({{ family.member_count }})</span></span>
                         } @else {
                             <span class="family">-</span>
                         }
                     }
                     @case (FieldType.COURSES) {
+                        @if (member.data[field.name] && member.data[field.name].length > 0) {
                         <span>{{ member.data[field.name].length }}</span>
+                        } @else {
+                            <span>0</span>
+                        }
                     }
                     @default {
                         <span>{{ member.data[field.name] }}</span>
