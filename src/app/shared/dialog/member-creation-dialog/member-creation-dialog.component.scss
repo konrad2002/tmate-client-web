@@ -1,0 +1,29 @@
+.member-form {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 8px;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+.family-form {
+    .family-info {
+        width: calc(100% - 90px);
+        display: inline-block;
+        vertical-align: middle;
+
+        .family {
+            font-weight: bold;
+            display: block;
+        }
+    }
+
+    .modify-family-button {
+        vertical-align: middle;
+        width: 90px;
+        display: inline-block;
+    }
+}

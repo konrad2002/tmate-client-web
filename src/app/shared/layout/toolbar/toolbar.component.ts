@@ -18,6 +18,7 @@ export enum TabName {
     START,
     EDIT,
     MEMBERS,
+    FORMS,
     QUERIES,
     COURSES,
     EXPORT
@@ -159,5 +160,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     onCourseListClick() {
         this.courseDialogService.openCourseListDialog();
+    }
+
+    onFormsCreateForm() {
+        // TODO
     }
 }

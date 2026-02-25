@@ -9,6 +9,9 @@ import {
     MemberDetailDialogData
 } from '../../../shared/dialog/member-detail-dialog/member-detail-dialog.component';
 import {SearchDialogComponent} from '../../../shared/dialog/search-dialog/search-dialog.component';
+import {
+    MemberCreationDialogComponent, MemberCreationDialogData
+} from '../../../shared/dialog/member-creation-dialog/member-creation-dialog.component';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +39,21 @@ export class MemberDialogService {
                 edit: edit,
                 member: member
             } as MemberDetailDialogData,
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result)
+            eventSubject?.next(result);
+        });
+    }
+
+    openMemberCreationDialog(formId: string, eventSubject?: Subject<MemberEvent>) {
+        const dialogRef = this.dialog.open(MemberCreationDialogComponent, {
+            width: '95%',
+            maxWidth: '950px',
+            data: {
+                formId: formId
+            } as MemberCreationDialogData,
         });
 
         dialogRef.afterClosed().subscribe(result => {

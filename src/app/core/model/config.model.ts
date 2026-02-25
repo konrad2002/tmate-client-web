@@ -6,7 +6,8 @@ export interface SpecialFieldsConfig {
     family: string;
     attest_date: string;
     attest_required: string;
-    address: AddressFieldsConfig
+    address: AddressFieldsConfig;
+    courses: string;
 }
 
 export interface AddressFieldsConfig {
@@ -18,4 +19,8 @@ export interface AddressFieldsConfig {
 
 export interface ConfigModel {
     default_query: string;
+    courses: {
+        course_member_fields: string[];
+        defaults: Record<string, any>
+    }
 }
