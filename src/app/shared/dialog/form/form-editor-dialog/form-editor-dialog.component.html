@@ -1,1 +1,22 @@
-<p>form-editor-dialog works!</p>
+<h2 mat-dialog-title>Formular {{ data.edit ? 'bearbeiten' : 'hinzufügen' }}</h2>
+<mat-dialog-content>
+    @if (fetching > 0) {
+        <app-spinner spinnerLayout="dialog"></app-spinner>
+    } @else {
+        @if (data.form && fields) {
+            <app-form-editor [fields]="fields" [form]="data.form"></app-form-editor>
+        }
+    }
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Abbrechen</button>
+    @if (data.edit) {
+        <button class="delete-button" mat-button (click)="deleteForm()">Löschen</button>
+    }
+    <button
+        mat-button
+        (click)="saveForm()"
+        [disabled]="!data.form.name"
+    >Speichern
+    </button>
+</mat-dialog-actions>

@@ -10,6 +10,7 @@ import {formatCurrentDate} from '../misc/date';
 import {EmailDialogService} from './dialog/email-dialog.service';
 import {MemberDialogService} from './dialog/member-dialog.service';
 import {QueryDialogService} from './dialog/query-dialog.service';
+import {FormModel} from '../model/form.model';
 
 @Injectable({
     providedIn: 'root'
@@ -39,6 +40,10 @@ export class ToolbarService {
 
     openMemberEditDialog(member: MemberModel) {
         this.memberDialogService.openMemberDetailDialog(true, member);
+    }
+
+    openMemberAddFormDialog(form: FormModel) {
+        this.memberDialogService.openMemberFormDialog(form.id);
     }
 
     openMemberDialog(member: MemberModel) {

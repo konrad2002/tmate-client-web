@@ -2,7 +2,7 @@ export interface FormModel {
     id: string;
     name: string;
     form_groups: FormGroup[];
-    defaults: Record<string, any>;
+    defaults?: Record<string, any>;
     created_at: string;
     updated_at: string;
 }

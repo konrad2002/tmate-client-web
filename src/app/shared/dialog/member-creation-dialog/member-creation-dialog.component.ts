@@ -99,7 +99,7 @@ export class MemberCreationDialogComponent implements OnInit {
             next: form => {
                 this.form = form;
 
-                if (!this.data.edit) {
+                if (!this.data.edit && this.form.defaults) {
                     for (const [key, value] of Object.entries(this.form.defaults)) {
                         this.member.data[key] = value;
                     }

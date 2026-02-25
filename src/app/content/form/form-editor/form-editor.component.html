@@ -1,0 +1,42 @@
+@if (form && fields) {
+    <h2>Allgemein</h2>
+
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input type="text" [(ngModel)]="form.name" matInput>
+    </mat-form-field>
+
+    <h2>Gruppen und Felder</h2>
+
+    <p>Nachfolgend können beliebig viele Gruppen aus Feldern zum Formular hinzugefügt werden, welche dann beim Erstellen und Bearbeiten von Mitgliedern editierbar sind.</p>
+
+    @for (group of form.form_groups; track group.name) {
+        <mat-form-field>
+            <mat-label>Gruppenname</mat-label>
+            <input type="text" [(ngModel)]="group.name" matInput>
+        </mat-form-field>
+
+        <h3>Felder:</h3>
+        <ul>
+            @for (field of group.fields; track field) {
+                {{field}}
+                <button mat-icon-button (click)="removeField(group, field)"><mat-icon>remove</mat-icon></button>
+            }
+        </ul>
+
+        <mat-form-field floatLabel="always">
+            <mat-label>Sortieren nach</mat-label>
+            <mat-select [(ngModel)]="newField">
+                @for (field of fields; track field.id) {
+                    <mat-option [value]="field.name">{{field.display_name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button (click)="addField(group)"><mat-icon>add</mat-icon></button>
+        <button mat-flat-button (click)="removeGroup(group)"><mat-icon>remove</mat-icon> Gruppe entfernen</button>
+
+    }
+
+    <button mat-flat-button (click)="addGroup()"><mat-icon>add</mat-icon> Neue Gruppe</button>
+}

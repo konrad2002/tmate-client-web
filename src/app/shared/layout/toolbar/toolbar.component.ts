@@ -13,6 +13,11 @@ import {NgIf} from '@angular/common';
 import {NilObjectId} from "../../../core/misc/object-id.const";
 import {HasPermissionDirective} from '../../../core/directive/has-permission.directive';
 import {CourseDialogService} from '../../../core/service/dialog/course-dialog.service';
+import {FormDialogService} from '../../../core/service/dialog/form-dialog.service';
+import {FormModel} from '../../../core/model/form.model';
+import {FormService} from '../../../core/service/api/form.service';
+import {MatDivider} from '@angular/material/divider';
+import {ToolbarDividerComponent} from './toolbar-divider/toolbar-divider.component';
 
 export enum TabName {
     START,
@@ -32,6 +37,8 @@ export enum TabName {
         ToolbarButtonComponent,
         NgIf,
         HasPermissionDirective,
+        MatDivider,
+        ToolbarDividerComponent,
     ],
     standalone: true
 })
@@ -39,8 +46,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private toolbarService: ToolbarService = inject(ToolbarService);
     private tableService: TableService = inject(TableService);
     private queryService: QueryService = inject(QueryService);
+    private formService: FormService = inject(FormService);
     private helpDialogService: HelpDialogService = inject(HelpDialogService);
     private courseDialogService: CourseDialogService = inject(CourseDialogService);
+    private formDialogService: FormDialogService = inject(FormDialogService);
     private authService: AuthService = inject(AuthService);
 
     currentTab: TabName = TabName.START;
@@ -58,6 +67,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     queries: QueryModel[] = [];
     queriesSubscription: Subscription;
+
+    forms: FormModel[] = [];
 
 
     protected readonly TabName = TabName;
@@ -82,10 +93,17 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.fetchQueries();
+        this.fetchForms();
     }
 
     fetchQueries() {
         this.queryService.fetchQueries();
+    }
+
+    fetchForms() {
+        this.formService.getForms().subscribe(forms => {
+            this.forms = forms;
+        })
     }
 
     ngOnDestroy() {
@@ -163,6 +181,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     onFormsCreateForm() {
-        // TODO
+        this.formDialogService.openFormEditDialog(false);
+    }
+
+    onFormOpen(form: FormModel) {
+        this.toolbarService.openMemberAddFormDialog(form);
+    }
+
+    onFormEditClick(form: FormModel) {
+        this.formDialogService.openFormEditDialog(true, form);
     }
 }

@@ -30,6 +30,15 @@
     z-index: 4;
 }
 
+app-toolbar-divider {
+    display: inline-block;
+    vertical-align: top;
+    height: 60px;
+    width: 2px;
+    background-color: var(--main-color);
+    margin: 20px 12px 0;
+}
+
 .title {
     font-size: 30px;
     color: var(--main-color);

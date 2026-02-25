@@ -61,14 +61,22 @@
         }
         @case (TabName.MEMBERS) {
             <app-toolbar-button label="Hilfe 'Bearbeiten'" icon="help" (btn_click)="onEditEdit()"></app-toolbar-button>
-            <app-toolbar-button label="Hinzufügen" *appHasPermission="['member_admin', 2]" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
+            <app-toolbar-divider></app-toolbar-divider>
             <app-toolbar-button label="Eintrag anzeigen" icon="person" (btn_click)="onMemberViewClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
             <app-toolbar-button label="Bearbeiten" *appHasPermission="['member_admin', 2]" icon="edit" (btn_click)="onMemberEditClick()" [disabled]="selectedMembers?.length !== 1"></app-toolbar-button>
             <app-toolbar-button label="Löschen" *appHasPermission="['member_admin', 3]" icon="delete" [disabled]="true"></app-toolbar-button>
+            <app-toolbar-divider></app-toolbar-divider>
+            <app-toolbar-button label="Hinzufügen" *appHasPermission="['member_admin', 2]" icon="add" (btn_click)="onMemberAddClick()"></app-toolbar-button>
+            @for (form of forms; track form.id) {
+                <app-toolbar-button label="{{form.name}}" *appHasPermission="['member_admin', 2]" icon="person_add" (btn_click)="onFormOpen(form)"></app-toolbar-button>
+            }
             <!--app-toolbar-button label="Tabelle importieren" icon="table_chart" [disabled]="true"></app-toolbar-button-->
         }
         @case (TabName.FORMS) {
-            <app-toolbar-button label="Formular erstellen" icon="form" (btn_click)="onFormsCreateForm()"></app-toolbar-button>
+            <app-toolbar-button label="Formular erstellen" icon="playlist_add" (btn_click)="onFormsCreateForm()"></app-toolbar-button>
+            @for (form of forms; track form.id) {
+                <app-toolbar-button label="{{form.name}}" icon="edit" (btn_click)="onFormEditClick(form)"></app-toolbar-button>
+            }
         }
         @case (TabName.QUERIES) {
             <app-toolbar-button label="Abfrage erstellen" icon="add" (btn_click)="onQueryAddClick()"></app-toolbar-button>

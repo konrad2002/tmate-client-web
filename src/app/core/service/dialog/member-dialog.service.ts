@@ -47,7 +47,7 @@ export class MemberDialogService {
         });
     }
 
-    openMemberCreationDialog(formId: string, eventSubject?: Subject<MemberEvent>) {
+    openMemberFormDialog(formId: string, eventSubject?: Subject<MemberEvent>) {
         const dialogRef = this.dialog.open(MemberCreationDialogComponent, {
             width: '95%',
             maxWidth: '950px',
