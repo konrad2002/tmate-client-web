@@ -49,7 +49,9 @@
             @for (course of courses; track course.id) {
                 <tr>
                     <td>
-                        <button mat-icon-button (click)="editCourse(course)"><mat-icon>edit</mat-icon></button>
+                        <button mat-icon-button (click)="editCourse(course)" title="Kurs bearbeiten"><mat-icon>edit</mat-icon></button>
+                        <button mat-icon-button (click)="showMembers(course)" title="Teilnehmerliste anzeigen"><mat-icon>group</mat-icon></button>
+                        <button mat-icon-button (click)="addMembers(course)" title="Teilnehmer hinzufügen"><mat-icon>person_add</mat-icon></button>
                     </td>
                     <td>{{course.name}}</td>
                     <td>{{course.location}}</td>

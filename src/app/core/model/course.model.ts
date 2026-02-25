@@ -62,3 +62,9 @@ export namespace CourseModel {
     }
 }
 
+export interface CourseRegistrationModelDto {
+    id: string;
+    course_id: string;
+    registered_at: string;
+}
+

@@ -45,6 +45,10 @@ export class MemberService extends BaseService {
         return this.apiService.get(this.API_URL, "families");
     }
 
+    getMembersByCourse(courseId: string): Observable<MemberModel[]> {
+        return this.apiService.get(this.API_URL, "course/" + courseId);
+    }
+
     addMember(member: MemberModel, familyMemberId?: string): Observable<MemberModel> {
         let familyString = "";
         if (familyMemberId) familyString = "?family_member_id=" + familyMemberId

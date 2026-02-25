@@ -161,4 +161,12 @@ export class CourseListDialogComponent implements OnInit {
             }
         })
     }
+
+    addMembers(course: CourseModel) {
+        // TODO
+    }
+
+    showMembers(course: CourseModel) {
+        this.courseDialogService.openCourseParticipationDialog(course);
+    }
 }

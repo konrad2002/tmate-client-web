@@ -6,6 +6,9 @@ import {
     CourseDialogData
 } from '../../../shared/dialog/course/course-dialog/course-dialog.component';
 import {CourseModel} from '../../model/course.model';
+import {
+    CourseParticipantListDialogComponent, CourseParticipantsDialogData
+} from '../../../shared/dialog/course/course-participant-list-dialog/course-participant-list-dialog.component';
 
 @Injectable({
     providedIn: 'root'
@@ -30,5 +33,15 @@ export class CourseDialogService {
         }).afterClosed().subscribe((result: CourseModel) => {
             callback?.next(result);
         });
+    }
+
+    openCourseParticipationDialog(course: CourseModel) {
+        this.dialog.open(CourseParticipantListDialogComponent, {
+            width: '75%',
+            maxWidth: '750px',
+            data: {
+                course: course
+            } as CourseParticipantsDialogData
+        })
     }
 }

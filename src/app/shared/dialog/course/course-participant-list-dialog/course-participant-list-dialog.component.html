@@ -1,0 +1,44 @@
+<h2 mat-dialog-title>Teilnehmerliste "{{data.course.name}}"</h2>
+<mat-dialog-content>
+    @if (fetching) {
+        <app-spinner></app-spinner>
+    } @else {
+        <table class="table">
+            <tr>
+                <!-- TODO: use query to fetch custom data fields -->
+                <th>&nbsp;</th>
+                <th>Vorname</th>
+                <th>Name</th>
+                <th>E-Mail</th>
+                <th>Anmeldedatum</th>
+            </tr>
+            @for (member of members; track member.id) {
+                <tr>
+                    <td>
+                        <div class="action-buttons">
+                            <button mat-icon-button (click)="openMemberDetailsDialog(member)" title="Datenblatt aufrufen"><mat-icon>visibility</mat-icon></button>
+                            <button mat-icon-button (click)="openMemberEditDialog(member)" title="Mitglied bearbeiten"><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button (click)="removeFromCourse(member)" title="Als Teilnehmer entfernen"><mat-icon>person_remove</mat-icon></button>
+                        </div>
+                    </td>
+                    <td>
+                        {{member.data[special_fields.first_name]}}
+                    </td>
+                    <td>
+                        {{member.data[special_fields.last_name]}}
+                    </td>
+                    <td>
+                        {{member.data[special_fields.e_mail]}}
+                    </td>
+                    <td>
+                        {{getCourseRegistrationDate(member)}}
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-flat-button (click)="addParticipant()">Teilnehmer hinzufügen</button>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+</mat-dialog-actions>
