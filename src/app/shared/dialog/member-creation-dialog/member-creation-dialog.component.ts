@@ -82,7 +82,11 @@ export class MemberCreationDialogComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<MemberCreationDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberCreationDialogData
-    ) {}
+    ) {
+        if (!this.data.edit && this.data.member) {
+            this.member = this.data.member;
+        }
+    }
 
     ngOnInit() {
         this.fetching++;

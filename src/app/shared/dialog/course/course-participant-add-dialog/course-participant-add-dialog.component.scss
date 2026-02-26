@@ -1,0 +1,81 @@
+.course-member-selection {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 16px;
+}
+
+.selected-box {
+    position: sticky;
+    top: 0;
+    height: fit-content;
+
+    .details-header {
+        display: grid;
+        grid-template-columns: 1fr 20px;
+        align-items: center;
+
+        mat-icon {
+            color: gray;
+
+            &.error {
+                color: red;
+            }
+
+            &.success {
+                color: #00bd00;
+            }
+        }
+    }
+
+    .details-table {
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 0;
+        padding-left: 8px;
+
+        span {
+            overflow: hidden;
+            text-wrap: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        i {
+            grid-column: 2;
+        }
+    }
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+.member {
+    padding: 8px;
+
+    &:nth-child(2n) {
+        background-color: #f2f2f2;
+    }
+
+    mat-icon  {
+        margin-right: 12px;
+        width: 24px;
+    }
+
+    mat-icon,
+    .member-name,
+    button {
+        vertical-align: middle;
+    }
+
+    .member-name {
+        display: inline-block;
+        width: calc(100% - 12px - 24px - 94px - 16px);
+    }
+
+    button {
+        width: 94px;
+    }
+}

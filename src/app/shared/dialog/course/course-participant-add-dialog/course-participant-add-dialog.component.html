@@ -1,35 +1,144 @@
 <h2 mat-dialog-title>Teilnehmer zu Kurs hinzufügen</h2>
-<mat-dialog-content>
-    <br>
+<mat-dialog-content class="course-member-selection">
 
-    <h3>Kurs wählen</h3>
 
-    @if (courses && courses.length > 0) {
-        <mat-form-field>
-            <mat-label>Kurs</mat-label>
+    <div class="selection-box">
 
-            <input
-                matInput
-                placeholder="Kursname suchen..."
-                [(ngModel)]="data.course!.name"
-                [matAutocomplete]="auto"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-                @for (course of courses; track course.id) {
-                    <mat-option [value]="course.name">{{ course.name }}</mat-option>
+        <h3>Kurs wählen</h3>
+
+        @if (courses && courses.length > 0) {
+            <mat-form-field>
+                <mat-label>Kurs</mat-label>
+
+                <input
+                    matInput
+                    placeholder="Kursname suchen..."
+                    [(ngModel)]="selectedCourseName"
+                    [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectCourse()">
+                    @for (course of courses; track course.id) {
+                        <mat-option [value]="course.name">{{ course.name }}</mat-option>
+                    }
+                </mat-autocomplete>
+
+            </mat-form-field>
+        }
+
+        <br>
+
+        <h3>Mitglied wählen</h3>
+
+        <div class="search-box">
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Vorname</mat-label>
+                <input type="search" matInput [(ngModel)]="firstName" (input)="runSearch()">
+            </mat-form-field>
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Nachname</mat-label>
+                <input type="search" matInput [(ngModel)]="lastName" (input)="runSearch()">
+            </mat-form-field>
+            <button mat-icon-button (click)="runSearch()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </div>
+        <div class="member-list">
+            @for (member of membersFiltered.slice(0, 5); track member.id) {
+                <div class="member">
+                    <mat-icon>person</mat-icon>
+                    <span class="member-name">{{ member.data[special_fields.last_name] }}
+                        , {{ member.data[special_fields.first_name] }}</span>
+                    <button mat-button (click)="selectMember(member)">Auswählen</button>
+                </div>
+            }
+            @if (membersFiltered.length > 20) {
+                <div class="member">
+                    <mat-icon>search</mat-icon>
+                    <span class="member-name"><i>Zeigt nur die ersten 20 Ergebnisse an!</i></span>
+                </div>
+            }
+        </div>
+
+        <br>
+
+        @if (firstName.length > 1 && lastName.length > 1) {
+            <button mat-flat-button (click)="onCreateMemberClick()">Neues Mitglied '{{firstName}} {{lastName}}' anlegen</button>
+        } @else {
+            <button mat-flat-button (click)="onCreateMemberClick()">Neues Mitglied anlegen</button>
+        }
+    </div>
+
+    <div class="selected-box">
+        <h3>Auswahl</h3>
+
+        <div class="details-header">
+            <b>Kurs: {{ selectedCourse?.name ?? "" }}</b>
+            @if (!selectedCourse) {
+                @if (selectedCourseName) {
+                    <mat-icon class="error">error</mat-icon>
+                } @else {
+                    <mat-icon>help</mat-icon>
                 }
-            </mat-autocomplete>
+            } @else {
+                <mat-icon class="success">check_circle</mat-icon>
+            }
+        </div>
 
-        </mat-form-field>
-    }
+        <div class="details-table">
+            @if (!selectedCourse) {
+                <i>Kein Kurs ausgewählt</i>
+            } @else {
 
-    <br>
-    <h3>Mitglied wählen</h3>
+                <mat-icon>event</mat-icon>
+                <span>{{ selectedCourse.day }}</span>
 
-    <button mat-flat-button (click)="onExistingMemberClick()">Teilnehmer ist bereits Mitglied</button>
-    <button mat-flat-button (click)="onCreateMemberClick()">Neues Mitglied anlegen</button>
+                <mat-icon>date_range</mat-icon>
+                <span>{{ selectedCourse.begin_date | date:"d.M.Y" }}
+                    bis {{ selectedCourse.end_date | date:"d.M.Y" }}</span>
+
+                <mat-icon>person</mat-icon>
+                <span>{{ selectedCourse.age }}</span>
+
+                <mat-icon>style</mat-icon>
+                <span>{{ selectedCourse.style }}</span>
+
+                <mat-icon>place</mat-icon>
+                <span>{{ selectedCourse.location }}</span>
+
+            }
+        </div>
+
+        <br>
+
+        <div class="details-header">
+            <b>Mitglied: {{ selectedMember ? (selectedMember!.data[special_fields.first_name] + " " + selectedMember!.data[special_fields.last_name]) : "" }}</b>
+            @if (!selectedMember) {
+                <mat-icon>help</mat-icon>
+            } @else {
+                <mat-icon class="success">check_circle</mat-icon>
+            }
+        </div>
+
+        <div class="details-table">
+            @if (!selectedMember) {
+                <i>Kein Mitglied ausgewählt</i>
+            } @else {
+
+
+                <mat-icon>email</mat-icon>
+                <span>{{ selectedMember.data[special_fields.e_mail] }}</span>
+
+                <mat-icon>classroom</mat-icon>
+                <span>Kurse bisher: {{ selectedMember.data[special_fields.courses].length }}</span>
+
+                <mat-icon>location_city</mat-icon>
+                <span>{{ selectedMember.data[special_fields.address.city] ?? "?"}}</span>
+            }
+        </div>
+    </div>
 
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="false">Schließen</button>
+    <button mat-button [mat-dialog-close]="false">Abbrechen</button>
+    <button mat-flat-button (click)="addMemberToCourse()">Mitglied zum Kurs hinzufügen</button>
 </mat-dialog-actions>

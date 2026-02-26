@@ -48,10 +48,10 @@ export class CourseDialogService {
         })
     }
 
-    openCourseParticipationAddDialog(course: CourseModel) {
+    openCourseParticipationAddDialog(course?: CourseModel) {
         this.dialog.open(CourseParticipantAddDialogComponent, {
-            width: '75%',
-            maxWidth: '750px',
+            width: '85%',
+            maxWidth: '850px',
             data: {
                 course: course
             } as CourseParticipantAddDialogData

@@ -197,4 +197,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     onFormEditClick(form: FormModel) {
         this.formDialogService.openFormEditDialog(true, form);
     }
+
+    onCourseAddClick() {
+        this.courseDialogService.openCourseParticipationAddDialog();
+    }
 }

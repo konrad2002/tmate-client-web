@@ -49,18 +49,22 @@ export class MemberDialogService {
         });
     }
 
-    openCourseMemberFormDialog(eventSubject?: Subject<MemberEvent>) {
+    openCourseMemberFormDialog(member?: MemberModel, eventSubject?: Subject<MemberEvent>) {
         const dialogRef = this.dialog.open(MemberCreationDialogComponent, {
             width: '95%',
             maxWidth: '950px',
             data: {
-                formId: this.formService.getCourseForm()?.id
+                formId: this.formService.getCourseForm()?.id,
+                member: member
             } as MemberCreationDialogData,
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe((result: MemberModel) => {
             console.log(result)
-            eventSubject?.next(result);
+            eventSubject?.next({
+                type: "add",
+                member: result
+            } as MemberEvent);
         });
     }
 
