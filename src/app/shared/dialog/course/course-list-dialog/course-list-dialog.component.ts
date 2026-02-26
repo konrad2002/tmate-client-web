@@ -163,7 +163,7 @@ export class CourseListDialogComponent implements OnInit {
     }
 
     addMembers(course: CourseModel) {
-        // TODO
+        this.courseDialogService.openCourseParticipationAddDialog(course);
     }
 
     showMembers(course: CourseModel) {

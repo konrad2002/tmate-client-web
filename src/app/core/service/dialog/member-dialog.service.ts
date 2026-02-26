@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MemberModel} from '../../model/member.model';
 import {MemberDialogComponent, MemberDialogData} from '../../../shared/dialog/member-dialog/member-dialog.component';
@@ -12,11 +12,13 @@ import {SearchDialogComponent} from '../../../shared/dialog/search-dialog/search
 import {
     MemberCreationDialogComponent, MemberCreationDialogData
 } from '../../../shared/dialog/member-creation-dialog/member-creation-dialog.component';
+import {FormService} from '../api/form.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberDialogService {
+    private formService: FormService = inject(FormService);
 
     constructor(
         private dialog: MatDialog,
@@ -39,6 +41,21 @@ export class MemberDialogService {
                 edit: edit,
                 member: member
             } as MemberDetailDialogData,
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(result)
+            eventSubject?.next(result);
+        });
+    }
+
+    openCourseMemberFormDialog(eventSubject?: Subject<MemberEvent>) {
+        const dialogRef = this.dialog.open(MemberCreationDialogComponent, {
+            width: '95%',
+            maxWidth: '950px',
+            data: {
+                formId: this.formService.getCourseForm()?.id
+            } as MemberCreationDialogData,
         });
 
         dialogRef.afterClosed().subscribe(result => {

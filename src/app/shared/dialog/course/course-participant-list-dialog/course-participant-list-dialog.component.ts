@@ -18,6 +18,9 @@ import {MatButton, MatIconButton} from '@angular/material/button';
 import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
 import {MatIcon} from '@angular/material/icon';
 import {MemberDialogService} from '../../../../core/service/dialog/member-dialog.service';
+import {FormService} from '../../../../core/service/api/form.service';
+import {FormModel} from '../../../../core/model/form.model';
+import {CourseDialogService} from '../../../../core/service/dialog/course-dialog.service';
 
 export interface CourseParticipantsDialogData {
     course: CourseModel;
@@ -43,7 +46,9 @@ export class CourseParticipantListDialogComponent implements OnInit {
     private fieldService: FieldService = inject(FieldService);
     private memberService: MemberService = inject(MemberService);
     private configService: ConfigService = inject(ConfigService);
+    private formService: FormService = inject(FormService);
     private memberDialogService: MemberDialogService = inject(MemberDialogService);
+    private courseDialogService: CourseDialogService = inject(CourseDialogService);
 
     fetching = 0;
 
@@ -52,10 +57,14 @@ export class CourseParticipantListDialogComponent implements OnInit {
 
     members: MemberModel[] = [];
 
+    courseForm?: FormModel;
+
     constructor(
         public dialogRef: MatDialogRef<CourseParticipantListDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: CourseParticipantsDialogData,
-    ) {}
+    ) {
+        this.courseForm = this.formService.getCourseForm();
+    }
 
     ngOnInit() {
         this.fetching++;
@@ -85,7 +94,7 @@ export class CourseParticipantListDialogComponent implements OnInit {
     }
 
     addParticipant() {
-        // TODO
+        this.courseDialogService.openCourseParticipationAddDialog(this.data.course);
     }
 
     getCourseRegistrationDate(member: MemberModel): string {

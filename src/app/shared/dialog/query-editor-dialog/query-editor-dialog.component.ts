@@ -117,7 +117,6 @@ export class QueryEditorDialogComponent implements OnInit {
                     next: query => {
                         this.snackBar.open("Abfrage erfolgreich gelöscht!");
                         this.dialogRef.close(query);
-                        this.queryService.fetchQueries();
                     },
                     error: _ => {
                         this.snackBar.open("Fehler beim Löschen der Abfrage!");

@@ -9,6 +9,9 @@ import {CourseModel} from '../../model/course.model';
 import {
     CourseParticipantListDialogComponent, CourseParticipantsDialogData
 } from '../../../shared/dialog/course/course-participant-list-dialog/course-participant-list-dialog.component';
+import {
+    CourseParticipantAddDialogComponent, CourseParticipantAddDialogData
+} from '../../../shared/dialog/course/course-participant-add-dialog/course-participant-add-dialog.component';
 
 @Injectable({
     providedIn: 'root'
@@ -42,6 +45,16 @@ export class CourseDialogService {
             data: {
                 course: course
             } as CourseParticipantsDialogData
+        })
+    }
+
+    openCourseParticipationAddDialog(course: CourseModel) {
+        this.dialog.open(CourseParticipantAddDialogComponent, {
+            width: '75%',
+            maxWidth: '750px',
+            data: {
+                course: course
+            } as CourseParticipantAddDialogData
         })
     }
 }

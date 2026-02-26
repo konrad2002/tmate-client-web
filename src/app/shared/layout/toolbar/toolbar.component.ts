@@ -16,7 +16,6 @@ import {CourseDialogService} from '../../../core/service/dialog/course-dialog.se
 import {FormDialogService} from '../../../core/service/dialog/form-dialog.service';
 import {FormModel} from '../../../core/model/form.model';
 import {FormService} from '../../../core/service/api/form.service';
-import {MatDivider} from '@angular/material/divider';
 import {ToolbarDividerComponent} from './toolbar-divider/toolbar-divider.component';
 
 export enum TabName {
@@ -37,7 +36,6 @@ export enum TabName {
         ToolbarButtonComponent,
         NgIf,
         HasPermissionDirective,
-        MatDivider,
         ToolbarDividerComponent,
     ],
     standalone: true
@@ -64,11 +62,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     currentUserSubscription: Subscription;
     currentUser?: UserModel;
 
-
     queries: QueryModel[] = [];
     queriesSubscription: Subscription;
 
     forms: FormModel[] = [];
+    formsSubscription: Subscription;
 
 
     protected readonly TabName = TabName;
@@ -89,6 +87,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.queriesSubscription = this.queryService.queries.subscribe(queries => {
             this.queries = queries;
         })
+        this.formsSubscription = this.formService.forms.subscribe(forms => {
+            this.forms = forms;
+        })
     }
 
     ngOnInit() {
@@ -101,9 +102,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     fetchForms() {
-        this.formService.getForms().subscribe(forms => {
-            this.forms = forms;
-        })
+        this.formService.fetchForms();
     }
 
     ngOnDestroy() {
@@ -112,6 +111,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.dirtySubscription.unsubscribe();
         this.currentUserSubscription.unsubscribe();
         this.queriesSubscription.unsubscribe();
+        this.formsSubscription.unsubscribe();
     }
 
     switchTab(tab: TabName) {
@@ -119,7 +119,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     onMemberAddClick() {
-        this.toolbarService.openMemberAddDialog();
+        const defaultForm = this.formService.getDefaultForm();
+
+        if (defaultForm) {
+            this.toolbarService.openMemberAddFormDialog(defaultForm);
+        } else {
+            this.toolbarService.openMemberAddDialog();
+        }
     }
 
     onMemberViewClick() {

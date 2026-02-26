@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Teilnehmer zu Kurs hinzufügen</h2>
+<mat-dialog-content>
+    <br>
+
+    <h3>Kurs wählen</h3>
+
+    @if (courses && courses.length > 0) {
+        <mat-form-field>
+            <mat-label>Kurs</mat-label>
+
+            <input
+                matInput
+                placeholder="Kursname suchen..."
+                [(ngModel)]="data.course!.name"
+                [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+                @for (course of courses; track course.id) {
+                    <mat-option [value]="course.name">{{ course.name }}</mat-option>
+                }
+            </mat-autocomplete>
+
+        </mat-form-field>
+    }
+
+    <br>
+    <h3>Mitglied wählen</h3>
+
+    <button mat-flat-button (click)="onExistingMemberClick()">Teilnehmer ist bereits Mitglied</button>
+    <button mat-flat-button (click)="onCreateMemberClick()">Neues Mitglied anlegen</button>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+</mat-dialog-actions>

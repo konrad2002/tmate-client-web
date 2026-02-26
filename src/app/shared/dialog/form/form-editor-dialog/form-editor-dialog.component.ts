@@ -1,5 +1,5 @@
 import {Component, inject, Inject, OnInit} from '@angular/core';
-import {FormGroup, FormModel} from '../../../../core/model/form.model';
+import {FormDefaults, FormGroup, FormModel} from '../../../../core/model/form.model';
 import {
     MAT_DIALOG_DATA,
     MatDialogActions, MatDialogClose,
@@ -17,6 +17,7 @@ import {FieldService} from '../../../../core/service/api/field.service';
 import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
 import {FormsModule} from '@angular/forms';
 import {FormEditorComponent} from '../../../../content/form/form-editor/form-editor.component';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 export interface FormEditorDialogData {
     form: FormModel;
@@ -55,6 +56,7 @@ export class FormEditorDialogComponent implements OnInit {
         if (!this.data.edit) {
             this.data.form = {
                 form_groups: [] as FormGroup[],
+                defaults: [] as FormDefaults[],
             } as FormModel;
         }
     }

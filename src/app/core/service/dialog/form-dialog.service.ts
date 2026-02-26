@@ -7,12 +7,14 @@ import {
     FormEditorDialogData
 } from '../../../shared/dialog/form/form-editor-dialog/form-editor-dialog.component';
 import {FormModel} from '../../model/form.model';
+import {FormService} from '../api/form.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FormDialogService {
     private dialog: MatDialog = inject(MatDialog);
+    private formService: FormService = inject(FormService);
 
     openFormEditDialog(edit: boolean, form?: FormModel, eventSubject?: Subject<MemberEvent>) {
         const dialogRef = this.dialog.open(FormEditorDialogComponent, {
@@ -25,6 +27,7 @@ export class FormDialogService {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            this.formService.fetchForms();
             console.log(result)
             eventSubject?.next(result);
         });

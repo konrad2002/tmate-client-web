@@ -13,10 +13,5 @@
     @if (data.edit) {
         <button class="delete-button" mat-button (click)="deleteForm()">Löschen</button>
     }
-    <button
-        mat-button
-        (click)="saveForm()"
-        [disabled]="!data.form.name"
-    >Speichern
-    </button>
+    <button mat-button (click)="saveForm()" [disabled]="!data.form.name">Speichern</button>
 </mat-dialog-actions>

@@ -1,0 +1,17 @@
+.general-row {
+    display: grid;
+    grid-template-columns: 1fr 230px;
+    grid-gap: 1rem;
+}
+
+.form-group-row {
+    display: grid;
+    grid-template-columns: 50px 230px 1fr;
+    grid-gap: 1rem;
+}
+
+.default-values-row {
+    display: grid;
+    grid-template-columns: 50px 230px 1fr;
+    grid-gap: 1rem;
+}

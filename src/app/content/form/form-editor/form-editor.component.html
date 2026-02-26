@@ -1,42 +1,146 @@
 @if (form && fields) {
-    <h2>Allgemein</h2>
+    <h3>Allgemein</h3>
 
-    <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input type="text" [(ngModel)]="form.name" matInput>
-    </mat-form-field>
-
-    <h2>Gruppen und Felder</h2>
-
-    <p>Nachfolgend können beliebig viele Gruppen aus Feldern zum Formular hinzugefügt werden, welche dann beim Erstellen und Bearbeiten von Mitgliedern editierbar sind.</p>
-
-    @for (group of form.form_groups; track group.name) {
+    <div class="general-row">
         <mat-form-field>
-            <mat-label>Gruppenname</mat-label>
-            <input type="text" [(ngModel)]="group.name" matInput>
+            <mat-label>Name</mat-label>
+            <input type="text" [(ngModel)]="form.name" matInput>
         </mat-form-field>
-
-        <h3>Felder:</h3>
-        <ul>
-            @for (field of group.fields; track field) {
-                {{field}}
-                <button mat-icon-button (click)="removeField(group, field)"><mat-icon>remove</mat-icon></button>
-            }
-        </ul>
 
         <mat-form-field floatLabel="always">
-            <mat-label>Sortieren nach</mat-label>
-            <mat-select [(ngModel)]="newField">
-                @for (field of fields; track field.id) {
-                    <mat-option [value]="field.name">{{field.display_name}}</mat-option>
-                }
+            <mat-label>Spezielles Formular</mat-label>
+            <mat-select [(ngModel)]="form.special_form">
+                <mat-option value="">Nein</mat-option>
+                <mat-option value="default">Standard-Formular</mat-option>
+                <mat-option value="course">Kurs-Formular</mat-option>
             </mat-select>
         </mat-form-field>
+    </div>
 
-        <button mat-flat-button (click)="addField(group)"><mat-icon>add</mat-icon></button>
-        <button mat-flat-button (click)="removeGroup(group)"><mat-icon>remove</mat-icon> Gruppe entfernen</button>
+    <h3>Gruppen und Felder</h3>
 
+    <p>Nachfolgend können beliebig viele Gruppen aus Feldern zum Formular hinzugefügt werden, welche dann beim Erstellen
+        und Bearbeiten von Mitgliedern editierbar sind.</p>
+
+    @for (group of form.form_groups; track group.name) {
+        <div class="form-group-row">
+            <button mat-icon-button (click)="removeGroup(group)">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <mat-form-field>
+                <mat-label>Gruppenname</mat-label>
+                <input type="text" [(ngModel)]="group.name" matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Felder</mat-label>
+                <mat-chip-grid #chipGrid aria-label="Field selection">
+                    @for (field of group.fields; track field) {
+                        <mat-chip-row (removed)="removeField(group, field)" [removable]="true">
+                            {{ getFieldByName(field)!.display_name }}
+                            <button matChipRemove>
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                    }
+                </mat-chip-grid>
+
+                <input
+                    placeholder="Neues Feld..."
+                    #fieldInput
+                    [(ngModel)]="newField"
+                    [matChipInputFor]="chipGrid"
+                    [matAutocomplete]="auto"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addField(group)"
+                />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addField(group)">
+                    @for (field of fields; track field.id) {
+                        <mat-option [value]="field.name">{{ field.display_name }}</mat-option>
+                    }
+                </mat-autocomplete>
+
+            </mat-form-field>
+
+        </div>
     }
 
-    <button mat-flat-button (click)="addGroup()"><mat-icon>add</mat-icon> Neue Gruppe</button>
+    <button mat-flat-button (click)="addGroup()">
+        <mat-icon>add</mat-icon>
+        Neue Gruppe
+    </button>
+
+
+    <h3>Standardwerte</h3>
+
+    <p>Im folgenden können sichtbaren und nicht-sichtbaren Feldern Werte zugewiesen werden, welche beim Erstellen eines
+        neuen Mitgliedes mit diesem Formular automatisch gesetzt werden.</p>
+
+    @for (def of form.defaults; track def.field) {
+        <div class="default-values-row">
+            <button mat-icon-button (click)="removeDefault(def)">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+            <mat-form-field floatLabel="always">
+                <mat-label>Feld</mat-label>
+                <mat-select [(ngModel)]="def.field">
+                    @for (field of fields; track field.id) {
+                        <mat-option [value]="field.name">{{ field.display_name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            @let field = getFieldByName(def.field);
+            @if (field) {
+                <mat-form-field>
+                    <mat-label>{{ field.display_name }}</mat-label>
+                    @switch (field.type) {
+                        @case (FieldType.NUMBER) {
+                            <input type="number" matInput [(ngModel)]="def.value">
+                        }
+                        @case (FieldType.EMAIL) {
+                            <input type="email" matInput [(ngModel)]="def.value">
+                        }
+                        @case (FieldType.SELECT) {
+                            <mat-select [(ngModel)]="def.value">
+                                @for (option of field.data.options | keyvalue; track option) {
+                                    <mat-option [value]="option.key">{{ option.value }}</mat-option>
+                                }
+                            </mat-select>
+                        }
+                        @case (FieldType.MULTI_SELECT) {
+                            <mat-select [(ngModel)]="def.value">
+                                @for (option of field.data.options | keyvalue; track option) {
+                                    <mat-option [value]="option.key">{{ option.value }}</mat-option>
+                                }
+                            </mat-select>
+                        }
+                        @case (FieldType.PHONE_NUMBER) {
+                            <input type="tel" matInput [(ngModel)]="def.value">
+                        }
+                        @case (FieldType.BOOLEAN) {
+                            <mat-select [(ngModel)]="def.value">
+                                <mat-option [value]="true">Ja</mat-option>
+                                <mat-option [value]="false">Nein</mat-option>
+                            </mat-select>
+                        }
+                        @case (FieldType.DATE) {
+                            <input type="date" matInput [(ngModel)]="def.value">
+                        }
+                        @default {
+                            <input matInput [(ngModel)]="def.value">
+                        }
+                    }
+                </mat-form-field>
+            }
+        </div>
+    }
+
+    <button mat-flat-button (click)="addDefault()">
+        <mat-icon>add</mat-icon>
+        Neuen Standardwert
+    </button>
+
 }

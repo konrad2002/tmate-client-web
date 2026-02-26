@@ -19,8 +19,4 @@ export interface AddressFieldsConfig {
 
 export interface ConfigModel {
     default_query: string;
-    courses: {
-        course_member_fields: string[];
-        defaults: Record<string, any>
-    }
 }

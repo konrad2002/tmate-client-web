@@ -82,8 +82,7 @@ export class MemberCreationDialogComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<MemberCreationDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberCreationDialogData
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.fetching++;
@@ -100,8 +99,8 @@ export class MemberCreationDialogComponent implements OnInit {
                 this.form = form;
 
                 if (!this.data.edit && this.form.defaults) {
-                    for (const [key, value] of Object.entries(this.form.defaults)) {
-                        this.member.data[key] = value;
+                    for (const def of this.form.defaults) {
+                        this.member.data[def.field] = def.value;
                     }
                 }
 
