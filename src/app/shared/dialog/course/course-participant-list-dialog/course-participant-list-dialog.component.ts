@@ -86,6 +86,7 @@ export class CourseParticipantListDialogComponent implements OnInit {
 
     fetchMembers() {
         this.fetching++;
+        if (!(this.data && this.data.course && this.data.course.id)) return;
         this.memberService.getMembersByCourse(this.data.course.id).subscribe({
             next: members => {
                 this.members = members;
@@ -102,7 +103,7 @@ export class CourseParticipantListDialogComponent implements OnInit {
     getCourseRegistrationDate(member: MemberModel): string {
         const courses: CourseRegistrationModelDto[] = member.data[this.special_fields.courses] as CourseRegistrationModelDto[];
         const course = courses.filter(c => {
-            return c.course_id == this.data.course.id;
+            return c.course_id == this.data.course!.id;
         });
 
         if (course.length > 0) {
