@@ -21,6 +21,7 @@ export class CourseDialogService {
 
     openCourseListDialog() {
         this.dialog.open(CourseListDialogComponent, {
+            autoFocus: false,
             width: '95%',
             maxWidth: '1500px'
         })
@@ -40,6 +41,7 @@ export class CourseDialogService {
 
     openCourseParticipationDialog(course: CourseModel) {
         this.dialog.open(CourseParticipantListDialogComponent, {
+            autoFocus: false,
             width: '75%',
             maxWidth: '750px',
             data: {
@@ -50,6 +52,7 @@ export class CourseDialogService {
 
     openCourseParticipationAddDialog(course?: CourseModel) {
         this.dialog.open(CourseParticipantAddDialogComponent, {
+            autoFocus: false,
             width: '85%',
             maxWidth: '850px',
             data: {
