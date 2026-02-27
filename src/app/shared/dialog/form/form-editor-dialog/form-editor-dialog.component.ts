@@ -17,7 +17,6 @@ import {FieldService} from '../../../../core/service/api/field.service';
 import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
 import {FormsModule} from '@angular/forms';
 import {FormEditorComponent} from '../../../../content/form/form-editor/form-editor.component';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 export interface FormEditorDialogData {
     form: FormModel;

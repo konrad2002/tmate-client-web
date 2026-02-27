@@ -1,3 +1,11 @@
 .action-buttons {
     display: flex;
 }
+
+th button {
+    color: white;
+}
+
+mat-dialog-content {
+    padding: 0 !important;
+}

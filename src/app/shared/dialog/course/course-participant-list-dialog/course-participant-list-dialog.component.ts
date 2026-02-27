@@ -1,5 +1,4 @@
 import {Component, Inject, inject, OnInit} from '@angular/core';
-import {CourseService} from '../../../../core/service/api/course.service';
 import {SpecialFieldsConfig} from '../../../../core/model/config.model';
 import {FieldService} from '../../../../core/service/api/field.service';
 import {MemberService} from '../../../../core/service/api/member.service';
@@ -42,7 +41,6 @@ export interface CourseParticipantsDialogData {
   styleUrl: './course-participant-list-dialog.component.scss'
 })
 export class CourseParticipantListDialogComponent implements OnInit {
-    private courseService: CourseService = inject(CourseService);
     private fieldService: FieldService = inject(FieldService);
     private memberService: MemberService = inject(MemberService);
     private configService: ConfigService = inject(ConfigService);
@@ -83,6 +81,10 @@ export class CourseParticipantListDialogComponent implements OnInit {
             }, error: _ => { this.fetching--; }
         })
 
+        this.fetchMembers();
+    }
+
+    fetchMembers() {
         this.fetching++;
         this.memberService.getMembersByCourse(this.data.course.id).subscribe({
             next: members => {
@@ -120,5 +122,9 @@ export class CourseParticipantListDialogComponent implements OnInit {
 
     removeFromCourse(member: MemberModel) {
         // TODO
+    }
+
+    refreshList() {
+        this.fetchMembers();
     }
 }
