@@ -123,6 +123,7 @@ export class CourseParticipantListDialogComponent implements OnInit {
 
     removeFromCourse(member: MemberModel) {
         // TODO
+        console.log("remove member from course:", member);
     }
 
     refreshList() {
