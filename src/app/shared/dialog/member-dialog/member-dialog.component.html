@@ -39,6 +39,15 @@
                                     <span class="family">Keine Familie</span>
                                 }
                             }
+                            @case (FieldType.COURSES) {
+                                <ul>
+                                    @for (course of member.data[field.name]; track course.id) {
+                                        <li>
+                                            {{getCourseById(course.course_id).name}}
+                                        </li>
+                                    }
+                                </ul>
+                            }
                             @default {
                                 <span>{{member.data[field.name]}}</span>
                             }

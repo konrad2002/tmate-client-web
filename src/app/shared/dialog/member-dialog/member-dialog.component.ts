@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, inject, Inject, OnInit} from '@angular/core';
 import {MemberModel} from '../../../core/model/member.model';
 import {FieldModel, FieldType} from '../../../core/model/field.model';
 import {
@@ -18,6 +18,8 @@ import {Families} from '../../../core/model/family.model';
 import {SpecialFieldsConfig} from '../../../core/model/config.model';
 import {ConfigService} from '../../../core/service/api/config.service';
 import {MemberDialogService} from '../../../core/service/dialog/member-dialog.service';
+import {CourseModel} from '../../../core/model/course.model';
+import {CourseService} from '../../../core/service/api/course.service';
 
 export interface MemberDialogData {
     member: MemberModel;
@@ -41,9 +43,16 @@ export interface MemberDialogData {
     standalone: true
 })
 export class MemberDialogComponent implements OnInit{
+    private fieldService: FieldService = inject(FieldService);
+    private memberService: MemberService = inject(MemberService);
+    private configService: ConfigService = inject(ConfigService);
+    private dialogService: MemberDialogService = inject(MemberDialogService);
+    private courseService: CourseService = inject(CourseService);
+
     protected readonly FieldType = FieldType;
 
     fields: FieldModel[] = [];
+    courses: CourseModel[] = [];
     member?: MemberModel
 
     fetching = 0;
@@ -55,10 +64,6 @@ export class MemberDialogComponent implements OnInit{
     constructor(
         public dialogRef: MatDialogRef<MemberDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: MemberDialogData,
-        private fieldService: FieldService,
-        private memberService: MemberService,
-        private configService: ConfigService,
-        private dialogService: MemberDialogService
     ) {}
 
     ngOnInit() {
@@ -82,6 +87,14 @@ export class MemberDialogComponent implements OnInit{
         this.configService.getSpecialFields().subscribe({
             next: config => {
                 this.special_fields = config;
+                this.fetching--;
+            }, error: _ => { this.fetching--; }
+        })
+
+        this.fetching++;
+        this.courseService.getCourses().subscribe({
+            next: courses => {
+                this.courses = courses.map(CourseModel.fromDto);
                 this.fetching--;
             }, error: _ => { this.fetching--; }
         })
@@ -111,5 +124,9 @@ export class MemberDialogComponent implements OnInit{
             entries.push(field.data.options[value]);
         }
         return entries.join(", ");
+    }
+
+    getCourseById(id: string): CourseModel {
+        return this.courses.find(c => c.id == id) as CourseModel;
     }
 }

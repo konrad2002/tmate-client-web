@@ -55,6 +55,10 @@ export class CourseDialogService {
             data: {
                 course: course
             } as CourseParticipantAddDialogData
+        }).afterClosed().subscribe((result: boolean) => {
+            if (result) {
+                this.openCourseParticipationAddDialog(course);
+            }
         })
     }
 }

@@ -48,6 +48,11 @@
                                                 Ändern
                                             </button>
                                         </div>
+                                    } @else if (field.type === FieldType.COURSES) {
+                                        <div>
+                                            <b>Kurs</b><br>
+                                            <i>Kurs über Kursfunktion ändern</i>
+                                        </div>
                                     } @else {
                                         <mat-form-field floatLabel="always">
                                             <mat-label>{{ field.display_name }}</mat-label>

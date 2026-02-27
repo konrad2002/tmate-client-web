@@ -7,7 +7,7 @@ import {
     MatDialogTitle
 } from '@angular/material/dialog';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {CourseModel} from '../../../../core/model/course.model';
+import {CourseModel, CourseRegistrationModelDto} from '../../../../core/model/course.model';
 import {MemberDialogService} from '../../../../core/service/dialog/member-dialog.service';
 import {CourseService} from '../../../../core/service/api/course.service';
 import {
@@ -25,8 +25,9 @@ import {SpecialFieldsConfig} from '../../../../core/model/config.model';
 import {ConfigService} from '../../../../core/service/api/config.service';
 import {MemberService} from '../../../../core/service/api/member.service';
 import {DatePipe} from '@angular/common';
-import {last, ReplaySubject, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {MemberEvent} from '../../../../core/model/event/member-event.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 export interface CourseParticipantAddDialogData {
     course?: CourseModel
@@ -63,6 +64,7 @@ export class CourseParticipantAddDialogComponent implements OnInit {
     private courseService: CourseService = inject(CourseService);
     private configService: ConfigService = inject(ConfigService);
     private memberService: MemberService = inject(MemberService);
+    private snackBar: MatSnackBar = inject(MatSnackBar);
 
     courses: CourseModel[] = [];
 
@@ -108,6 +110,7 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         this.memberService.getMembers().subscribe(members => {
             this.members = members;
             this.membersFiltered = members;
+            this.runSearch();
         })
     }
 
@@ -135,7 +138,6 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         eventSubject.subscribe(event => {
             this.selectedMember = event.member;
             this.fetchMembers();
-            this.runSearch();
         })
         this.memberDialogService.openCourseMemberFormDialog(member, eventSubject);
     }
@@ -148,9 +150,28 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         this.selectedCourse = this.courses.find(c => c.name === this.selectedCourseName);
     }
 
-    addMemberToCourse() {
-        // TODO
-    }
+    addMemberToCourse(saveAndNext: boolean) {
+        let courses = this.selectedMember!.data[this.special_fields.courses] as CourseRegistrationModelDto[];
+        if (!courses) {
+            courses = [];
+        }
 
-    protected readonly last = last;
+        courses.push({
+            course_id: this.selectedCourse!.id,
+            registered_at: new Date().toISOString(),
+        } as CourseRegistrationModelDto);
+
+        this.selectedMember!.data[this.special_fields.courses] = courses;
+
+        this.memberService.updateMember(this.selectedMember!).subscribe({
+            next: _ => {
+                this.dialogRef.close(saveAndNext);
+                this.snackBar.open("Teilnehmer hinzugefügt!")
+            },
+            error: err => {
+                this.snackBar.open("Fehler beim Hinzufügen des Teilnehmers!");
+                console.log(err)
+            }
+        })
+    }
 }
