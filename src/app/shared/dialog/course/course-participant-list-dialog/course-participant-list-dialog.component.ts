@@ -20,6 +20,9 @@ import {MemberDialogService} from '../../../../core/service/dialog/member-dialog
 import {FormService} from '../../../../core/service/api/form.service';
 import {FormModel} from '../../../../core/model/form.model';
 import {CourseDialogService} from '../../../../core/service/dialog/course-dialog.service';
+import {MiscDialogService} from '../../../../core/service/dialog/misc-dialog.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {DeletionDialogData} from '../../deletion-dialog/deletion-dialog.component';
 
 export interface CourseParticipantsDialogData {
     course: CourseModel;
@@ -47,6 +50,8 @@ export class CourseParticipantListDialogComponent implements OnInit {
     private formService: FormService = inject(FormService);
     private memberDialogService: MemberDialogService = inject(MemberDialogService);
     private courseDialogService: CourseDialogService = inject(CourseDialogService);
+    private miscDialogService: MiscDialogService = inject(MiscDialogService);
+    private snackBar: MatSnackBar = inject(MatSnackBar);
 
     fetching = 0;
 
@@ -122,8 +127,40 @@ export class CourseParticipantListDialogComponent implements OnInit {
     }
 
     removeFromCourse(member: MemberModel) {
-        // TODO
         console.log("remove member from course:", member);
+
+        this.miscDialogService.startDeletionDialog({
+            title: "Teilnehmer von Kurs entfernen",
+            description: "Soll der Teilnehmer wirklich von diesem Kurs entfernt werden? Das Mitglied selbst wird dabei nicht gelöscht.",
+            buttonText: "Teilnehmer entfernen"
+        } as DeletionDialogData).afterClosed().subscribe(result => {
+            if (result) {
+                let courses = member.data[this.special_fields.courses] as CourseRegistrationModelDto[];
+                if (!courses) {
+                    return;
+                }
+
+                const registrationToRemove = courses.filter(c => c.course_id == this.data.course.id);
+                if (registrationToRemove.length == 0) {
+                    return;
+                }
+
+                // remove course registration for this course
+                courses = courses.filter(c => c.course_id != this.data.course.id);
+
+                member.data[this.special_fields.courses] = courses;
+
+                this.memberService.updateMember(member).subscribe({
+                    next: _ => {
+                        this.snackBar.open("Teilnehmer entfernt!")
+                    },
+                    error: err => {
+                        this.snackBar.open("Fehler beim Entfernen des Teilnehmers!");
+                        console.log(err)
+                    }
+                })
+            }
+        })
     }
 
     refreshList() {

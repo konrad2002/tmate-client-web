@@ -175,4 +175,8 @@ export class CourseListDialogComponent implements OnInit {
     showMembers(course: CourseModel) {
         this.courseDialogService.openCourseParticipationDialog(course);
     }
+
+    exportCourseList(course: CourseModel) {
+        this.courseDialogService.openCourseListExportDialog(course);
+    }
 }

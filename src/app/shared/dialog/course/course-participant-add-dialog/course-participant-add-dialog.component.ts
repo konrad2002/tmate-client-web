@@ -23,6 +23,7 @@ import {MemberEvent} from '../../../../core/model/event/member-event.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
 import {CourseSelectionComponent} from '../../../../content/course/course-selection/course-selection.component';
+import {MatTooltip} from '@angular/material/tooltip';
 
 export interface CourseParticipantAddDialogData {
     course?: CourseModel
@@ -47,6 +48,7 @@ export interface CourseParticipantAddDialogData {
         DatePipe,
         SpinnerComponent,
         CourseSelectionComponent,
+        MatTooltip,
     ],
   templateUrl: './course-participant-add-dialog.component.html',
   styleUrl: './course-participant-add-dialog.component.scss'
@@ -153,5 +155,13 @@ export class CourseParticipantAddDialogComponent implements OnInit {
                 console.log(err)
             }
         })
+    }
+
+    isMemberAlreadyInCourse(member: MemberModel): boolean {
+        const registrations = member.data[this.special_fields.courses] as CourseRegistrationModelDto[];
+        if (!registrations || registrations.length <= 0) return false;
+        return registrations.find(c => {
+            return c.course_id === this.selectedCourse?.id
+        }) !== undefined;
     }
 }

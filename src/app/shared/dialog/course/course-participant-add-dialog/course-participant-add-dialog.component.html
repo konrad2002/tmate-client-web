@@ -36,7 +36,14 @@
                 <div class="member">
                     <mat-icon>person</mat-icon>
                     <span class="member-name">{{ member.data[special_fields.first_name] + " " + member.data[special_fields.last_name] }}</span>
-                    <button mat-button (click)="selectMember(member)">Auswählen</button>
+                    @let alreadyInCourse = isMemberAlreadyInCourse(member);
+                    <button mat-button (click)="selectMember(member)" [disabled]="alreadyInCourse">
+                        @if (alreadyInCourse) {
+                            Bereits im Kurs
+                        } @else {
+                            Auswählen
+                        }
+                    </button>
                 </div>
             }
             @if (membersFiltered.length > 5) {
@@ -69,7 +76,7 @@
         <div class="details-header">
             <b>Kurs: {{ selectedCourse?.name ?? "" }}</b>
             @if (!selectedCourse) {
-                <mat-icon>help</mat-icon>
+                <mat-icon matTooltip="Kurs auswählen!">help</mat-icon>
             } @else {
                 <mat-icon class="success">check_circle</mat-icon>
             }
@@ -104,9 +111,13 @@
         <div class="details-header">
             <b>Mitglied: {{ selectedMember ? (selectedMember!.data[special_fields.first_name] + " " + selectedMember!.data[special_fields.last_name]) : "" }}</b>
             @if (!selectedMember) {
-                <mat-icon>help</mat-icon>
+                <mat-icon matTooltip="Mitglied auswählen oder neu anlegen!">help</mat-icon>
             } @else {
-                <mat-icon class="success">check_circle</mat-icon>
+                @if (isMemberAlreadyInCourse(selectedMember)) {
+                    <mat-icon class="error" matTooltip="Bereits Teilnehmer dieses Kurses!">error</mat-icon>
+                } @else {
+                    <mat-icon class="success">check_circle</mat-icon>
+                }
             }
         </div>
 
