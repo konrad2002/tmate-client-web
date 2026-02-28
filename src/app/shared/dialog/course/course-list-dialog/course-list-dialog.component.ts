@@ -19,6 +19,7 @@ import {FormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
 import {MatSlideToggle} from '@angular/material/slide-toggle';
 import {MatIcon} from '@angular/material/icon';
+import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
 
 @Component({
   selector: 'app-course-list-dialog',
@@ -40,7 +41,8 @@ import {MatIcon} from '@angular/material/icon';
         MatInput,
         MatSlideToggle,
         MatIconButton,
-        MatIcon
+        MatIcon,
+        SpinnerComponent
     ],
   templateUrl: './course-list-dialog.component.html',
   styleUrl: './course-list-dialog.component.scss'
@@ -48,6 +50,8 @@ import {MatIcon} from '@angular/material/icon';
 export class CourseListDialogComponent implements OnInit {
     private courseService: CourseService = inject(CourseService)
     private courseDialogService: CourseDialogService = inject(CourseDialogService)
+
+    fetching = false;
 
     allCourses: CourseModel[] = [];
     courses: CourseModel[] = [];
@@ -67,10 +71,12 @@ export class CourseListDialogComponent implements OnInit {
     }
 
     fetchCourses() {
+        this.fetching = true;
         this.courseService.getCourses().subscribe(courses => {
             this.allCourses = courses.map(dto => CourseModel.fromDto(dto));
             this.extractAvailableYears();
             this.applyFilters();
+            this.fetching = false;
         })
     }
 

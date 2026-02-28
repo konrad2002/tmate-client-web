@@ -4,7 +4,13 @@
 
     <div class="selection-box">
 
-        <h3>Kurs wählen</h3>
+        <h3>
+            <span>Kurs wählen</span>
+
+            @if (fetchingCourses) {
+                <app-spinner spinnerLayout="text"></app-spinner>
+            }
+        </h3>
 
         @if (courses && courses.length > 0) {
             <mat-form-field>
@@ -27,7 +33,13 @@
 
         <br>
 
-        <h3>Mitglied wählen</h3>
+        <h3>
+            <span>Mitglied wählen</span>
+
+            @if (fetchingMembers) {
+                <app-spinner spinnerLayout="text"></app-spinner>
+            }
+        </h3>
 
         <div class="search-box">
             <mat-form-field subscriptSizing="dynamic">

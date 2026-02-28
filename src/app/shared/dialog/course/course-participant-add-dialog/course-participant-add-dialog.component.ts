@@ -28,6 +28,7 @@ import {DatePipe} from '@angular/common';
 import {Subject} from 'rxjs';
 import {MemberEvent} from '../../../../core/model/event/member-event.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
 
 export interface CourseParticipantAddDialogData {
     course?: CourseModel
@@ -55,6 +56,7 @@ export interface CourseParticipantAddDialogData {
         MatIcon,
         MatIconButton,
         DatePipe,
+        SpinnerComponent,
     ],
   templateUrl: './course-participant-add-dialog.component.html',
   styleUrl: './course-participant-add-dialog.component.scss'
@@ -69,6 +71,9 @@ export class CourseParticipantAddDialogComponent implements OnInit {
     courses: CourseModel[] = [];
 
     selectedCourseName = "";
+
+    fetchingCourses = false;
+    fetchingMembers = false;
 
 
     firstName = "";
@@ -93,9 +98,11 @@ export class CourseParticipantAddDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.fetchingCourses = true;
         this.courseService.getCourses().subscribe({
             next: courses => {
                 this.courses = courses.map(CourseModel.fromDto);
+                this.fetchingCourses = false;
             }
         })
 
@@ -107,10 +114,12 @@ export class CourseParticipantAddDialogComponent implements OnInit {
     }
 
     fetchMembers() {
+        this.fetchingMembers = true;
         this.memberService.getMembers().subscribe(members => {
             this.members = members;
             this.membersFiltered = members;
             this.runSearch();
+            this.fetchingMembers = false;
         })
     }
 

@@ -1,3 +1,15 @@
-.dialog {
-    margin: 30px auto;
+mat-spinner {
+    &.dialog {
+        margin: 30px auto;
+    }
+
+    &.text {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+:host > .text {
+    display: inline-block;
+    margin: 0 10px;
 }
