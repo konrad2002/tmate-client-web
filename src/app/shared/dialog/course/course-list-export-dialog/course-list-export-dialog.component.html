@@ -1,0 +1,95 @@
+<h2 mat-dialog-title>Kursliste erzeugen</h2>
+<mat-dialog-content>
+
+    <mat-stepper #stepper>
+
+        <mat-step label="Kurs wählen" [completed]="selectedCourse">
+            <app-course-selection [(ngModel)]="selectedCourse"></app-course-selection>
+            <br>
+            <button mat-button matStepperNext>Weiter</button>
+        </mat-step>
+        <mat-step label="Export Einstellungen" [editable]="selectedCourse">
+
+            <mat-form-field>
+                <mat-label>Listentyp</mat-label>
+                <mat-select [(ngModel)]="selectedListType">
+                    @for (t of listTypes; track t) {
+                        <mat-option [value]="t">{{ t.displayName }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            @switch (selectedListType?.type) {
+                @case (CourseListExportType.ATTENDANCE) {
+
+                    <br>
+
+                    <mat-form-field>
+                        <mat-label>Übungseinheiten</mat-label>
+                        <input matInput type="number" [(ngModel)]="attendanceListExportConfig.units">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Zusätzliche Spalten</mat-label>
+                        <input matInput type="number" [(ngModel)]="attendanceListExportConfig.extraColumns">
+                    </mat-form-field>
+                }
+            }
+
+            <br>
+            <button mat-button matStepperPrevious>Zurück</button>
+            <button mat-flat-button (click)="onExportCourseList()">Liste erzeugen</button>
+
+        </mat-step>
+
+        <mat-step label="Liste ansehen">
+
+            @if (generatingList > 0 && selectedListType) {
+                <app-spinner spinnerLayout="dialog"></app-spinner>
+            } @else {
+                <table>
+                    <tr>
+                        @for (col of selectedListType!.columns; track col) {
+                            <th>{{ fields.get(col)?.display_name }}</th>
+                        }
+                        @if (selectedListType?.type === CourseListExportType.ATTENDANCE) {
+                            @for (i of getRangeArray(attendanceListExportConfig.units); track i) {
+                                <th class="no-collapse">UE {{ i }}</th>
+                            }
+                            @for (i of getRangeArray(attendanceListExportConfig.extraColumns); track i) {
+                                <th>&nbsp;{{ i }}&nbsp;</th>
+                            }
+                        }
+                    </tr>
+                    @for (member of members; track member.id) {
+                        <tr>
+                            @for (col of selectedListType!.columns; track col) {
+                                <td>{{ member.data[fields.get(col)?.name || ""] }}</td>
+                            }
+
+                            @if (selectedListType?.type === CourseListExportType.ATTENDANCE) {
+                                @for (i of getRangeArray(attendanceListExportConfig.units); track i) {
+                                    <td>&nbsp;</td>
+                                }
+                                @for (i of getRangeArray(attendanceListExportConfig.extraColumns); track i) {
+                                    <td>&nbsp;</td>
+                                }
+                            }
+                        </tr>
+                    }
+                </table>
+            }
+
+            <br>
+
+            <button mat-button matStepperPrevious>Zurück</button>
+
+        </mat-step>
+
+    </mat-stepper>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Abbrechen</button>
+</mat-dialog-actions>

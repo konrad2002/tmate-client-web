@@ -201,4 +201,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     onCourseAddClick() {
         this.courseDialogService.openCourseParticipationAddDialog();
     }
+
+    onCourseListExportClick() {
+        this.courseDialogService.openCourseListExportDialog();
+    }
 }

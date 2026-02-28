@@ -129,4 +129,8 @@ export class CourseParticipantListDialogComponent implements OnInit {
     refreshList() {
         this.fetchMembers();
     }
+
+    exportCourseList() {
+        this.courseDialogService.openCourseListExportDialog(this.data.course);
+    }
 }

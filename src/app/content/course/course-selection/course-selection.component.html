@@ -1,0 +1,23 @@
+@if (fetching) {
+    <app-spinner spinnerLayout="text"></app-spinner>
+} @else {
+    <mat-form-field>
+        <mat-label>Kurs</mat-label>
+
+        <input
+            matInput
+            placeholder="Kursname suchen..."
+            #courseInput
+            [(ngModel)]="courseSearchText"
+            [matAutocomplete]="auto"
+            [disabled]="disabled"
+        />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectCourse($event); courseInput.value = ''">
+            @for (course of filteredCourses(); track course.id) {
+                <mat-option [value]="course">{{ course.name }}</mat-option>
+            }
+        </mat-autocomplete>
+        <button matSuffix mat-icon-button [disabled]="!selectedCourse" (click)="unselect()"><mat-icon>cancel</mat-icon></button>
+
+    </mat-form-field>
+}

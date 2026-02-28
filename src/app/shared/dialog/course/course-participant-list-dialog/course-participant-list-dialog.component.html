@@ -44,6 +44,7 @@
     }
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-flat-button (click)="addParticipant()">Teilnehmer hinzufügen</button>
+    <button mat-flat-button (click)="addParticipant()"><mat-icon>person_add</mat-icon> Teilnehmer hinzufügen</button>
+    <button mat-button (click)="exportCourseList()"><mat-icon>list</mat-icon> Kursliste erzeugen</button>
     <button mat-button [mat-dialog-close]="false">Schließen</button>
 </mat-dialog-actions>

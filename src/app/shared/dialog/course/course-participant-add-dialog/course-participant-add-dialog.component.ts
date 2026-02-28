@@ -9,13 +9,6 @@ import {
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {CourseModel, CourseRegistrationModelDto} from '../../../../core/model/course.model';
 import {MemberDialogService} from '../../../../core/service/dialog/member-dialog.service';
-import {CourseService} from '../../../../core/service/api/course.service';
-import {
-    MatAutocomplete,
-    MatAutocompleteModule,
-    MatAutocompleteTrigger,
-    MatOption
-} from '@angular/material/autocomplete';
 import {MatFormField, MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
@@ -29,6 +22,7 @@ import {Subject} from 'rxjs';
 import {MemberEvent} from '../../../../core/model/event/member-event.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SpinnerComponent} from '../../../elements/spinner/spinner.component';
+import {CourseSelectionComponent} from '../../../../content/course/course-selection/course-selection.component';
 
 export interface CourseParticipantAddDialogData {
     course?: CourseModel
@@ -42,37 +36,27 @@ export interface CourseParticipantAddDialogData {
         MatButton,
         MatDialogActions,
         MatDialogClose,
-        MatAutocompleteTrigger,
         MatFormField,
         MatLabel,
-        MatOption,
         ReactiveFormsModule,
-        MatAutocompleteTrigger,
-        MatAutocomplete,
         MatFormFieldModule,
-        MatAutocompleteModule,
         FormsModule,
         MatInput,
         MatIcon,
         MatIconButton,
         DatePipe,
         SpinnerComponent,
+        CourseSelectionComponent,
     ],
   templateUrl: './course-participant-add-dialog.component.html',
   styleUrl: './course-participant-add-dialog.component.scss'
 })
 export class CourseParticipantAddDialogComponent implements OnInit {
     private memberDialogService: MemberDialogService = inject(MemberDialogService);
-    private courseService: CourseService = inject(CourseService);
     private configService: ConfigService = inject(ConfigService);
     private memberService: MemberService = inject(MemberService);
     private snackBar: MatSnackBar = inject(MatSnackBar);
 
-    courses: CourseModel[] = [];
-
-    selectedCourseName = "";
-
-    fetchingCourses = false;
     fetchingMembers = false;
 
 
@@ -92,20 +76,11 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: CourseParticipantAddDialogData,
     ) {
         if (this.data.course) {
-            this.selectedCourseName = this.data.course.name;
             this.selectedCourse = this.data.course;
         }
     }
 
     ngOnInit() {
-        this.fetchingCourses = true;
-        this.courseService.getCourses().subscribe({
-            next: courses => {
-                this.courses = courses.map(CourseModel.fromDto);
-                this.fetchingCourses = false;
-            }
-        })
-
         this.configService.getSpecialFields().subscribe(config => {
             this.special_fields = config;
         })
@@ -118,8 +93,8 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         this.memberService.getMembers().subscribe(members => {
             this.members = members;
             this.membersFiltered = members;
-            this.runSearch();
             this.fetchingMembers = false;
+            this.runSearch();
         })
     }
 
@@ -155,10 +130,6 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         this.selectedMember = member;
     }
 
-    selectCourse() {
-        this.selectedCourse = this.courses.find(c => c.name === this.selectedCourseName);
-    }
-
     addMemberToCourse(saveAndNext: boolean) {
         let courses = this.selectedMember!.data[this.special_fields.courses] as CourseRegistrationModelDto[];
         if (!courses) {
@@ -174,7 +145,7 @@ export class CourseParticipantAddDialogComponent implements OnInit {
 
         this.memberService.updateMember(this.selectedMember!).subscribe({
             next: _ => {
-                this.dialogRef.close(saveAndNext);
+                this.dialogRef.close(saveAndNext ? this.selectedCourse : undefined);
                 this.snackBar.open("Teilnehmer hinzugefügt!")
             },
             error: err => {

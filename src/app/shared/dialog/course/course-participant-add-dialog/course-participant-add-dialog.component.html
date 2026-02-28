@@ -4,32 +4,9 @@
 
     <div class="selection-box">
 
-        <h3>
-            <span>Kurs wählen</span>
+        <h3>Kurs wählen</h3>
 
-            @if (fetchingCourses) {
-                <app-spinner spinnerLayout="text"></app-spinner>
-            }
-        </h3>
-
-        @if (courses && courses.length > 0) {
-            <mat-form-field>
-                <mat-label>Kurs</mat-label>
-
-                <input
-                    matInput
-                    placeholder="Kursname suchen..."
-                    [(ngModel)]="selectedCourseName"
-                    [matAutocomplete]="auto"
-                />
-                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectCourse()">
-                    @for (course of courses; track course.id) {
-                        <mat-option [value]="course.name">{{ course.name }}</mat-option>
-                    }
-                </mat-autocomplete>
-
-            </mat-form-field>
-        }
+        <app-course-selection [(ngModel)]="selectedCourse"></app-course-selection>
 
         <br>
 
@@ -92,11 +69,7 @@
         <div class="details-header">
             <b>Kurs: {{ selectedCourse?.name ?? "" }}</b>
             @if (!selectedCourse) {
-                @if (selectedCourseName) {
-                    <mat-icon class="error">error</mat-icon>
-                } @else {
-                    <mat-icon>help</mat-icon>
-                }
+                <mat-icon>help</mat-icon>
             } @else {
                 <mat-icon class="success">check_circle</mat-icon>
             }
