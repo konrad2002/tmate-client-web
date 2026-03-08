@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{data.title}}</h2>
+<mat-dialog-content>
+    <p>{{data.description}}</p>
+    @if (data.listItems) {
+        <ul>
+            @for (item of data.listItems; track item) {
+                <li>{{item}}</li>
+            }
+        </ul>
+    }
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="false">Schließen</button>
+</mat-dialog-actions>

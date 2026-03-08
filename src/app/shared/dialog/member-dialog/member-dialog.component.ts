@@ -18,8 +18,10 @@ import {Families} from '../../../core/model/family.model';
 import {SpecialFieldsConfig} from '../../../core/model/config.model';
 import {ConfigService} from '../../../core/service/api/config.service';
 import {MemberDialogService} from '../../../core/service/dialog/member-dialog.service';
-import {CourseModel} from '../../../core/model/course.model';
+import {CourseModel, CourseRegistrationModelDto} from '../../../core/model/course.model';
 import {CourseService} from '../../../core/service/api/course.service';
+import {MiscDialogService} from '../../../core/service/dialog/misc-dialog.service';
+import {MoreDialogData} from '../misc/more-dialog/more-dialog.component';
 
 export interface MemberDialogData {
     member: MemberModel;
@@ -47,6 +49,7 @@ export class MemberDialogComponent implements OnInit{
     private memberService: MemberService = inject(MemberService);
     private configService: ConfigService = inject(ConfigService);
     private dialogService: MemberDialogService = inject(MemberDialogService);
+    private miscDialogService: MiscDialogService = inject(MiscDialogService);
     private courseService: CourseService = inject(CourseService);
 
     protected readonly FieldType = FieldType;
@@ -128,5 +131,13 @@ export class MemberDialogComponent implements OnInit{
 
     getCourseById(id: string): CourseModel {
         return this.courses.find(c => c.id == id) as CourseModel;
+    }
+
+    openCourseMoreDialog(course: CourseRegistrationModelDto[]) {
+        this.miscDialogService.openMoreDialog({
+            title: "Kursteilnahmen",
+            description: "An folgenden Kursen hat dieses Mitglied teilgenommen:",
+            listItems: course.map(c => this.getCourseById(c.course_id).name)
+        } as MoreDialogData)
     }
 }
