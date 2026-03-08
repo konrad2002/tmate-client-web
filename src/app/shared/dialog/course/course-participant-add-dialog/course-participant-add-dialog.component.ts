@@ -48,7 +48,7 @@ export interface CourseParticipantAddDialogData {
         DatePipe,
         SpinnerComponent,
         CourseSelectionComponent,
-        MatTooltip,
+        MatTooltip
     ],
   templateUrl: './course-participant-add-dialog.component.html',
   styleUrl: './course-participant-add-dialog.component.scss'
@@ -163,5 +163,13 @@ export class CourseParticipantAddDialogComponent implements OnInit {
         return registrations.find(c => {
             return c.course_id === this.selectedCourse?.id
         }) !== undefined;
+    }
+
+    onImportFromExternalSystem() {
+
+    }
+
+    getImportableMembers() {
+        return this.selectedCourse?.total_spots ?? 0;
     }
 }

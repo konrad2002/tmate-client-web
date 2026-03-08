@@ -67,7 +67,7 @@
             <input matStartDate placeholder="Start" [(ngModel)]="course.begin_date">
             <input matEndDate placeholder="Ende" [(ngModel)]="course.end_date">
         </mat-date-range-input>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
 

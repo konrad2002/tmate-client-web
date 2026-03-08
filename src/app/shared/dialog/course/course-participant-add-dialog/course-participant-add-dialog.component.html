@@ -10,12 +10,17 @@
 
         <br>
 
-        <h3>
+        <h3 class="member-header">
             <span>Mitglied wählen</span>
 
             @if (fetchingMembers) {
                 <app-spinner spinnerLayout="text"></app-spinner>
+            } @else {
+                <span></span>
             }
+
+            <!-- TODO: import from external system-->
+            <!--button mat-flat-button (click)="onImportFromExternalSystem()" [matBadge]="getImportableMembers()">Aus Online-Anmeldung übernehmen</button-->
         </h3>
 
         <div class="search-box">

@@ -52,6 +52,21 @@
     gap: 10px;
 }
 
+.member-header {
+    display: grid;
+    grid-template-columns: 1fr 20px 230px;
+    grid-template-areas: "title icon button";
+    align-items: end;
+
+    mat-icon {
+        grid-area: icon;
+    }
+
+    button {
+        grid-area: button;
+    }
+}
+
 .member {
     padding: 8px;
 
