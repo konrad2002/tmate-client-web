@@ -49,47 +49,14 @@
             } @else {
                 <table>
                     <tr>
-                        @for (col of selectedListType!.columns; track col) {
-                            @if (col === "parents") {
-                                <th>Eltern</th>
-                            } @else {
-                                <th>{{ fields.get(col)?.display_name }}</th>
-                            }
-                        }
-                        @if (selectedListType?.type === CourseListExportType.ATTENDANCE) {
-                            @for (i of getRangeArray(attendanceListExportConfig.units); track i) {
-                                <th class="no-collapse">UE {{ i }}</th>
-                            }
-                            @for (i of getRangeArray(attendanceListExportConfig.extraColumns); track i) {
-                                <th>&nbsp;{{ i }}&nbsp;</th>
-                            }
+                        @for (column of getDisplayColumns(); track column.key) {
+                            <th [class.no-collapse]="column.isNoCollapse">{{ column.header }}</th>
                         }
                     </tr>
                     @for (member of members; track member.id) {
                         <tr>
-                            @for (col of selectedListType!.columns; track col) {
-                                @switch (col) {
-                                    @case ("parents") {
-                                        <td>
-                                            {{ getParentNames(member) }}
-                                        </td>
-                                    }
-                                    @case ("geburtsdatum") {
-                                        <td>{{ member.data[fields.get(col)?.name || ""] | date:"d.M.Y" }}</td>
-                                    }
-                                    @default {
-                                        <td>{{ member.data[fields.get(col)?.name || ""] }}</td>
-                                    }
-                                }
-                            }
-
-                            @if (selectedListType?.type === CourseListExportType.ATTENDANCE) {
-                                @for (i of getRangeArray(attendanceListExportConfig.units); track i) {
-                                    <td>&nbsp;</td>
-                                }
-                                @for (i of getRangeArray(attendanceListExportConfig.extraColumns); track i) {
-                                    <td>&nbsp;</td>
-                                }
+                            @for (column of getDisplayColumns(); track column.key) {
+                                <td>{{ getCellText(member, column) }}</td>
                             }
                         </tr>
                     }

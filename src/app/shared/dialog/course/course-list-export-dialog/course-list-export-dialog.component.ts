@@ -20,7 +20,7 @@ import {FieldService} from '../../../../core/service/api/field.service';
 import {MemberModel} from '../../../../core/model/member.model';
 import {FieldModel} from '../../../../core/model/field.model';
 import {CourseSelectionComponent} from '../../../../content/course/course-selection/course-selection.component';
-import {DatePipe, formatDate} from '@angular/common';
+import {formatDate} from '@angular/common';
 import {jsPDF} from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -44,6 +44,12 @@ export interface CourseAttendanceListExportConfig {
     extraColumns: number;
 }
 
+interface CourseListDisplayColumn {
+    key: string;
+    header: string;
+    isNoCollapse?: boolean;
+}
+
 @Component({
     selector: 'app-course-list-export-dialog',
     imports: [
@@ -64,8 +70,7 @@ export interface CourseAttendanceListExportConfig {
         MatStepperNext,
         SpinnerComponent,
         MatStepperPrevious,
-        CourseSelectionComponent,
-        DatePipe
+        CourseSelectionComponent
     ],
     templateUrl: './course-list-export-dialog.component.html',
     styleUrl: './course-list-export-dialog.component.scss'
@@ -148,6 +153,7 @@ export class CourseListExportDialogComponent implements AfterViewInit {
             head: [this.getPdfHeaders()],
             body: this.getPdfRows(),
             theme: 'grid',
+            tableWidth: 'auto',
             margin: {left: 8, right: 8},
             styles: {
                 fontSize: 12,
@@ -202,44 +208,48 @@ export class CourseListExportDialogComponent implements AfterViewInit {
         return [p1, p2].filter(name => name.trim() !== "").join(", ");
     }
 
-    private getPdfHeaders(): string[] {
-        const headers = this.selectedListType.columns.map(col => {
-            if (col === 'parents') {
-                return 'Eltern';
-            }
-
-            return this.fields.get(col)?.display_name ?? col;
-        });
+    protected getDisplayColumns(): CourseListDisplayColumn[] {
+        const columns: CourseListDisplayColumn[] = this.selectedListType.columns.map(col => ({
+            key: col,
+            header: col === 'parents' ? 'Eltern' : (this.fields.get(col)?.display_name ?? col)
+        }));
 
         if (this.selectedListType.type === CourseListExportType.ATTENDANCE) {
             for (const i of this.getRangeArray(this.attendanceListExportConfig.units)) {
-                headers.push(`UE ${i}`);
+                columns.push({
+                    key: `attendance-unit-${i}`,
+                    header: `UE ${i}`,
+                    isNoCollapse: true
+                });
             }
 
             for (const i of this.getRangeArray(this.attendanceListExportConfig.extraColumns)) {
-                headers.push(`Zusatz ${i}`);
+                columns.push({
+                    key: `attendance-extra-${i}`,
+                    header: `${i}`,
+                    isNoCollapse: true
+                });
             }
         }
 
-        return headers;
+        return columns;
+    }
+
+    protected getCellText(member: MemberModel, column: CourseListDisplayColumn): string {
+        if (column.key.startsWith('attendance-unit-') || column.key.startsWith('attendance-extra-')) {
+            return '';
+        }
+
+        return this.getCellValue(member, column.key);
+    }
+
+    private getPdfHeaders(): string[] {
+        return this.getDisplayColumns().map(column => column.header);
     }
 
     private getPdfRows(): string[][] {
-        return this.members.map(member => {
-            const row = this.selectedListType.columns.map(col => this.getCellValue(member, col));
-
-            if (this.selectedListType.type === CourseListExportType.ATTENDANCE) {
-                for (const _i of this.getRangeArray(this.attendanceListExportConfig.units)) {
-                    row.push('');
-                }
-
-                for (const _i of this.getRangeArray(this.attendanceListExportConfig.extraColumns)) {
-                    row.push('');
-                }
-            }
-
-            return row;
-        });
+        const columns = this.getDisplayColumns();
+        return this.members.map(member => columns.map(column => this.getCellText(member, column)));
     }
 
     private getCellValue(member: MemberModel, col: string): string {
