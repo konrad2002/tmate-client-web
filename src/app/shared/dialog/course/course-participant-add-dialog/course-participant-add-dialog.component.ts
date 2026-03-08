@@ -166,7 +166,7 @@ export class CourseParticipantAddDialogComponent implements OnInit {
     }
 
     onImportFromExternalSystem() {
-
+        // TODO: Implement import from external system
     }
 
     getImportableMembers() {
