@@ -19,10 +19,16 @@
                 </mat-select>
             </mat-form-field>
 
+
+            <br>
+
+            <mat-form-field>
+                <mat-label>Schriftgröße</mat-label>
+                <input matInput type="number" [(ngModel)]="listExportConfig.fontSize">
+            </mat-form-field>
+
             @switch (selectedListType?.type) {
                 @case (CourseListExportType.ATTENDANCE) {
-
-                    <br>
 
                     <mat-form-field>
                         <mat-label>Übungseinheiten</mat-label>

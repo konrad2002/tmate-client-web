@@ -44,6 +44,10 @@ export interface CourseAttendanceListExportConfig {
     extraColumns: number;
 }
 
+export interface CourseListExportConfig {
+    fontSize: number;
+}
+
 interface CourseListDisplayColumn {
     key: string;
     header: string;
@@ -97,6 +101,10 @@ export class CourseListExportDialogComponent implements AfterViewInit {
             columns: ["vorname", "nachname"]
         }
     ];
+
+    listExportConfig: CourseListExportConfig = {
+        fontSize: 10
+    }
 
     attendanceListExportConfig: CourseAttendanceListExportConfig = {
         units: 8,
@@ -156,7 +164,7 @@ export class CourseListExportDialogComponent implements AfterViewInit {
             tableWidth: 'auto',
             margin: {left: 8, right: 8},
             styles: {
-                fontSize: 12,
+                fontSize: this.listExportConfig.fontSize,
                 cellPadding: 1.5,
                 overflow: 'linebreak'
             },
@@ -230,6 +238,21 @@ export class CourseListExportDialogComponent implements AfterViewInit {
                     isNoCollapse: true
                 });
             }
+        } else if (this.selectedListType.type === CourseListExportType.PARTICIPANTS) {
+            columns.push({
+                key: 'other',
+                header: 'Sonstiges',
+                isNoCollapse: true
+            });
+            columns.push({
+                key: 'amount',
+                header: 'Betrag',
+                isNoCollapse: true
+            });columns.push({
+                key: 'signature',
+                header: 'Signum',
+                isNoCollapse: true
+            });
         }
 
         return columns;
