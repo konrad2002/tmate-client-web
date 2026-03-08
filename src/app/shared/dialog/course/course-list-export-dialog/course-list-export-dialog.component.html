@@ -72,9 +72,6 @@
             <br>
 
             <button mat-button matStepperPrevious>Zurück</button>
-            <button mat-flat-button color="primary" (click)="onDownloadPdf()" [disabled]="generatingList > 0 || members.length === 0">
-                PDF herunterladen
-            </button>
 
         </mat-step>
 
@@ -84,4 +81,12 @@
 </mat-dialog-content>
 <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="false">Abbrechen</button>
+    <button mat-flat-button color="primary" (click)="onDownloadPdf()" [disabled]="generatingList > 0 || members.length === 0">
+        <mat-icon>insert_drive_file</mat-icon>
+        PDF herunterladen
+    </button>
+    <button mat-flat-button (click)="onDownloadExcel()" [disabled]="generatingList > 0 || members.length === 0">
+        <mat-icon>table_chart</mat-icon>
+        Excel herunterladen
+    </button>
 </mat-dialog-actions>

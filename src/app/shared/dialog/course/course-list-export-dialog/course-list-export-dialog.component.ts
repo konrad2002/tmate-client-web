@@ -23,6 +23,8 @@ import {CourseSelectionComponent} from '../../../../content/course/course-select
 import {formatDate} from '@angular/common';
 import {jsPDF} from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
+import {MatIcon} from '@angular/material/icon';
 
 export interface CourseListExportDialogData {
     course?: CourseModel
@@ -74,7 +76,8 @@ interface CourseListDisplayColumn {
         MatStepperNext,
         SpinnerComponent,
         MatStepperPrevious,
-        CourseSelectionComponent
+        CourseSelectionComponent,
+        MatIcon
     ],
     templateUrl: './course-list-export-dialog.component.html',
     styleUrl: './course-list-export-dialog.component.scss'
@@ -176,7 +179,29 @@ export class CourseListExportDialogComponent implements AfterViewInit {
             rowPageBreak: 'auto'
         });
 
-        doc.save(this.getPdfFileName());
+        doc.save(`${this.getExportFileBaseName()}.pdf`);
+    }
+
+    onDownloadExcel() {
+        if (!this.selectedListType) return;
+
+        const headers = this.getPdfHeaders();
+        const rows = this.getPdfRows();
+        const title = this.getPdfTitle();
+
+        const sheetData: string[][] = [
+            [title],
+            [],
+            headers,
+            ...rows
+        ];
+
+        const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
+        worksheet['!cols'] = headers.map(() => ({wch: 18}));
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Kursliste');
+        XLSX.writeFile(workbook, `${this.getExportFileBaseName()}.xlsx`);
     }
 
     exportCourseList() {
@@ -299,12 +324,12 @@ export class CourseListExportDialogComponent implements AfterViewInit {
         return `${this.selectedListType.displayName}${courseName}`;
     }
 
-    private getPdfFileName(): string {
+    private getExportFileBaseName(): string {
         const safeName = (this.selectedCourse?.name ?? 'kursliste')
             .toLowerCase()
             .replace(/\s+/g, '-')
             .replace(/[^a-z0-9-_]/g, '');
 
-        return `${this.selectedListType.type.toLowerCase()}-${safeName || 'kursliste'}.pdf`;
+        return `${this.selectedListType.displayName.toLowerCase()}-${safeName || 'kursliste'}`;
     }
 }
