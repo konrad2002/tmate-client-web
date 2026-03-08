@@ -20,6 +20,9 @@ import {FieldService} from '../../../../core/service/api/field.service';
 import {MemberModel} from '../../../../core/model/member.model';
 import {FieldModel} from '../../../../core/model/field.model';
 import {CourseSelectionComponent} from '../../../../content/course/course-selection/course-selection.component';
+import {DatePipe, formatDate} from '@angular/common';
+import {jsPDF} from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export interface CourseListExportDialogData {
     course?: CourseModel
@@ -61,7 +64,8 @@ export interface CourseAttendanceListExportConfig {
         MatStepperNext,
         SpinnerComponent,
         MatStepperPrevious,
-        CourseSelectionComponent
+        CourseSelectionComponent,
+        DatePipe
     ],
     templateUrl: './course-list-export-dialog.component.html',
     styleUrl: './course-list-export-dialog.component.scss'
@@ -80,7 +84,7 @@ export class CourseListExportDialogComponent implements AfterViewInit {
         {
             type: CourseListExportType.PARTICIPANTS,
             displayName: "Teilnehmerliste",
-            columns: ["vorname", "nachname", "email"]
+            columns: ["vorname", "nachname", "strasse", "nr", "plz", "wohnort", "geburtsdatum", "telefon_1", "telefon_2", "parents"],
         },
         {
             type: CourseListExportType.ATTENDANCE,
@@ -126,11 +130,46 @@ export class CourseListExportDialogComponent implements AfterViewInit {
         this.stepper.next();
     }
 
+    onDownloadPdf() {
+        if (!this.selectedListType) return;
+
+        const doc = new jsPDF({
+            orientation: 'landscape',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        const title = this.getPdfTitle();
+        doc.setFontSize(16);
+        doc.text(title, 12, 14);
+
+        autoTable(doc, {
+            startY: 20,
+            head: [this.getPdfHeaders()],
+            body: this.getPdfRows(),
+            theme: 'grid',
+            margin: {left: 8, right: 8},
+            styles: {
+                fontSize: 12,
+                cellPadding: 1.5,
+                overflow: 'linebreak'
+            },
+            headStyles: {
+                fillColor: [245, 245, 245],
+                textColor: 20,
+                fontStyle: 'bold'
+            },
+            rowPageBreak: 'auto'
+        });
+
+        doc.save(this.getPdfFileName());
+    }
+
     exportCourseList() {
         this.generatingList++;
         setTimeout(() => {
             this.generatingList--;
-        }, 2000) // Simulate loading time for better UX
+        }, 1000) // Simulate loading time for better UX
 
         this.generatingList++;
         this.memberService.getMembersByCourse(this.selectedCourse!.id).subscribe({
@@ -156,4 +195,83 @@ export class CourseListExportDialogComponent implements AfterViewInit {
     }
 
     protected readonly CourseListExportType = CourseListExportType;
+
+    getParentNames(member: MemberModel) {
+        const p1 = (member.data["vorname_1_gesetzl_v"] ?? "") + " " + (member.data["nachname_1_gesetzl_v"] ?? "");
+        const p2 = (member.data["vorname_2_gesetzl_v"] ?? "") + " " + (member.data["nachname_2_gesetzl_v"] ?? "");
+        return [p1, p2].filter(name => name.trim() !== "").join(", ");
+    }
+
+    private getPdfHeaders(): string[] {
+        const headers = this.selectedListType.columns.map(col => {
+            if (col === 'parents') {
+                return 'Eltern';
+            }
+
+            return this.fields.get(col)?.display_name ?? col;
+        });
+
+        if (this.selectedListType.type === CourseListExportType.ATTENDANCE) {
+            for (const i of this.getRangeArray(this.attendanceListExportConfig.units)) {
+                headers.push(`UE ${i}`);
+            }
+
+            for (const i of this.getRangeArray(this.attendanceListExportConfig.extraColumns)) {
+                headers.push(`Zusatz ${i}`);
+            }
+        }
+
+        return headers;
+    }
+
+    private getPdfRows(): string[][] {
+        return this.members.map(member => {
+            const row = this.selectedListType.columns.map(col => this.getCellValue(member, col));
+
+            if (this.selectedListType.type === CourseListExportType.ATTENDANCE) {
+                for (const _i of this.getRangeArray(this.attendanceListExportConfig.units)) {
+                    row.push('');
+                }
+
+                for (const _i of this.getRangeArray(this.attendanceListExportConfig.extraColumns)) {
+                    row.push('');
+                }
+            }
+
+            return row;
+        });
+    }
+
+    private getCellValue(member: MemberModel, col: string): string {
+        if (col === 'parents') {
+            return this.getParentNames(member);
+        }
+
+        const fieldName = this.fields.get(col)?.name ?? '';
+        const rawValue = fieldName ? member.data[fieldName] : '';
+
+        if (col === 'geburtsdatum' && rawValue) {
+            try {
+                return formatDate(rawValue, 'd.M.y', 'de-DE');
+            } catch {
+                return String(rawValue);
+            }
+        }
+
+        return rawValue == null ? '' : String(rawValue);
+    }
+
+    private getPdfTitle(): string {
+        const courseName = this.selectedCourse?.name ? ` - ${this.selectedCourse.name}` : '';
+        return `${this.selectedListType.displayName}${courseName}`;
+    }
+
+    private getPdfFileName(): string {
+        const safeName = (this.selectedCourse?.name ?? 'kursliste')
+            .toLowerCase()
+            .replace(/\s+/g, '-')
+            .replace(/[^a-z0-9-_]/g, '');
+
+        return `${this.selectedListType.type.toLowerCase()}-${safeName || 'kursliste'}.pdf`;
+    }
 }

@@ -2,6 +2,9 @@ table {
     border-collapse: collapse;
     width: 100%;
 
+    overflow: auto;
+    display: block;
+
     th,
     td {
         text-align: left;
