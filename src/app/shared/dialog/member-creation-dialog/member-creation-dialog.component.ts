@@ -7,7 +7,7 @@ import {
     MatDialogRef,
     MatDialogTitle
 } from '@angular/material/dialog';
-import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatFormField, MatHint, MatLabel} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
 import {MatButton, MatIconButton,} from '@angular/material/button';
@@ -53,6 +53,7 @@ export interface MemberCreationDialogData {
         SpinnerComponent,
         MatIconButton,
         MatIcon,
+        MatHint,
     ],
     standalone: true
 })

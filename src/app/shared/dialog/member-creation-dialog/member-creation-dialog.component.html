@@ -95,6 +95,9 @@
                                                     <input matInput [(ngModel)]="member.data[field.name]">
                                                 }
                                             }
+                                            @if (field.type === FieldType.DATE &&  !member.data[field.name]) {
+                                                <mat-hint>Datum nicht gesetzt!</mat-hint>
+                                            }
                                         </mat-form-field>
                                     }
                                 }
