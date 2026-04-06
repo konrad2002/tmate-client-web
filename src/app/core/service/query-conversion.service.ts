@@ -95,8 +95,12 @@ export class QueryConversionService {
         const document: BSONDocument = [];
         for (const condition of conditions) {
             if (isExpression(condition)) {
-                if (condition.field.type === FieldType.DATE) {
-                    condition.comparator = new Date(condition.comparator);
+                if (condition.operator === "$exists") {
+                    condition.comparator = condition.comparator as boolean;
+                } else {
+                    if (condition.field.type === FieldType.DATE) {
+                        condition.comparator = new Date(condition.comparator);
+                    }
                 }
                 document.push({
                     Key: "data." + condition.field.name,

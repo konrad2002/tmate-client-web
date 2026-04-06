@@ -44,11 +44,11 @@ export class ConditionNodeComponent {
     protected readonly FieldType = FieldType;
 
     addExpressionChild() {
-        this.node.conditions.push({field: {} as FieldModel, operator: "eq", comparator: undefined} as QueryConditionModel)
+        this.node.conditions.push({field: {} as FieldModel, operator: "$eq", comparator: undefined} as QueryConditionModel)
     }
 
     addNodeChild() {
-        this.node.conditions.push({logicalExpression: "and", conditions: []} as QueryConditionModel)
+        this.node.conditions.push({logicalExpression: "$and", conditions: []} as QueryConditionModel)
     }
 
     removeCondition(condition: QueryConditionModel) {
