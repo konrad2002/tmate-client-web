@@ -11,6 +11,7 @@ import {
     QuerySortingModel
 } from '../model/query.model';
 import {FieldModel, FieldType} from '../model/field.model';
+import {dateToDateInputString} from '../misc/date';
 
 @Injectable({
     providedIn: 'root'
@@ -131,11 +132,19 @@ export class QueryConversionService {
                 conditions: bsonElement.Value.map((bson: BSONElement[]) => {return this.processBsonElementToCondition(bson[0], fields)})
             } as QueryConditionNodeModel;
         } else if (bsonElement.Key.includes("data.")) {
-            condition = {
+            const conditionExpression = {
                 field: fields.find(field => {return field.name === bsonElement.Key.replace("data.", "")}),
                 operator: bsonElement.Value[0].Key,
                 comparator: bsonElement.Value[0].Value,
             } as QueryConditionExpressionModel;
+
+            if (conditionExpression.operator !== "$exists") {
+                if (conditionExpression.field.type === FieldType.DATE) {
+                    conditionExpression.comparator = dateToDateInputString(new Date(conditionExpression.comparator));
+                }
+            }
+
+            condition = conditionExpression;
         }
 
         console.log("[" + rnd + "]: processed condition:", condition)

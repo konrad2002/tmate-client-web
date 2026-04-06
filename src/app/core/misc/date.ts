@@ -22,3 +22,11 @@ export function toIsoDateTime(value: Date | string | null | undefined): string |
     const parsed = new Date(`${value}T00:00:00Z`);
     return Number.isNaN(parsed.getTime()) ? null : parsed.toISOString();
 }
+
+export function dateToDateInputString(d: Date): string {
+    const year = d.getFullYear();
+    const month = (d.getMonth() + 1).toString().padStart(2, "0");
+    const day = d.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
